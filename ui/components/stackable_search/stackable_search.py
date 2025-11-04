@@ -1,0 +1,185 @@
+import json
+
+from PySide6.QtCore import QAbstractTableModel, QSortFilterProxyModel, Qt, QTimer
+from PySide6.QtWidgets import (
+    QAbstractItemView,
+    QWidget,
+)
+
+from dnfpkgtool.db.entity.mail_form_item import ItemType
+from dnfpkgtool.db.entity.mail_submit_item import MailSubmitItem
+from dnfpkgtool.db.entity.signals import gs
+from dnfpkgtool.repo.stackable_repo import StackableRepo, get_stackable_repo
+from ui.components.stackable_search.stackable_search_ui import Ui_stackable_search
+from ui.components.stackable_search.vars import (
+    categoryed_stackable_type_dict,
+    item_category_key_list,
+    item_rarity_list,
+)
+
+
+class StackableTableModel(QAbstractTableModel):
+    def __init__(self, data):
+        super().__init__()
+        self._data = data
+        self._headers = [
+            'id',
+            'name',
+            'display_stackable_type',
+            'level',
+            'display_rarity',
+        ]
+        self._display_headers = ['ID', '名称', '物品种类', '等级', '稀有度']
+
+    def rowCount(self, parent=None):
+        return len(self._data)
+
+    def columnCount(self, parent=None):
+        return len(self._headers)
+
+    def data(self, index, role):
+        if role == Qt.ItemDataRole.DisplayRole:
+            key = self._headers[index.column()]
+            return self._data[index.row()][key]
+        elif role == Qt.ItemDataRole.ToolTipRole:
+            indent = ' ' * 4
+            row = self._data[index.row()]
+            json_string = row['json']
+            d = json.loads(json_string)
+            lines = []
+            for k, v in d.items():
+                lines.append(k)
+                if (
+                    k == '[basic explain]'
+                    or k == '[detail explain]'
+                    or k == '[flavor text]'
+                ):
+                    if v:
+                        for it in v:
+                            for sub in it.split('\r\n'):
+                                sub = sub.strip()
+                                lines.append(f'{indent}{sub}')
+                    else:
+                        lines.append('')
+                else:
+                    lines.append(f'{indent}{v}')
+            return '\n'.join(lines)
+        elif role == Qt.ItemDataRole.UserRole:
+            return self._data[index.row()]
+        return None
+
+    def headerData(self, section, orientation, role):
+        if role == Qt.ItemDataRole.DisplayRole:
+            if orientation == Qt.Orientation.Horizontal:
+                return self._display_headers[section]
+        return None
+
+    def flags(self, index) -> Qt.ItemFlag:
+        return Qt.ItemFlag.ItemIsEnabled | Qt.ItemFlag.ItemIsSelectable
+
+
+class StackableSearch(QWidget, Ui_stackable_search):
+    def __init__(self):
+        super().__init__()
+
+        self.setupUi(self)
+
+        self.stackable_repo: StackableRepo = None
+
+        gs.pvf_changed.connect(self.set_stackable_repo)
+
+        self.name_line_edit.returnPressed.connect(self.do_search)
+
+        self.category_combox.addItem('---')
+        self.category_combox.addItems(item_category_key_list)
+
+        self.rarity_combox.addItem('---')
+        self.rarity_combox.addItems(item_rarity_list)
+
+        self.search_btn.clicked.connect(self.do_search)
+
+        self.submit_btn.clicked.connect(self.submit_to_mail)
+
+    def _adjust_table_columns(self):
+        """Adjust table column widths to content."""
+        self.result_table_view.resizeColumnsToContents()
+
+    def set_stackable_repo(self):
+        self.stackable_repo = get_stackable_repo()
+
+    def adjust_size_to_content(self):
+        """Public method to adjust window size based on current table content."""
+        self._adjust_table_columns()
+
+    def do_search(self, s=None):
+        name = self.name_line_edit.text().strip()
+        category = self.category_combox.currentText()
+
+        stackable_type_list = categoryed_stackable_type_dict.get(category, None)
+
+        min_level = self.ranged_spinbox.min_level_spinbox.value()
+        min_level = None if min_level == 0 else int(min_level)
+        max_level = self.ranged_spinbox.max_level_spinbox.value()
+        max_level = None if max_level == 0 else int(max_level)
+
+        rarity = self.rarity_combox.currentText()
+        rarity = None if rarity == '---' else rarity
+
+        if category == '卡片':
+            data = self.stackable_repo.query(
+                name,
+                item_category_list=stackable_type_list,
+                min_level=min_level,
+                max_level=max_level,
+                display_rarity=rarity,
+                limit=1024,
+            )
+        else:
+            data = self.stackable_repo.query(
+                name,
+                stackable_type_list=stackable_type_list,
+                min_level=min_level,
+                max_level=max_level,
+                display_rarity=rarity,
+                limit=1024,
+            )
+        self.update_title(len(data))
+        table_model = StackableTableModel(data)
+
+        proxy_model = QSortFilterProxyModel()
+        proxy_model.setSourceModel(table_model)
+        self.result_table_view.setModel(proxy_model)
+        self.result_table_view.sortByColumn(0, Qt.SortOrder.AscendingOrder)
+
+        self.result_table_view.resizeColumnsToContents()
+
+        # Configure row selection behavior
+        self.result_table_view.setSelectionBehavior(
+            QAbstractItemView.SelectionBehavior.SelectRows
+        )
+        self.result_table_view.setSelectionMode(
+            QAbstractItemView.SelectionMode.SingleSelection
+        )
+
+        # After search, adjust size to new content
+        QTimer.singleShot(100, self._adjust_table_columns)
+
+    def submit_to_mail(self):
+        selected_indexes = self.result_table_view.selectedIndexes()
+        if not selected_indexes:
+            return
+        row = selected_indexes[0].data(Qt.ItemDataRole.UserRole)
+        mail_submit_item = MailSubmitItem(
+            item_id=row['id'],
+            item_name=row['name'],
+            item_type=ItemType.Stackable,
+        )
+        gs.submit_mail_form.emit(mail_submit_item)
+
+    def update_title(self, n_result: int):
+        title = 'Results'
+        if n_result > 1000:
+            title = f'{title} 1000+ records found'
+        elif n_result > 0:
+            title = f'{title} {n_result} records found'
+        self.result_group.setTitle(title)

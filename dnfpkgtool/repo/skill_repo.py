@@ -1,0 +1,67 @@
+from pathlib import Path
+from typing import Dict, List
+
+import polars as pl
+
+from config import config
+from dnfpkgtool.pvf.pvf_reader import PVFReader
+from dnfpkgtool.repo import MappingElementLocation, remapping_pvf_list
+
+
+def build_skill_repo_parquet(pvf_list: List[Dict[str, any]], fp: str | Path):
+    mappings = [
+        ('job', 'job', 0, MappingElementLocation.First),
+        ('name', '[name]', '', MappingElementLocation.First),
+        ('name2', '[name2]', '', MappingElementLocation.First),
+        ('basic_explain', '[basic explain]', '', MappingElementLocation.First),
+        ('explain', '[explain]', '', MappingElementLocation.First),
+        (
+            'feature_skill_index',
+            '[feature skill index]',
+            0,
+            MappingElementLocation.First,
+        ),
+        ('skill_class', '[skill class]', 0, MappingElementLocation.First),
+        ('id_of_job', 'id_of_job', 0, MappingElementLocation.First),
+    ]
+    df = remapping_pvf_list(pvf_list, mappings)
+    df = pl.DataFrame(df)
+
+    df.write_parquet(fp)
+
+
+
+
+
+class SkillRepo:
+    def __init__(self, fp: str):
+        self.df = pl.read_parquet(fp)
+
+    def query(
+        self,
+        name: str,
+        job: str = None,
+    ) -> List[dict]:
+        name = name.lower()
+        cond = pl.col('name').str.contains(name) | pl.col(
+            'name2'
+        ).str.to_lowercase().str.contains(name)
+
+        if job is not None:
+            cond = cond & (pl.col('job') == job)
+
+        return self.df.filter(cond).select('*').to_dicts()
+
+    def query_by_id(self, id_: int) -> dict:
+        return self.df.filter(pl.col('id') == id_).limit(1).to_dicts()[0]
+
+    def query_by_job_and_id_of_job(self, job: str, id_of_job: int) -> dict:
+        cond = pl.col('id_of_job') == id_of_job
+        if job != 'all':
+            cond = cond & (pl.col('job') == job)
+        return self.df.filter(cond).select('*').limit(1).to_dicts()[0]
+
+
+def get_skill_repo():
+    fp = config.get_skill_parquet_file_path()
+    return SkillRepo(fp)

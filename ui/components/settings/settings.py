@@ -10,7 +10,7 @@ from PySide6.QtWidgets import (
 )
 
 from config import config
-from dnfpkgtool.db import check_mysql_config
+from config.config import check_mysql_config
 from dnfpkgtool.db.entity.signals import gs
 from dnfpkgtool.pvf.pvf_reader import PVFReader
 from dnfpkgtool.repo.equipment_repo import build_equipment_repo_parquet

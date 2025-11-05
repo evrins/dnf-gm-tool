@@ -4,6 +4,7 @@ import tracemalloc
 
 from loguru import logger
 from PySide6.QtCore import Qt, QTimer
+from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import (
     QApplication,
     QLabel,
@@ -13,6 +14,7 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+import resources.resources_rc  # noqa: F401
 from config import config
 from dnfpkgtool.db.entity.mail_submit_item import MailSubmitItem
 from dnfpkgtool.db.entity.signals import gs
@@ -219,6 +221,12 @@ if __name__ == '__main__':
     signal.signal(signal.SIGTERM, handle_shutdown_signal)
 
     app = QApplication(sys.argv)
+
+    if sys.platform == 'darwin':
+        app.setWindowIcon(QIcon(':/icon.icns'))
+    elif sys.platform == 'win32':
+        app.setWindowIcon(QIcon(':/icon.ico'))
+
     app.setStyle('Fusion')
     mw = MainWindow()
     mw.show()

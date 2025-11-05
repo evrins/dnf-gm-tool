@@ -128,7 +128,8 @@ class MailService:
         creature = CreatureItems.default()
         creature.character_no = character_no
         creature.it_id = mail_item.item_id
-        creature.creature_type = mail_item.sub_type
+        # 不知道为什么和 pvf 定义中的 sub_type 值是反的
+        creature.creature_type = 0 if mail_item.sub_type == 1 else 1
 
         creature = self.creature_items_repo.add(creature)
 

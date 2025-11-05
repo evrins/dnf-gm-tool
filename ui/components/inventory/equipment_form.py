@@ -237,6 +237,7 @@ class EquipmentForm(QWidget, Ui_inventory_equipment_form):
         self.name_line_edit.setText(item.display_name)
         self.is_sealed_checkbox.setChecked(item.is_sealed != 0)
         self.seal_count_spin_box.setValue(item.seal_count)
+        self.grade_spin_box.setValue(item.num_grade)
         self.endurance_spin_box.setMaximum(item.endurance_limit)
         self.endurance_spin_box.setValue(item.endurance)
         self.reinforce_type_combox.setCurrentIndex(item.reinforce_type)
@@ -303,6 +304,7 @@ class EquipmentForm(QWidget, Ui_inventory_equipment_form):
         new_item = self.origin_item.model_copy(deep=True)
         new_item.is_sealed = 1 if self.is_sealed_checkbox.isChecked() else 0
         new_item.seal_count = self.seal_count_spin_box.value()
+        new_item.num_grade = self.grade_spin_box.value()
         new_item.endurance = self.endurance_spin_box.value()
         new_item.reinforce_type = self.reinforce_type_combox.currentIndex()
         new_item.reinforce_value = self.reinforce_value_spin_box.value()

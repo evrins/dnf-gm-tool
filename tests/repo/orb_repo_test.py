@@ -1,8 +1,9 @@
 from itertools import chain
 
+import polars as pl
+
 from config import config
 from dnfpkgtool.repo.orb_repo import (
-    OrbRepo,
     build_orb_repo_parquet,
     enchant_key_mapping,
     get_orb_repo,
@@ -10,7 +11,6 @@ from dnfpkgtool.repo.orb_repo import (
 )
 from dnfpkgtool.repo.skill_repo import get_skill_repo
 from dnfpkgtool.repo.stackable_repo import get_stackable_repo
-import polars as pl
 
 
 def test_build_orb_repo_parquet():

@@ -66,11 +66,13 @@ class EquipmentTableModel(QAbstractTableModel):
 
 
 class EquipmentSearch(QWidget, Ui_equipment_search):
+    equipment_repo: EquipmentRepo
+
     def __init__(self):
         super().__init__()
         self.setupUi(self)
 
-        self.equipment_repo: EquipmentRepo = None
+        self.set_equipment_repo()
 
         gs.pvf_changed.connect(self.set_equipment_repo)
 

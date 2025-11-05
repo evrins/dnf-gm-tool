@@ -5,8 +5,9 @@ import polars as pl
 from loguru import logger
 
 from config import config
-from dnfpkgtool.pvf.pvf_reader import PVFDict, PVFReader
+from dnfpkgtool.pvf.pvf_reader import PVFDict
 from dnfpkgtool.repo import MappingElementLocation, remapping_pvf_dict
+from dnfpkgtool.repo.base_repo import BaseRepo
 from util import time_it
 
 
@@ -217,9 +218,6 @@ def build_equipment_repo_parquet(pvf_dict: PVFDict, fp: str | Path):
     df.write_parquet(fp)
 
 
-
-
-
 class EquipmentIdNotFoundException(Exception):
     def __init__(self, ep_id):
         self.ep_id = ep_id
@@ -230,22 +228,33 @@ class EquipmentIdNotFoundException(Exception):
         return f'Equipment ID not found: {self.ep_id}'
 
 
-class EquipmentRepo:
+class EquipmentRepo(BaseRepo):
     def __init__(self, fp: str | Path):
-        self.df = pl.read_parquet(fp)
+        self._is_available = True
+        try:
+            self.df = pl.read_parquet(fp)
+        except Exception as e:
+            logger.warning(f'EquipmentRepo failed to load parquet file {fp}: {e}')
+            # Create an empty dataframe with the expected schema
+            self.df = None
+            self._is_available = False
+
+    def is_available(self) -> bool:
+        """Check if the repository is available (parquet file loaded successfully)"""
+        return self._is_available
 
     @time_it
     def query(
         self,
         name: str,
-        equipment_type_list: List[str] = None,
-        usable_job: str = None,
-        item_group_name: str = None,
-        armor_type: str = None,
-        min_level: int = None,
-        max_level: int = None,
-        rarity: str = None,
-        limit: int = None,
+        equipment_type_list: List[str] | None = None,
+        usable_job: str | None = None,
+        item_group_name: str | None = None,
+        armor_type: str | None = None,
+        min_level: int | None = None,
+        max_level: int | None = None,
+        rarity: str | None = None,
+        limit: int | None = None,
     ):
         logger.info(
             f'querying {name} equipment types {equipment_type_list} usable job {usable_job} item group {item_group_name} armor_type {armor_type} min_level {min_level} max_level {max_level} rarity {rarity}'

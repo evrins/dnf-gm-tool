@@ -45,6 +45,3 @@ def decrypt_bytes(input_bytes: bytes, crc):
     value_2 = value_xored_all & mask_2_all
     value = value_1 << 26 | value_2 >> 6
     return value.to_bytes(4 * int_num, 'little')
-
-
-

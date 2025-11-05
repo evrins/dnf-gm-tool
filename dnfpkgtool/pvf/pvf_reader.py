@@ -217,7 +217,7 @@ class PVFReader:
         return self.get_as_dict('equipment/equipment.lst', 'Equipment')
 
     def get_stackable_dict(self) -> PVFDict:
-        return self.get_as_dict('stackable/stackable.lst', 'Item')
+        return self.get_as_dict('stackable/stackable.lst', 'Stackable')
 
     def get_exp_table(self) -> List[int]:
         exp_table_path = 'character/exptable.tbl'

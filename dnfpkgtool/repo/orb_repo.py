@@ -4,10 +4,12 @@ from pathlib import Path
 from typing import List
 
 import polars as pl
+from loguru import logger
 
 from config import config
-from dnfpkgtool.repo.skill_repo import SkillRepo, get_skill_repo
-from dnfpkgtool.repo.stackable_repo import StackableRepo, get_stackable_repo
+from dnfpkgtool.repo.base_repo import BaseRepo
+from dnfpkgtool.repo.skill_repo import SkillRepo
+from dnfpkgtool.repo.stackable_repo import StackableRepo
 
 enchant_key_mapping = {
     '[all activestatus resistance]': '所有异常状态抗性',
@@ -232,12 +234,20 @@ def build_orb_repo_parquet(
     df.write_parquet(fp)
 
 
+class OrbRepo(BaseRepo):
+    def __init__(self, fp: str | Path):
+        self._is_available = True
+        try:
+            self.df = pl.read_parquet(fp)
+        except Exception as e:
+            logger.warning(f'OrbRepo failed to load parquet file {fp}: {e}')
+            # Create an empty dataframe with the expected schema
+            self.df = None
+            self._is_available = False
 
-
-
-class OrbRepo:
-    def __init__(self, fp: str):
-        self.df = pl.read_parquet(fp)
+    def is_available(self) -> bool:
+        """Check if the repository is available (parquet file loaded successfully)"""
+        return self._is_available
 
     def query_by_card_id(self, card_id: int) -> dict:
         return self.df.filter(pl.col('card_id') == card_id).limit(1).to_dicts()[0]

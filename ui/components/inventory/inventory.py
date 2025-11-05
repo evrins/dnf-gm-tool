@@ -51,6 +51,8 @@ class InventoryTableModel(QAbstractTableModel):
                 else:
                     return row.num_grade
             return row.__dict__[key]
+        elif role == Qt.ItemDataRole.UserRole:
+            return self._data[index.row()]
         return None
 
     def headerData(self, section, orientation, role):
@@ -72,7 +74,6 @@ class InventoryWidget(QWidget, Ui_inventory_container):
         super().__init__()
 
         self.item_list: List[DnfItemSlot] = []
-        self.item_dict: dict[int, DnfItemSlot] = {}
         self.display_item_list: List[DnfItemSlot] = []
 
         self.setupUi(self)
@@ -91,16 +92,16 @@ class InventoryWidget(QWidget, Ui_inventory_container):
         self.set_data(item_list)
 
         self.empty = Empty()
+        self.form_stack_widget.addWidget(self.empty)
+
         self.equipment_form = EquipmentForm()
         self.equipment_form.on_save.connect(self.save)
         self.equipment_form.on_delete.connect(self.delete)
+        self.form_stack_widget.addWidget(self.equipment_form)
 
         self.stackable_form = StackableForm()
         self.stackable_form.on_save.connect(self.save)
         self.stackable_form.on_delete.connect(self.delete)
-
-        self.form_stack_widget.addWidget(self.empty)
-        self.form_stack_widget.addWidget(self.equipment_form)
         self.form_stack_widget.addWidget(self.stackable_form)
 
         self.form_stack_widget.setCurrentIndex(0)
@@ -110,7 +111,6 @@ class InventoryWidget(QWidget, Ui_inventory_container):
 
     def set_data(self, item_list: List[DnfItemSlot]):
         self.item_list = item_list
-        self.item_dict = {it.display_idx: it for it in self.item_list}
         self.display_item_list = item_list
 
         self.update_table_view_item()
@@ -151,8 +151,7 @@ class InventoryWidget(QWidget, Ui_inventory_container):
         return list(filter(lambda x: x.type == select_type, self.item_list))
 
     def on_row_clicked(self, index: QModelIndex):
-        idx = index.data(Qt.ItemDataRole.DisplayRole)
-        selected_item = self.item_dict[idx]
+        selected_item = index.data(Qt.ItemDataRole.UserRole)
         # show empty view
         if selected_item.id == 0:
             self.form_stack_widget.setCurrentIndex(0)

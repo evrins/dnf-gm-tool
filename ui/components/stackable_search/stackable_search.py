@@ -79,13 +79,14 @@ class StackableTableModel(QAbstractTableModel):
 
 
 class StackableSearch(QWidget, Ui_stackable_search):
+    stackable_repo: StackableRepo
+
     def __init__(self):
         super().__init__()
 
         self.setupUi(self)
 
-        self.stackable_repo: StackableRepo = None
-
+        self.set_stackable_repo()
         gs.pvf_changed.connect(self.set_stackable_repo)
 
         self.name_line_edit.returnPressed.connect(self.do_search)

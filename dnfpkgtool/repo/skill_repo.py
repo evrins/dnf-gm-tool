@@ -1,14 +1,15 @@
 from pathlib import Path
-from typing import Dict, List
+from typing import Any, Dict, List
 
 import polars as pl
+from loguru import logger
 
 from config import config
-from dnfpkgtool.pvf.pvf_reader import PVFReader
 from dnfpkgtool.repo import MappingElementLocation, remapping_pvf_list
+from dnfpkgtool.repo.base_repo import BaseRepo
 
 
-def build_skill_repo_parquet(pvf_list: List[Dict[str, any]], fp: str | Path):
+def build_skill_repo_parquet(pvf_list: List[Dict[str, Any]], fp: str | Path):
     mappings = [
         ('job', 'job', 0, MappingElementLocation.First),
         ('name', '[name]', '', MappingElementLocation.First),
@@ -30,17 +31,25 @@ def build_skill_repo_parquet(pvf_list: List[Dict[str, any]], fp: str | Path):
     df.write_parquet(fp)
 
 
+class SkillRepo(BaseRepo):
+    def __init__(self, fp: str | Path):
+        self._is_available = True
+        try:
+            self.df = pl.read_parquet(fp)
+        except Exception as e:
+            logger.warning(f'SkillRepo failed to load parquet file {fp}: {e}')
+            # Create an empty dataframe with the expected schema
+            self.df = None
+            self._is_available = False
 
-
-
-class SkillRepo:
-    def __init__(self, fp: str):
-        self.df = pl.read_parquet(fp)
+    def is_available(self) -> bool:
+        """Check if the repository is available (parquet file loaded successfully)"""
+        return self._is_available
 
     def query(
         self,
         name: str,
-        job: str = None,
+        job: str | None = None,
     ) -> List[dict]:
         name = name.lower()
         cond = pl.col('name').str.contains(name) | pl.col(

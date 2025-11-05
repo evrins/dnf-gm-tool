@@ -11,14 +11,15 @@ from PySide6.QtWidgets import (
 
 from config import config
 from dnfpkgtool.db import check_mysql_config
+from dnfpkgtool.db.entity.signals import gs
 from dnfpkgtool.pvf.pvf_reader import PVFReader
 from dnfpkgtool.repo.equipment_repo import build_equipment_repo_parquet
 from dnfpkgtool.repo.magic_seal_repo import build_magic_seal_parquet
 from dnfpkgtool.repo.orb_repo import build_orb_repo_parquet
-from dnfpkgtool.repo.skill_repo import build_skill_repo_parquet, get_skill_repo
+from dnfpkgtool.repo.skill_repo import SkillRepo, build_skill_repo_parquet
 from dnfpkgtool.repo.stackable_repo import (
+    StackableRepo,
     build_stackable_repo_parquet,
-    get_stackable_repo,
 )
 from ui.components.settings.settings_ui import Ui_settings
 from util import calculate_hash_of_file
@@ -93,8 +94,12 @@ class BuilderThread(QThread):
 
             # build orb repo should come after stackable_repo and skill_repo
             self.progress.emit(f'{self.elapsed():.2f}s: Start building orb repo 5/5')
-            stackable_repo = get_stackable_repo()
-            skill_repo = get_skill_repo()
+            stackable_repo = StackableRepo(
+                config.build_stackable_parquet_file_path(self.pvf_hash)
+            )
+            skill_repo = SkillRepo(
+                config.build_skill_parquet_parquet_file_path(self.pvf_hash)
+            )
             build_orb_repo_parquet(
                 stackable_repo,
                 skill_repo,
@@ -126,10 +131,13 @@ class Setting(QWidget, Ui_settings):
 
         self.host_combox.addItems(history.host_list)
         self.host_combox.setCurrentText(cfg.db_config.host)
+
         self.port_combox.addItems(map(str, history.port_list))
         self.port_combox.setCurrentText(str(cfg.db_config.port))
+
         self.username_combox.addItems(history.username_list)
         self.username_combox.setCurrentText(cfg.db_config.username)
+
         self.password_combox.addItems(history.password_list)
         self.password_combox.setCurrentText(cfg.db_config.password)
 
@@ -173,6 +181,7 @@ class Setting(QWidget, Ui_settings):
             if valid:
                 self._show_success_status('Success')
                 self._save_settings(host, port, username, password)
+                gs.db_config_changed.emit()
             else:
                 self._show_error_status('Failed')
 

@@ -165,6 +165,3 @@ class DnfItemSlot(BaseModel):
         return s
 
     __str__ = __repr__
-
-
-

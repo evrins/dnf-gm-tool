@@ -1,5 +1,3 @@
-from pathlib import Path
-
 from config import config
 from dnfpkgtool.pvf.pvf_reader import PVFReader
 from dnfpkgtool.repo.stackable_repo import StackableRepo, build_stackable_repo_parquet

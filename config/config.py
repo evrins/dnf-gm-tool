@@ -176,6 +176,10 @@ def get_current_character_no():
     return _config.character_no
 
 
+def have_valid_account_id_and_character_no() -> bool:
+    return _config.account_id > 0 and _config.character_no > 0
+
+
 # todo build path from config
 
 

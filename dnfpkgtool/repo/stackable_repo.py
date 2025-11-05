@@ -5,8 +5,9 @@ import polars as pl
 from loguru import logger
 
 from config import config
-from dnfpkgtool.pvf.pvf_reader import PVFDict, PVFReader
+from dnfpkgtool.pvf.pvf_reader import PVFDict
 from dnfpkgtool.repo import MappingElementLocation, remapping_pvf_dict
+from dnfpkgtool.repo.base_repo import BaseRepo
 from ui.components.stackable_search.vars import item_rarity_list
 
 stackable_mapping = {
@@ -89,9 +90,6 @@ def build_stackable_repo_parquet(pvf_dict: PVFDict, fp: str | Path):
     df.write_parquet(fp)
 
 
-
-
-
 class StackableIdNotFoundException(Exception):
     def __init__(self, item_id):
         self.item_id = item_id
@@ -101,20 +99,31 @@ class StackableIdNotFoundException(Exception):
         return f'Stackable ID not found: {self.item_id}'
 
 
-class StackableRepo:
+class StackableRepo(BaseRepo):
     def __init__(self, fp: str | Path):
-        self.df = pl.read_parquet(fp)
+        self._is_available = True
+        try:
+            self.df = pl.read_parquet(fp)
+        except Exception as e:
+            logger.warning(f'StackableRepo failed to load parquet file {fp}: {e}')
+            # Create an empty dataframe with the expected schema
+            self.df = None
+            self._is_available = False
+
+    def is_available(self) -> bool:
+        """Check if the repository is available (parquet file loaded successfully)"""
+        return self._is_available
 
     def query(
         self,
         name: str,
-        stackable_type_list: list[str] = None,
-        item_category_list: list[str] = None,
-        min_level: int = None,
-        max_level: int = None,
-        display_rarity: str = None,
-        item_type: str = None,
-        limit: int = None,
+        stackable_type_list: list[str] | None = None,
+        item_category_list: list[str] | None = None,
+        min_level: int | None = None,
+        max_level: int | None = None,
+        display_rarity: str | None = None,
+        item_type: str | None = None,
+        limit: int | None = None,
     ) -> List[dict]:
         logger.info(
             f'query with name {name} stackable_type_list {stackable_type_list} item_category_list {item_category_list} min_level {min_level} max_level {max_level} display_rarity {display_rarity} item_type {item_type}'

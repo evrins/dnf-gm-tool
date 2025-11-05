@@ -4,6 +4,7 @@ from dnfpkgtool.db.entity.mail_submit_item import MailSubmitItem
 
 
 class GlobalSignals(QObject):
+    db_config_changed = Signal()
     pvf_changed = Signal()
     account_id_changed = Signal()
     character_no_changed = Signal()

@@ -24,6 +24,7 @@ from dnfpkgtool.repo.magic_seal_repo import (
     get_magic_seal_repo,
 )
 from dnfpkgtool.repo.orb_repo import build_orb_repo_parquet
+from dnfpkgtool.repo.quest_repo import build_quest_repo_parquet
 from dnfpkgtool.repo.skill_repo import build_skill_repo_parquet, get_skill_repo
 from dnfpkgtool.repo.stackable_repo import (
     StackableIdNotFoundException,
@@ -201,6 +202,10 @@ def build_repo_parquet(fp: str):
     skill_repo = get_skill_repo()
     build_orb_repo_parquet(
         stackable_repo, skill_repo, config.get_orb_parquet_file_path()
+    )
+
+    build_quest_repo_parquet(
+        reader.get_quest_dict(), config.get_quest_parquet_file_path()
     )
 
     reader.close()

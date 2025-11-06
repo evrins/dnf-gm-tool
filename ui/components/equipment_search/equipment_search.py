@@ -11,7 +11,7 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from dnfpkgtool.db.entity.mail_form_item import ItemType
+from dnfpkgtool.db.entity.mail_form_item import MailItemType
 from dnfpkgtool.db.entity.mail_submit_item import MailSubmitItem
 from dnfpkgtool.db.entity.signals import gs
 from dnfpkgtool.repo.equipment_repo import EquipmentRepo, get_equipment_repo
@@ -239,7 +239,7 @@ class EquipmentSearch(QWidget, Ui_equipment_search):
         mail_submit_item = MailSubmitItem(
             item_id=row['id'],
             item_name=row['name'],
-            item_type=ItemType.Equipment,
+            item_type=MailItemType.Equipment,
             endurance=row['durability'],
             sub_type=row['sub_type'],
         )
@@ -257,9 +257,9 @@ class EquipmentSearch(QWidget, Ui_equipment_search):
             '[pants avatar]',
             '[shoes avatar]',
         ]:
-            mail_submit_item.item_type = ItemType.Avatar
+            mail_submit_item.item_type = MailItemType.Avatar
         elif equipment_type in ['[creature]']:
-            mail_submit_item.item_type = ItemType.Creature
+            mail_submit_item.item_type = MailItemType.Creature
 
         gs.submit_mail_form.emit(mail_submit_item)
 

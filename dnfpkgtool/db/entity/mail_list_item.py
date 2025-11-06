@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-from dnfpkgtool.db.entity.mail_form_item import ItemType
+from dnfpkgtool.db.entity.mail_form_item import MailItemType
 
 
 class MailListItem(BaseModel):
@@ -9,7 +9,7 @@ class MailListItem(BaseModel):
     sender_name: str = ''
     item_id: int = 0
     item_name: str = ''
-    item_type: ItemType
+    item_type: MailItemType
 
     num: int = 0
 

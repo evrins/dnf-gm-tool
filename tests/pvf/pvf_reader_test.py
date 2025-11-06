@@ -77,7 +77,7 @@ def test_get_exp_table():
 
 
 def test_get_stackable_dict():
-    pvf_path = '/Users/evrins/workspace/python/DNF_pvf_python/Script.pvf'
+    pvf_path = '/Users/evrins/workspace/python/dnf_gm_tool/Script.pvf'
     reader = PVFReader(pvf_path)
     stackable_dict = reader.get_stackable_dict()
     save_obj_2_file(stackable_dict, 'stackable_dict.json')

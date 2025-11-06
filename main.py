@@ -22,6 +22,7 @@ from startup_check import check_database, check_parquet_files
 from ui.components.characters.characters import Characters
 from ui.components.equipment_search.equipment_search import EquipmentSearch
 from ui.components.mail.mail import Mail
+from ui.components.quests.quests import Quests
 from ui.components.settings.settings import Setting
 from ui.components.stackable_search.stackable_search import StackableSearch
 from ui.inventory_tabview import InventoryTabView
@@ -45,8 +46,10 @@ TAB_INVENTORY = '🎒 Inventory'
 TAB_INVENTORY_INDEX = 3
 TAB_MAIL = '📧 Mail'
 TAB_MAIL_INDEX = 4
+TAB_QUEST = '📜 Quest'
+TAB_QUEST_INDEX = 5
 TAB_SETTINGS = '⚙️ Settings'
-TAB_SETTINGS_INDEX = 5
+TAB_SETTINGS_INDEX = 6
 
 
 class MainWindow(QMainWindow):
@@ -101,6 +104,14 @@ class MainWindow(QMainWindow):
             )
         self.tab_widget.addTab(self.mail_widget, TAB_MAIL)
 
+        if self.db_ready and self.parquet_ready:
+            self.quest_widget = Quests()
+        else:
+            self.quest_widget = self.create_not_ready_widget(
+                'Database or PVF data not ready, setup in settings tab'
+            )
+        self.tab_widget.addTab(self.quest_widget, TAB_QUEST)
+
         self.settings_widget = Setting()
         self.tab_widget.addTab(self.settings_widget, TAB_SETTINGS)
 
@@ -145,15 +156,7 @@ class MainWindow(QMainWindow):
         )
 
         if self.db_ready and self.parquet_ready:
-            self.inventory_tabview = InventoryTabView()
-            self.tab_widget.removeTab(TAB_INVENTORY_INDEX)
-            self.tab_widget.insertTab(
-                TAB_INVENTORY_INDEX, self.inventory_tabview, TAB_INVENTORY
-            )
-
-            self.mail_widget = Mail()
-            self.tab_widget.removeTab(TAB_MAIL_INDEX)
-            self.tab_widget.insertTab(TAB_MAIL_INDEX, self.mail_widget, TAB_MAIL)
+            self.replace_widgets()
 
     def handle_pvf_change(self):
         self.parquet_ready = True
@@ -170,15 +173,22 @@ class MainWindow(QMainWindow):
         )
 
         if self.db_ready and self.parquet_ready:
-            self.inventory_tabview = InventoryTabView()
-            self.tab_widget.removeTab(TAB_INVENTORY_INDEX)
-            self.tab_widget.insertTab(
-                TAB_INVENTORY_INDEX, self.inventory_tabview, TAB_INVENTORY
-            )
+            self.replace_widgets()
 
-            self.mail_widget = Mail()
-            self.tab_widget.removeTab(TAB_MAIL_INDEX)
-            self.tab_widget.insertTab(TAB_MAIL_INDEX, self.mail_widget, TAB_MAIL)
+    def replace_widgets(self):
+        self.inventory_tabview = InventoryTabView()
+        self.tab_widget.removeTab(TAB_INVENTORY_INDEX)
+        self.tab_widget.insertTab(
+            TAB_INVENTORY_INDEX, self.inventory_tabview, TAB_INVENTORY
+        )
+
+        self.mail_widget = Mail()
+        self.tab_widget.removeTab(TAB_MAIL_INDEX)
+        self.tab_widget.insertTab(TAB_MAIL_INDEX, self.mail_widget, TAB_MAIL)
+
+        self.quest_widget = Quests()
+        self.tab_widget.removeTab(TAB_QUEST_INDEX)
+        self.tab_widget.insertTab(TAB_QUEST_INDEX, self.quest_widget, TAB_QUEST)
 
     def handle_submit_to_mail(self, mail_submit_item: MailSubmitItem):
         self.tab_widget.setCurrentIndex(TAB_MAIL_INDEX)

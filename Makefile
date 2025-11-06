@@ -10,3 +10,4 @@ uic:
 	pyside6-uic ui/components/mail/equipment_form.ui -o ui/components/mail/equipment_form_ui.py
 	pyside6-uic ui/components/mail/stackable_form.ui -o ui/components/mail/stackable_form_ui.py
 	pyside6-uic ui/components/characters/characters.ui -o ui/components/characters/characters_ui.py
+	pyside6-uic ui/components/quests/quests.ui -o ui/components/quests/quests_ui.py

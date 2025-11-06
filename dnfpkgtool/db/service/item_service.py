@@ -1,6 +1,8 @@
 import enum
 import zlib
-from typing import List
+from typing import List, Tuple
+
+from loguru import logger
 
 from config import config
 from dnfpkgtool.db.entity.character_inventory import CharacterInventory
@@ -34,6 +36,11 @@ class InventoryLoc(enum.Enum):
     Backpack = 0
     Creatures = 1
     Equipment = 2
+
+
+class ItemType(enum.Enum):
+    Equipment = 1
+    Stackable = 2
 
 
 class ItemService:
@@ -153,6 +160,21 @@ class ItemService:
             ms.name = self.magic_seal_repo.query_by_id(ms.id)['name']
             item.display_magic_seals[idx] = ms
         return item
+
+    def find_by_id(self, item_id: int) -> Tuple[ItemType, dict]:
+        try:
+            item = self.stackable_repo.query_by_id(item_id)
+            return ItemType.Stackable, item
+        except StackableIdNotFoundException:
+            logger.info(f'Item {item_id} not found in stackable')
+
+        try:
+            item = self.equipment_repo.query_by_id(item_id)
+            return ItemType.Equipment, item
+        except EquipmentIdNotFoundException:
+            logger.warning(f'item with id {item_id} not found in equipment')
+
+        raise ValueError(f'item with id {item_id} not found')
 
 
 def get_item_service() -> ItemService:

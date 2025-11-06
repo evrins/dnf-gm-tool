@@ -4,7 +4,7 @@ from PySide6.QtCore import QAbstractTableModel, QSortFilterProxyModel, Qt
 from PySide6.QtWidgets import QWidget
 
 import config.config
-from dnfpkgtool.db.entity.mail_form_item import ItemType, MailFormItem
+from dnfpkgtool.db.entity.mail_form_item import MailFormItem, MailItemType
 from dnfpkgtool.db.entity.mail_list_item import MailListItem
 from dnfpkgtool.db.entity.mail_submit_item import MailSubmitItem
 from dnfpkgtool.db.entity.signals import gs
@@ -99,7 +99,7 @@ class Mail(QWidget, Ui_mail):
 
     def on_submit(self, mail_submit_item: MailSubmitItem):
         self.current_item_type = mail_submit_item.item_type
-        if self.current_item_type == ItemType.Stackable:
+        if self.current_item_type == MailItemType.Stackable:
             self.stackable_form.set_item(mail_submit_item)
             self.stackedWidget.setCurrentIndex(0)
         else:

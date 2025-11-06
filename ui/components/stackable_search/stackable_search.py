@@ -6,7 +6,7 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from dnfpkgtool.db.entity.mail_form_item import ItemType
+from dnfpkgtool.db.entity.mail_form_item import MailItemType
 from dnfpkgtool.db.entity.mail_submit_item import MailSubmitItem
 from dnfpkgtool.db.entity.signals import gs
 from dnfpkgtool.repo.stackable_repo import StackableRepo, get_stackable_repo
@@ -173,7 +173,7 @@ class StackableSearch(QWidget, Ui_stackable_search):
         mail_submit_item = MailSubmitItem(
             item_id=row['id'],
             item_name=row['name'],
-            item_type=ItemType.Stackable,
+            item_type=MailItemType.Stackable,
         )
         gs.submit_mail_form.emit(mail_submit_item)
 

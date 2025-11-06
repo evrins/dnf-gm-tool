@@ -1,4 +1,4 @@
-from dnfpkgtool.db.entity.mail_form_item import ItemType, MailFormItem
+from dnfpkgtool.db.entity.mail_form_item import MailFormItem, MailItemType
 from dnfpkgtool.db.service.mail_service import MailService
 
 
@@ -8,7 +8,7 @@ def test_send_stackable_mail_with_multi_mail():
     character_no = 8
 
     mail_item = MailFormItem(
-        item_type=ItemType.Stackable,
+        item_type=MailItemType.Stackable,
         item_id=1250,
         num=9500,
         gold=2460,
@@ -24,7 +24,7 @@ def test_send_stackable_mail():
     character_no = 8
 
     mail_item = MailFormItem(
-        item_type=ItemType.Stackable,
+        item_type=MailItemType.Stackable,
         item_id=1250,
         num=100,
         gold=2460,
@@ -40,7 +40,7 @@ def test_send_creature_mail_for_egg():
     character_no = 8
 
     mail_item = MailFormItem(
-        item_type=ItemType.Creature,
+        item_type=MailItemType.Creature,
         item_id=63015,
         sub_type=1,
     )
@@ -55,7 +55,7 @@ def test_send_creature_mail():
     character_no = 8
 
     mail_item = MailFormItem(
-        item_type=ItemType.Creature,
+        item_type=MailItemType.Creature,
         item_id=63012,
         sub_type=0,
     )
@@ -70,7 +70,7 @@ def test_send_avatar_mail():
     character_no = 8
 
     mail_item = MailFormItem(
-        item_type=ItemType.Avatar,
+        item_type=MailItemType.Avatar,
         item_id=101600007,
     )
 

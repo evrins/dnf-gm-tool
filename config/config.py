@@ -223,12 +223,21 @@ def get_orb_parquet_file_path() -> Path:
     return build_orb_parquet_file_path(_config.pvf_hash)
 
 
+def build_quest_parquet_file_path(pvf_hash: str) -> Path:
+    return base_dir / 'data' / pvf_hash / 'quests.parquet'
+
+
+def get_quest_parquet_file_path() -> Path:
+    return build_quest_parquet_file_path(_config.pvf_hash)
+
+
 path_map = {
     'stackable': build_stackable_parquet_file_path,
     'equipment': build_equipment_parquet_file_path,
     'magic_seal': build_magic_seal_parquet_file_path,
     'skill': build_skill_parquet_parquet_file_path,
     'orb': build_orb_parquet_file_path,
+    'quest': build_quest_parquet_file_path,
 }
 
 

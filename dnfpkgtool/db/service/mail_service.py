@@ -2,7 +2,7 @@ from functools import cache
 from typing import List, Tuple
 
 from config import config
-from dnfpkgtool.db.entity.mail_form_item import ItemType, MailFormItem
+from dnfpkgtool.db.entity.mail_form_item import MailFormItem, MailItemType
 from dnfpkgtool.db.entity.mail_list_item import MailListItem
 from dnfpkgtool.db.model.creature_items import CreatureItems
 from dnfpkgtool.db.model.letter import Letter
@@ -38,10 +38,10 @@ class MailService:
         for it in postal_list:
             item_name, item_type = self.get_item_name_by_item_id(it.item_id)
             if it.avatar_flag == 1:
-                item_type = ItemType.Avatar
+                item_type = MailItemType.Avatar
             elif it.creature_flag == 1:
-                item_type = ItemType.Creature
-            if item_type == ItemType.Stackable:
+                item_type = MailItemType.Creature
+            if item_type == MailItemType.Stackable:
                 num = it.add_info
             else:
                 num = 1
@@ -66,25 +66,25 @@ class MailService:
             self.delete_by_postal(it)
 
     @cache
-    def get_item_name_by_item_id(self, item_id: int) -> Tuple[str, ItemType]:
+    def get_item_name_by_item_id(self, item_id: int) -> Tuple[str, MailItemType]:
         try:
             item = self.stackable_repo.query_by_id(item_id)
-            return item['name'], ItemType.Stackable
+            return item['name'], MailItemType.Stackable
         except StackableIdNotFoundException:
             pass
 
         try:
             item = self.equipment_repo.query_by_id(item_id)
-            return item['name'], ItemType.Equipment
+            return item['name'], MailItemType.Equipment
         except EquipmentIdNotFoundException:
             pass
 
         raise ValueError(f'Item {item_id} not found')
 
     def delete_by_mail_list_item(self, mail_list_item: MailListItem):
-        if mail_list_item.item_type == ItemType.Avatar:
+        if mail_list_item.item_type == MailItemType.Avatar:
             self.user_items_repo.delete_by_id(mail_list_item.add_info)
-        elif mail_list_item.item_type == ItemType.Creature:
+        elif mail_list_item.item_type == MailItemType.Creature:
             self.creature_items_repo.delete_by_id(mail_list_item.add_info)
 
         self.postal_repo.delete_by_id(mail_list_item.postal_id)
@@ -104,13 +104,13 @@ class MailService:
     def send_mail(
         self, sender: str, msg: str, character_no: int, mail_item: MailFormItem
     ):
-        if mail_item.item_type == ItemType.Stackable:
+        if mail_item.item_type == MailItemType.Stackable:
             self.send_stackable_mail(sender, msg, character_no, mail_item)
-        elif mail_item.item_type == ItemType.Creature:
+        elif mail_item.item_type == MailItemType.Creature:
             self.send_creature_mail(sender, msg, character_no, mail_item)
-        elif mail_item.item_type == ItemType.Equipment:
+        elif mail_item.item_type == MailItemType.Equipment:
             self.send_equipment_mail(sender, msg, character_no, mail_item)
-        elif mail_item.item_type == ItemType.Avatar:
+        elif mail_item.item_type == MailItemType.Avatar:
             self.send_avatar_mail(sender, msg, character_no, mail_item)
 
     def send_letter(self, sender: str, msg: str, character_no: int) -> Letter:

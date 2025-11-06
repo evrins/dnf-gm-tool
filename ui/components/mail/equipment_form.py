@@ -1,7 +1,7 @@
 from PySide6.QtWidgets import QWidget
 
 from dnfpkgtool.db.entity.dnf_item_slot import reinforce_type_dict
-from dnfpkgtool.db.entity.mail_form_item import ItemType, MailFormItem
+from dnfpkgtool.db.entity.mail_form_item import MailFormItem, MailItemType
 from dnfpkgtool.db.entity.mail_submit_item import MailSubmitItem
 from ui.components.mail.equipment_form_ui import Ui_equipment_form
 
@@ -20,7 +20,7 @@ class EquipmentForm(QWidget, Ui_equipment_form):
     def set_item(self, mail_item: MailSubmitItem):
         self.id_line_edit.setText(str(mail_item.item_id))
         self.name_line_edit.setText(mail_item.item_name)
-        if mail_item.item_type == ItemType.Equipment:
+        if mail_item.item_type == MailItemType.Equipment:
             self.grade_spin_box.setValue(12)  # 最上级 97%
         else:
             self.grade_spin_box.setValue(0)

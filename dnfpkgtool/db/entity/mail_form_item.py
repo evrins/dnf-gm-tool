@@ -3,7 +3,7 @@ from enum import Enum
 from pydantic import BaseModel
 
 
-class ItemType(Enum):
+class MailItemType(Enum):
     Stackable = 1
     Equipment = 2
     Avatar = 3
@@ -24,7 +24,7 @@ class ItemType(Enum):
 
 
 class MailFormItem(BaseModel):
-    item_type: ItemType
+    item_type: MailItemType
     item_id: int
     gold: int = 0
 

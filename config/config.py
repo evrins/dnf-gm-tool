@@ -46,13 +46,13 @@ class Config(BaseModel):
     def default() -> 'Config':
         return Config(
             db_config=DbConfig(
-                host='127.0.0.1',
+                host='192.168.200.131',
                 port=3306,
                 username='root',
                 password='123456',
             ),
             history=History(
-                host_list=['localhost'],
+                host_list=['localhost', '192.168.200.131'],
                 port_list=[3306],
                 username_list=['root', 'game'],
                 password_list=['123456', 'uu5!^%jg'],

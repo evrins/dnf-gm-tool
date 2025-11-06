@@ -4,9 +4,11 @@ from typing import List
 from PySide6.QtCore import QAbstractTableModel, QModelIndex, QSortFilterProxyModel, Qt
 from PySide6.QtWidgets import QWidget
 
+from dnfpkgtool.db.entity.signals import gs
 from dnfpkgtool.db.service.quest_service import CharacterQuest, Quest, QuestService
 from ui.components.quests.quests_ui import Ui_quests
 
+from config import config
 
 class QuestTableModel(QAbstractTableModel):
     def __init__(self, data: List[Quest]):
@@ -70,6 +72,8 @@ class Quests(QWidget, Ui_quests):
         self.cancel_all_btn.clicked.connect(self.cancel_all)
 
         self.quest_table_view.clicked.connect(self.on_row_click)
+
+        gs.character_no_changed.connect(self.refresh)
 
         self.refresh()
 

@@ -78,6 +78,8 @@ class Quests(QWidget, Ui_quests):
         self.refresh()
 
     def refresh(self):
+        if not config.have_valid_account_id_and_character_no():
+            return
         self.cq = self.quest_service.get_current_character_quest()
 
         table_model = QuestTableModel(self.cq.quest_list)

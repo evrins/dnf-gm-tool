@@ -118,6 +118,10 @@ class Quests(QWidget, Ui_quests):
     def on_row_click(self, index: QModelIndex):
         row: Quest = index.data(Qt.ItemDataRole.UserRole)
 
+        if row.id == 0:
+            self.quest_text_edit.setText('')
+            return
+
         # set quest detail
         lines = []
         data = json.loads(row.detail)

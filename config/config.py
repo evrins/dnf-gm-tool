@@ -28,6 +28,9 @@ base_dir = Path(__file__).parent.parent
 
 config_path = base_dir / 'data' / 'config.json'
 
+def set_base_dir(dir_: Path):
+    global base_dir
+    base_dir = dir_
 
 def init_dirs():
     os.makedirs(base_dir / 'data', exist_ok=True)

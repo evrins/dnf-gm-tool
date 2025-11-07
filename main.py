@@ -218,10 +218,14 @@ class MainWindow(QMainWindow):
 
 
 if __name__ == '__main__':
-    base_dir = Path(__file__).parent
+    base_dir = Path(__file__).parent.parent
     config.set_base_dir(base_dir)
 
     config.init_dirs()
+
+    config.load()
+
+    logger.add(config.get_log_dir() / 'app.log', rotation='10 MB')
 
     signal.signal(signal.SIGINT, handle_shutdown_signal)
     signal.signal(signal.SIGTERM, handle_shutdown_signal)

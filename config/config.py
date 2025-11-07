@@ -26,14 +26,15 @@ class History(BaseModel):
 
 base_dir = Path(__file__).parent.parent
 
-config_path = base_dir / 'data' / 'config.json'
+def get_config_path() -> Path:
+    return base_dir / 'data' / 'config.json'
 
 def set_base_dir(dir_: Path):
     global base_dir
     base_dir = dir_
 
 def init_dirs():
-    os.makedirs(base_dir / 'data', exist_ok=True)
+    os.makedirs(base_dir / 'data' / 'log', exist_ok=True)
 
 
 class Config(BaseModel):
@@ -72,22 +73,22 @@ class Config(BaseModel):
 
         return True
 
+_config: Config = None
 
 def load() -> Config:
-    if not os.path.exists(config_path):
-        return Config.default()
-    with open(config_path, 'r') as f:
-        json_data = f.read()
-        cfg = Config.model_validate_json(json_data)
-        cfg.pvf_dir = base_dir / 'data' / cfg.pvf_hash
-        return cfg
-
-
-_config: Config = load()
+    global _config
+    if not os.path.exists(get_config_path()):
+        _config =  Config.default()
+    else:
+        with open(get_config_path(), 'r') as f:
+            json_data = f.read()
+            cfg = Config.model_validate_json(json_data)
+            cfg.pvf_dir = base_dir / 'data' / cfg.pvf_hash
+            _config =  cfg
 
 
 def save():
-    with open(config_path, 'w') as f:
+    with open(get_config_path(), 'w') as f:
         f.write(_config.model_dump_json(indent=4))
 
 
@@ -123,6 +124,8 @@ def get_config() -> Config:
 def get_db_config() -> DbConfig:
     return _config.db_config
 
+def get_log_dir() -> Path:
+    return base_dir / 'data' / 'log'
 
 def check_mysql_config(
     host: str,
@@ -150,10 +153,7 @@ def check_mysql_config(
         if conn and conn.open:
             conn.close()
             logger.info('database connection closed')
-            return True
-
-    return False
-
+    return True
 
 def get_db_conn(db_name: str) -> pymysql.Connection:
     db_config = get_db_config()

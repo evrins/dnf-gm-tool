@@ -1,6 +1,7 @@
 import signal
 import sys
 import tracemalloc
+from pathlib import Path
 
 from loguru import logger
 from PySide6.QtCore import Qt, QTimer
@@ -215,17 +216,12 @@ class MainWindow(QMainWindow):
             logger.info('Shutdown requested, closing application')
             self.close()
 
-    def dump_memory(self):
-        snapshot = tracemalloc.take_snapshot()
-        top_stats = snapshot.statistics('traceback')
-        print('[ Top 10 memory-allocating lines ]')
-        for stat in top_stats[:10]:
-            print(stat)
-
 
 if __name__ == '__main__':
+    base_dir = Path(__file__).parent
+    config.set_base_dir(base_dir)
+
     config.init_dirs()
-    tracemalloc.start()
 
     signal.signal(signal.SIGINT, handle_shutdown_signal)
     signal.signal(signal.SIGTERM, handle_shutdown_signal)

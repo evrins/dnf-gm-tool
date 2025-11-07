@@ -66,11 +66,14 @@ class Characters(QWidget, Ui_characters):
         self.setupUi(self)
 
         self.account_service = AccountService()
+
         self.reset_btn.clicked.connect(self.reset)
         self.search_btn.clicked.connect(self.search_characters)
         self.name_line_edit.returnPressed.connect(self.search_characters)
 
         self.character_table_view.clicked.connect(self.on_row_click)
+
+        self.reset()
 
     def reset(self):
         self.name_line_edit.setText('')

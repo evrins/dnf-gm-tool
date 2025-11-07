@@ -12,12 +12,13 @@ dependencies = [
     "pymysql>=1.1.2",
     "pyside6>=6.10.0",
     "sqlalchemy>=2.0.44",
-    "zhconv>=1.4.3",
+    "zhconv",
 ]
 
 [dependency-groups]
 dev = [
     "pyinstaller>=6.16.0",
+    "pympler>=1.1",
     "pytest>=8.4.2",
 ]
 
@@ -27,3 +28,6 @@ python_files = ["*_test.py", "test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
 addopts = ["-v", "--tb=short"]
+
+[tool.uv.sources]
+zhconv = { git = "https://github.com/seamile/zhconv" }

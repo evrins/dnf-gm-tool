@@ -6,7 +6,7 @@ a = Analysis(
     pathex=[],
     binaries=[],
     datas=[
-        ('.venv\Lib\site-packages\zhconv\zhcdict.json', 'zhconv')
+        ('.venv\\Lib\\site-packages\\zhconv\\zhcdict.json', 'zhconv')
     ],
     hiddenimports=[],
     hookspath=[],
@@ -34,7 +34,7 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['resources\icon.ico'],
+    icon=['resources\\icon.ico'],
 )
 coll = COLLECT(
     exe,

@@ -128,7 +128,7 @@ class MainWindow(QMainWindow):
 
         # Set window properties
         self.setWindowTitle('DNF GM Tool')
-        self.resize(1200, 800)  # Set initial size
+        self.resize(1200, 840)  # Set initial size
 
         # set default tab
         self.tab_widget.setCurrentIndex(0)

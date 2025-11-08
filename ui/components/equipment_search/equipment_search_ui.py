@@ -70,41 +70,6 @@ class Ui_equipment_search(object):
 
         self.formLayout.setWidget(2, QFormLayout.ItemRole.FieldRole, self.minor_combox)
 
-        self.rarity_label = QLabel(self.search_form)
-        self.rarity_label.setObjectName(u"rarity_label")
-
-        self.formLayout.setWidget(5, QFormLayout.ItemRole.LabelRole, self.rarity_label)
-
-        self.rarity_combox = QComboBox(self.search_form)
-        self.rarity_combox.setObjectName(u"rarity_combox")
-
-        self.formLayout.setWidget(5, QFormLayout.ItemRole.FieldRole, self.rarity_combox)
-
-        self.level_label = QLabel(self.search_form)
-        self.level_label.setObjectName(u"level_label")
-
-        self.formLayout.setWidget(6, QFormLayout.ItemRole.LabelRole, self.level_label)
-
-        self.ranged_spinbox = RangedSpinBox(self.search_form)
-        self.ranged_spinbox.setObjectName(u"ranged_spinbox")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
-        sizePolicy1.setHorizontalStretch(0)
-        sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.ranged_spinbox.sizePolicy().hasHeightForWidth())
-        self.ranged_spinbox.setSizePolicy(sizePolicy1)
-
-        self.formLayout.setWidget(6, QFormLayout.ItemRole.FieldRole, self.ranged_spinbox)
-
-        self.search_btn = QPushButton(self.search_form)
-        self.search_btn.setObjectName(u"search_btn")
-
-        self.formLayout.setWidget(7, QFormLayout.ItemRole.LabelRole, self.search_btn)
-
-        self.submit_btn = QPushButton(self.search_form)
-        self.submit_btn.setObjectName(u"submit_btn")
-
-        self.formLayout.setWidget(7, QFormLayout.ItemRole.FieldRole, self.submit_btn)
-
         self.patch_label = QLabel(self.search_form)
         self.patch_label.setObjectName(u"patch_label")
 
@@ -114,6 +79,48 @@ class Ui_equipment_search(object):
         self.patch_combox.setObjectName(u"patch_combox")
 
         self.formLayout.setWidget(3, QFormLayout.ItemRole.FieldRole, self.patch_combox)
+
+        self.rarity_label = QLabel(self.search_form)
+        self.rarity_label.setObjectName(u"rarity_label")
+
+        self.formLayout.setWidget(4, QFormLayout.ItemRole.LabelRole, self.rarity_label)
+
+        self.rarity_combox = QComboBox(self.search_form)
+        self.rarity_combox.setObjectName(u"rarity_combox")
+
+        self.formLayout.setWidget(4, QFormLayout.ItemRole.FieldRole, self.rarity_combox)
+
+        self.level_label = QLabel(self.search_form)
+        self.level_label.setObjectName(u"level_label")
+
+        self.formLayout.setWidget(5, QFormLayout.ItemRole.LabelRole, self.level_label)
+
+        self.ranged_spinbox = RangedSpinBox(self.search_form)
+        self.ranged_spinbox.setObjectName(u"ranged_spinbox")
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.ranged_spinbox.sizePolicy().hasHeightForWidth())
+        self.ranged_spinbox.setSizePolicy(sizePolicy1)
+
+        self.formLayout.setWidget(5, QFormLayout.ItemRole.FieldRole, self.ranged_spinbox)
+
+        self.widget = QWidget(self.search_form)
+        self.widget.setObjectName(u"widget")
+        self.horizontalLayout_2 = QHBoxLayout(self.widget)
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.search_btn = QPushButton(self.widget)
+        self.search_btn.setObjectName(u"search_btn")
+
+        self.horizontalLayout_2.addWidget(self.search_btn)
+
+        self.submit_btn = QPushButton(self.widget)
+        self.submit_btn.setObjectName(u"submit_btn")
+
+        self.horizontalLayout_2.addWidget(self.submit_btn)
+
+
+        self.formLayout.setWidget(6, QFormLayout.ItemRole.SpanningRole, self.widget)
 
 
         self.horizontalLayout.addWidget(self.search_form)
@@ -167,11 +174,11 @@ class Ui_equipment_search(object):
         self.name_label.setText(QCoreApplication.translate("equipment_search", u"Name", None))
         self.main_label.setText(QCoreApplication.translate("equipment_search", u"Main", None))
         self.minor_label.setText(QCoreApplication.translate("equipment_search", u"Minor", None))
+        self.patch_label.setText(QCoreApplication.translate("equipment_search", u"Patch", None))
         self.rarity_label.setText(QCoreApplication.translate("equipment_search", u"Rarity", None))
         self.level_label.setText(QCoreApplication.translate("equipment_search", u"Level", None))
         self.search_btn.setText(QCoreApplication.translate("equipment_search", u"Search", None))
         self.submit_btn.setText(QCoreApplication.translate("equipment_search", u"Send to Mail", None))
-        self.patch_label.setText(QCoreApplication.translate("equipment_search", u"Patch", None))
         self.search_results.setTitle(QCoreApplication.translate("equipment_search", u"Results", None))
         self.detail.setTitle(QCoreApplication.translate("equipment_search", u"Detail", None))
         self.detail_text_edit.setPlaceholderText(QCoreApplication.translate("equipment_search", u"select equipment to show detail", None))

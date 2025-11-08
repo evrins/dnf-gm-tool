@@ -216,11 +216,11 @@ class MainWindow(QMainWindow):
             logger.info('Shutdown requested, closing application')
             self.close()
 
-def is_running_as_exe() -> bool:
+def is_running_in_executable() -> bool:
     return hasattr(sys, '_MEIPASS')
 
-if __name__ == '__main__':
-    if is_running_as_exe():
+def start_app():
+    if is_running_in_executable():
         base_dir = Path(__file__).parent.parent
         config.set_base_dir(base_dir)
 
@@ -245,3 +245,6 @@ if __name__ == '__main__':
     mw.show()
 
     app.exec()
+
+if __name__ == '__main__':
+    start_app()

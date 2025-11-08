@@ -278,3 +278,5 @@ def set_account_id_and_character_no(
 
     gs.account_id_changed.emit()
     gs.character_no_changed.emit()
+
+MAX_GRADE = 232

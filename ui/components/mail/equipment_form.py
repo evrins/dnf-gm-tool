@@ -1,5 +1,6 @@
 from PySide6.QtWidgets import QWidget
 
+from config import config
 from dnfpkgtool.db.entity.dnf_item_slot import reinforce_type_dict
 from dnfpkgtool.db.entity.mail_form_item import MailFormItem, MailItemType
 from dnfpkgtool.db.entity.mail_submit_item import MailSubmitItem
@@ -15,13 +16,14 @@ class EquipmentForm(QWidget, Ui_equipment_form):
         self.item_type = None
         self.sub_type = 0
 
+        self.max_btn.clicked.connect(self.set_max_grade)
         self.reinforce_type_combox.addItems(list(reinforce_type_dict.values()))
 
     def set_item(self, mail_item: MailSubmitItem):
         self.id_line_edit.setText(str(mail_item.item_id))
         self.name_line_edit.setText(mail_item.item_name)
         if mail_item.item_type == MailItemType.Equipment:
-            self.grade_spin_box.setValue(12)  # 最上级 97%
+            self.grade_spin_box.setValue(config.MAX_GRADE)  # 最上级 99%
         else:
             self.grade_spin_box.setValue(0)
         self.endurance_spin_box.setValue(mail_item.endurance)
@@ -45,3 +47,6 @@ class EquipmentForm(QWidget, Ui_equipment_form):
             endurance=self.endurance_spin_box.value(),
             sub_type=self.sub_type,
         )
+
+    def set_max_grade(self):
+        self.grade_spin_box.setValue(config.MAX_GRADE)

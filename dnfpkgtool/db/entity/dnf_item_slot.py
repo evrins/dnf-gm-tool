@@ -78,10 +78,7 @@ class DnfItemSlot(BaseModel):
         self.enhancement_level = buf[6] & 0x1F
         self.seal_count = buf[6] >> 5
         self.is_equipment = self.type in [0x01, 0x05, 0x06]
-        if self.is_equipment:
-            self.num_grade = struct.unpack('!I', buf[7:11])[0]
-        else:
-            self.num_grade = struct.unpack('I', buf[7:11])[0]
+        self.num_grade = struct.unpack('I', buf[7:11])[0]
         self.endurance = struct.unpack('H', buf[11:13])[0]
         self.card_id = struct.unpack('I', buf[13:17])[0]
         # 增幅类型
@@ -105,10 +102,7 @@ class DnfItemSlot(BaseModel):
         buf += struct.pack('I', self.id)
         enhance_and_seal = self.enhancement_level | (self.seal_count << 5)
         buf += struct.pack('B', enhance_and_seal)
-        if self.type == 0x01:
-            buf += struct.pack('!I', self.num_grade)
-        else:
-            buf += struct.pack('I', self.num_grade)
+        buf += struct.pack('I', self.num_grade)
         buf += struct.pack('H', self.endurance)
         buf += struct.pack('I', self.card_id)
         buf += struct.pack('B', self.reinforce_type)

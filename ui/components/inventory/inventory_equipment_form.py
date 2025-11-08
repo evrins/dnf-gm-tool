@@ -8,6 +8,7 @@ from dnfpkgtool.repo.orb_repo import get_orb_repo
 from ui.components.inventory.inventory_equipment_form_ui import (
     Ui_inventory_equipment_form,
 )
+from config import config
 
 orb_part_options = {
     '[magic stone]': ['物理攻击力', '魔法攻击力', '独立攻击力', '所有属性强化'],
@@ -224,6 +225,8 @@ class EquipmentForm(QWidget, Ui_inventory_equipment_form):
 
         self.reinforce_type_combox.addItems(list(reinforce_type_dict.values()))
 
+        self.max_btn.clicked.connect(self.set_max_grade)
+
         self.reset_btn.clicked.connect(self.reset_form)
         self.save_btn.clicked.connect(self.save_form)
         self.delete_btn.clicked.connect(self.delete_item)
@@ -297,6 +300,9 @@ class EquipmentForm(QWidget, Ui_inventory_equipment_form):
         self.orb_item.clear()
         self.orb_item.addItems(orb_display_list)
 
+    def set_max_grade(self):
+        self.grade_spin_box.setValue(config.MAX_GRADE)
+
     def reset_form(self):
         self.update_field_values(self.origin_item)
 
@@ -304,7 +310,7 @@ class EquipmentForm(QWidget, Ui_inventory_equipment_form):
         new_item = self.origin_item.model_copy(deep=True)
         new_item.is_sealed = 1 if self.is_sealed_checkbox.isChecked() else 0
         new_item.seal_count = self.seal_count_spin_box.value()
-        new_item.num_grade = self.grade_spin_box.value()
+        new_item.num_grade = int(self.grade_spin_box.value())
         new_item.endurance = self.endurance_spin_box.value()
         new_item.reinforce_type = self.reinforce_type_combox.currentIndex()
         new_item.reinforce_value = self.reinforce_value_spin_box.value()

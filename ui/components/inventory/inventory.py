@@ -14,9 +14,9 @@ from PySide6.QtWidgets import QApplication, QWidget
 from dnfpkgtool.db.entity.dnf_item_slot import DnfItemSlot, type_dict
 from dnfpkgtool.db.service.item_service import ItemService
 from ui.components.inventory.empty import Empty
-from ui.components.inventory.equipment_form import EquipmentForm
+from ui.components.inventory.inventory_equipment_form import EquipmentForm
 from ui.components.inventory.inventory_ui import Ui_inventory_container
-from ui.components.inventory.stackable_form import StackableForm
+from ui.components.inventory.inventory_stackable_form import StackableForm
 
 type_text = list(type_dict.values()) + ['全部']
 type_keys = list(type_dict.keys()) + [0xFF]

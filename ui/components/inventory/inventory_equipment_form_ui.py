@@ -23,7 +23,7 @@ class Ui_inventory_equipment_form(object):
     def setupUi(self, inventory_equipment_form):
         if not inventory_equipment_form.objectName():
             inventory_equipment_form.setObjectName(u"inventory_equipment_form")
-        inventory_equipment_form.resize(305, 747)
+        inventory_equipment_form.resize(784, 812)
         sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -293,14 +293,32 @@ class Ui_inventory_equipment_form(object):
 
         self.formLayout.setWidget(15, QFormLayout.ItemRole.SpanningRole, self.btn_group)
 
-        self.grade_spin_box = QDoubleSpinBox(inventory_equipment_form)
+        self.grade_container = QWidget(inventory_equipment_form)
+        self.grade_container.setObjectName(u"grade_container")
+        self.horizontalLayout_9 = QHBoxLayout(self.grade_container)
+        self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
+        self.horizontalLayout_9.setContentsMargins(0, 0, 0, 0)
+        self.grade_spin_box = QDoubleSpinBox(self.grade_container)
         self.grade_spin_box.setObjectName(u"grade_spin_box")
         sizePolicy1.setHeightForWidth(self.grade_spin_box.sizePolicy().hasHeightForWidth())
         self.grade_spin_box.setSizePolicy(sizePolicy1)
         self.grade_spin_box.setDecimals(0)
         self.grade_spin_box.setMaximum(4294967295.000000000000000)
 
-        self.formLayout.setWidget(4, QFormLayout.ItemRole.FieldRole, self.grade_spin_box)
+        self.horizontalLayout_9.addWidget(self.grade_spin_box)
+
+        self.max_btn = QPushButton(self.grade_container)
+        self.max_btn.setObjectName(u"max_btn")
+        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Preferred)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.max_btn.sizePolicy().hasHeightForWidth())
+        self.max_btn.setSizePolicy(sizePolicy2)
+
+        self.horizontalLayout_9.addWidget(self.max_btn)
+
+
+        self.formLayout.setWidget(4, QFormLayout.ItemRole.FieldRole, self.grade_container)
 
 
         self.retranslateUi(inventory_equipment_form)
@@ -328,5 +346,6 @@ class Ui_inventory_equipment_form(object):
         self.save_btn.setText(QCoreApplication.translate("inventory_equipment_form", u"Save", None))
         self.reset_btn.setText(QCoreApplication.translate("inventory_equipment_form", u"Reset", None))
         self.delete_btn.setText(QCoreApplication.translate("inventory_equipment_form", u"Delete", None))
+        self.max_btn.setText(QCoreApplication.translate("inventory_equipment_form", u"MAX", None))
     # retranslateUi
 

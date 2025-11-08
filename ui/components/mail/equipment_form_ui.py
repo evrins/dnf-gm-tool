@@ -16,14 +16,19 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QFormLayout,
-    QLabel, QLineEdit, QSizePolicy, QSpinBox,
-    QWidget)
+    QHBoxLayout, QLabel, QLineEdit, QPushButton,
+    QSizePolicy, QSpinBox, QWidget)
 
 class Ui_equipment_form(object):
     def setupUi(self, equipment_form):
         if not equipment_form.objectName():
             equipment_form.setObjectName(u"equipment_form")
         equipment_form.resize(404, 650)
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(equipment_form.sizePolicy().hasHeightForWidth())
+        equipment_form.setSizePolicy(sizePolicy)
         self.formLayout = QFormLayout(equipment_form)
         self.formLayout.setObjectName(u"formLayout")
         self.id_label = QLabel(equipment_form)
@@ -63,11 +68,33 @@ class Ui_equipment_form(object):
 
         self.formLayout.setWidget(3, QFormLayout.ItemRole.LabelRole, self.grade_label)
 
-        self.grade_spin_box = QSpinBox(equipment_form)
+        self.grade_container = QWidget(equipment_form)
+        self.grade_container.setObjectName(u"grade_container")
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Preferred)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.grade_container.sizePolicy().hasHeightForWidth())
+        self.grade_container.setSizePolicy(sizePolicy1)
+        self.horizontalLayout_8 = QHBoxLayout(self.grade_container)
+        self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
+        self.horizontalLayout_8.setContentsMargins(0, 0, 0, 0)
+        self.grade_spin_box = QSpinBox(self.grade_container)
         self.grade_spin_box.setObjectName(u"grade_spin_box")
+        sizePolicy.setHeightForWidth(self.grade_spin_box.sizePolicy().hasHeightForWidth())
+        self.grade_spin_box.setSizePolicy(sizePolicy)
         self.grade_spin_box.setMaximum(999999999)
 
-        self.formLayout.setWidget(3, QFormLayout.ItemRole.FieldRole, self.grade_spin_box)
+        self.horizontalLayout_8.addWidget(self.grade_spin_box)
+
+        self.max_btn = QPushButton(self.grade_container)
+        self.max_btn.setObjectName(u"max_btn")
+        sizePolicy1.setHeightForWidth(self.max_btn.sizePolicy().hasHeightForWidth())
+        self.max_btn.setSizePolicy(sizePolicy1)
+
+        self.horizontalLayout_8.addWidget(self.max_btn)
+
+
+        self.formLayout.setWidget(3, QFormLayout.ItemRole.FieldRole, self.grade_container)
 
         self.endurance_label = QLabel(equipment_form)
         self.endurance_label.setObjectName(u"endurance_label")
@@ -146,6 +173,7 @@ class Ui_equipment_form(object):
         self.name_label.setText(QCoreApplication.translate("equipment_form", u"\u540d\u79f0", None))
         self.seal_label.setText(QCoreApplication.translate("equipment_form", u"\u5c01\u88c5", None))
         self.grade_label.setText(QCoreApplication.translate("equipment_form", u"\u54c1\u7ea7", None))
+        self.max_btn.setText(QCoreApplication.translate("equipment_form", u"MAX", None))
         self.endurance_label.setText(QCoreApplication.translate("equipment_form", u"\u8010\u4e45", None))
         self.reinforce_type_label.setText(QCoreApplication.translate("equipment_form", u"\u589e\u5e45\u7c7b\u578b", None))
         self.reinforce_value_label.setText(QCoreApplication.translate("equipment_form", u"\u589e\u5e45\u503c", None))

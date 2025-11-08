@@ -15,9 +15,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QFormLayout,
-    QHBoxLayout, QLabel, QLineEdit, QPushButton,
-    QSizePolicy, QSpinBox, QWidget)
+from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QDoubleSpinBox,
+    QFormLayout, QHBoxLayout, QLabel, QLineEdit,
+    QPushButton, QSizePolicy, QSpinBox, QWidget)
 
 class Ui_inventory_equipment_form(object):
     def setupUi(self, inventory_equipment_form):
@@ -86,14 +86,6 @@ class Ui_inventory_equipment_form(object):
         self.grade_label.setObjectName(u"grade_label")
 
         self.formLayout.setWidget(4, QFormLayout.ItemRole.LabelRole, self.grade_label)
-
-        self.grade_spin_box = QSpinBox(inventory_equipment_form)
-        self.grade_spin_box.setObjectName(u"grade_spin_box")
-        sizePolicy1.setHeightForWidth(self.grade_spin_box.sizePolicy().hasHeightForWidth())
-        self.grade_spin_box.setSizePolicy(sizePolicy1)
-        self.grade_spin_box.setMaximum(999999999)
-
-        self.formLayout.setWidget(4, QFormLayout.ItemRole.FieldRole, self.grade_spin_box)
 
         self.endurance_label = QLabel(inventory_equipment_form)
         self.endurance_label.setObjectName(u"endurance_label")
@@ -300,6 +292,15 @@ class Ui_inventory_equipment_form(object):
 
 
         self.formLayout.setWidget(15, QFormLayout.ItemRole.SpanningRole, self.btn_group)
+
+        self.grade_spin_box = QDoubleSpinBox(inventory_equipment_form)
+        self.grade_spin_box.setObjectName(u"grade_spin_box")
+        sizePolicy1.setHeightForWidth(self.grade_spin_box.sizePolicy().hasHeightForWidth())
+        self.grade_spin_box.setSizePolicy(sizePolicy1)
+        self.grade_spin_box.setDecimals(0)
+        self.grade_spin_box.setMaximum(4294967295.000000000000000)
+
+        self.formLayout.setWidget(4, QFormLayout.ItemRole.FieldRole, self.grade_spin_box)
 
 
         self.retranslateUi(inventory_equipment_form)

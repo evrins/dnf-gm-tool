@@ -103,19 +103,6 @@
      </property>
     </widget>
    </item>
-   <item row="4" column="1">
-    <widget class="QSpinBox" name="grade_spin_box">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="maximum">
-      <number>999999999</number>
-     </property>
-    </widget>
-   </item>
    <item row="5" column="0">
     <widget class="QLabel" name="endurance_label">
      <property name="text">
@@ -424,6 +411,22 @@
        </widget>
       </item>
      </layout>
+    </widget>
+   </item>
+   <item row="4" column="1">
+    <widget class="QDoubleSpinBox" name="grade_spin_box">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="decimals">
+      <number>0</number>
+     </property>
+     <property name="maximum">
+      <double>4294967295.000000000000000</double>
+     </property>
     </widget>
    </item>
   </layout>

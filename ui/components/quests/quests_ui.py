@@ -26,6 +26,7 @@ class Ui_quests(object):
         quests.resize(727, 586)
         self.horizontalLayout = QHBoxLayout(quests)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.horizontalLayout.setContentsMargins(8, 8, 8, 8)
         self.quest_group_box = QGroupBox(quests)
         self.quest_group_box.setObjectName(u"quest_group_box")
         self.verticalLayout = QVBoxLayout(self.quest_group_box)

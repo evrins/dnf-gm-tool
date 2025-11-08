@@ -75,7 +75,7 @@ class Config(BaseModel):
 
 _config: Config = None
 
-def load() -> Config:
+def load():
     global _config
     if not os.path.exists(get_config_path()):
         _config =  Config.default()
@@ -122,6 +122,7 @@ def get_config() -> Config:
 
 
 def get_db_config() -> DbConfig:
+    load()
     return _config.db_config
 
 def get_log_dir() -> Path:

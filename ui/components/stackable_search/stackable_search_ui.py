@@ -29,6 +29,7 @@ class Ui_stackable_search(object):
         stackable_search.resize(967, 678)
         self.horizontalLayout = QHBoxLayout(stackable_search)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.horizontalLayout.setContentsMargins(8, 8, 8, 8)
         self.form_group = QGroupBox(stackable_search)
         self.form_group.setObjectName(u"form_group")
         sizePolicy = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Preferred)
@@ -36,9 +37,12 @@ class Ui_stackable_search(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.form_group.sizePolicy().hasHeightForWidth())
         self.form_group.setSizePolicy(sizePolicy)
+        self.form_group.setMinimumSize(QSize(200, 0))
+        self.form_group.setMaximumSize(QSize(200, 16777215))
         self.form_group.setBaseSize(QSize(240, 0))
         self.formLayout = QFormLayout(self.form_group)
         self.formLayout.setObjectName(u"formLayout")
+        self.formLayout.setContentsMargins(8, 8, 8, 8)
         self.name_label = QLabel(self.form_group)
         self.name_label.setObjectName(u"name_label")
 
@@ -84,15 +88,23 @@ class Ui_stackable_search(object):
 
         self.formLayout.setWidget(3, QFormLayout.ItemRole.FieldRole, self.ranged_spinbox)
 
-        self.search_btn = QPushButton(self.form_group)
+        self.widget = QWidget(self.form_group)
+        self.widget.setObjectName(u"widget")
+        self.horizontalLayout_2 = QHBoxLayout(self.widget)
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
+        self.search_btn = QPushButton(self.widget)
         self.search_btn.setObjectName(u"search_btn")
 
-        self.formLayout.setWidget(4, QFormLayout.ItemRole.LabelRole, self.search_btn)
+        self.horizontalLayout_2.addWidget(self.search_btn)
 
-        self.submit_btn = QPushButton(self.form_group)
+        self.submit_btn = QPushButton(self.widget)
         self.submit_btn.setObjectName(u"submit_btn")
 
-        self.formLayout.setWidget(4, QFormLayout.ItemRole.FieldRole, self.submit_btn)
+        self.horizontalLayout_2.addWidget(self.submit_btn)
+
+
+        self.formLayout.setWidget(4, QFormLayout.ItemRole.SpanningRole, self.widget)
 
 
         self.horizontalLayout.addWidget(self.form_group)

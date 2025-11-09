@@ -108,10 +108,6 @@ class StackableSearch(QWidget, Ui_stackable_search):
     def set_stackable_repo(self):
         self.stackable_repo = get_stackable_repo()
 
-    def adjust_size_to_content(self):
-        """Public method to adjust window size based on current table content."""
-        self._adjust_table_columns()
-
     def do_search(self, s=None):
         name = self.name_line_edit.text().strip()
         category = self.category_combox.currentText()
@@ -174,6 +170,7 @@ class StackableSearch(QWidget, Ui_stackable_search):
             item_id=row['id'],
             item_name=row['name'],
             item_type=MailItemType.Stackable,
+            stack_limit=row['stack_limit'],
         )
         gs.submit_mail_form.emit(mail_submit_item)
 

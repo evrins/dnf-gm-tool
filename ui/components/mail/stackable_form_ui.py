@@ -15,8 +15,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QFormLayout, QLabel, QLineEdit,
-    QSizePolicy, QSpinBox, QWidget)
+from PySide6.QtWidgets import (QApplication, QFormLayout, QHBoxLayout, QLabel,
+    QLineEdit, QPushButton, QSizePolicy, QSpinBox,
+    QWidget)
 
 class Ui_stackable_form(object):
     def setupUi(self, stackable_form):
@@ -53,11 +54,34 @@ class Ui_stackable_form(object):
 
         self.formLayout.setWidget(2, QFormLayout.ItemRole.LabelRole, self.num_label)
 
-        self.num_spin_box = QSpinBox(stackable_form)
+        self.num_container = QWidget(stackable_form)
+        self.num_container.setObjectName(u"num_container")
+        self.horizontalLayout_8 = QHBoxLayout(self.num_container)
+        self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
+        self.horizontalLayout_8.setContentsMargins(0, 0, 0, 0)
+        self.num_spin_box = QSpinBox(self.num_container)
         self.num_spin_box.setObjectName(u"num_spin_box")
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.num_spin_box.sizePolicy().hasHeightForWidth())
+        self.num_spin_box.setSizePolicy(sizePolicy)
         self.num_spin_box.setMaximum(999999999)
 
-        self.formLayout.setWidget(2, QFormLayout.ItemRole.FieldRole, self.num_spin_box)
+        self.horizontalLayout_8.addWidget(self.num_spin_box)
+
+        self.max_btn = QPushButton(self.num_container)
+        self.max_btn.setObjectName(u"max_btn")
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Preferred)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.max_btn.sizePolicy().hasHeightForWidth())
+        self.max_btn.setSizePolicy(sizePolicy1)
+
+        self.horizontalLayout_8.addWidget(self.max_btn)
+
+
+        self.formLayout.setWidget(2, QFormLayout.ItemRole.FieldRole, self.num_container)
 
         self.gold_label = QLabel(stackable_form)
         self.gold_label.setObjectName(u"gold_label")
@@ -81,6 +105,7 @@ class Ui_stackable_form(object):
         self.id_label.setText(QCoreApplication.translate("stackable_form", u"ID", None))
         self.name_label.setText(QCoreApplication.translate("stackable_form", u"\u540d\u79f0", None))
         self.num_label.setText(QCoreApplication.translate("stackable_form", u"\u6570\u91cf", None))
+        self.max_btn.setText(QCoreApplication.translate("stackable_form", u"MAX", None))
         self.gold_label.setText(QCoreApplication.translate("stackable_form", u"\u91d1\u94b1", None))
     # retranslateUi
 

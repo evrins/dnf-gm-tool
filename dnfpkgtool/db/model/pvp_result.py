@@ -7,7 +7,7 @@ from dnfpkgtool.db.model import Base
 class PVPResult(Base):
     __tablename__ = 'pvp_result'
 
-    charac_no: Mapped[int] = mapped_column(Integer, primary_key=True)
+    character_no: Mapped[int] = mapped_column('charac_no', Integer, primary_key=True)
     pvp_grade: Mapped[int] = mapped_column(Integer)
     win: Mapped[int] = mapped_column(Integer)
     win_point: Mapped[int] = mapped_column(Integer)

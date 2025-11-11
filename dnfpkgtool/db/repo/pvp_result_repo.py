@@ -11,14 +11,14 @@ class PVPResultRepo(BaseRepo):
 
     def query_by_character_no(self, character_no: int) -> PVPResult:
         with Session(self.get_engine()) as session:
-            stmt = select(PVPResult).where(PVPResult.charac_no == character_no).limit(1)
+            stmt = select(PVPResult).where(PVPResult.character_no == character_no).limit(1)
             return session.scalars(stmt).first()
 
     def update(self, it: PVPResult):
         with Session(self.get_engine()) as session:
             stmt = (
                 update(PVPResult)
-                .where(PVPResult.charac_no == it.charac_no)
+                .where(PVPResult.character_no == it.character_no)
                 .values(
                     pvp_grade=it.pvp_grade,
                     win=it.win,

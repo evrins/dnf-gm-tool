@@ -189,9 +189,9 @@ class MainWindow(QMainWindow):
 
     def replace_widgets(self):
         self.character_info_widget = CharacterInfoWidget()
-        self.tab_widget.removeTab(TAB_CHARACTERS_INDEX)
+        self.tab_widget.removeTab(TAB_CHARACTER_INFO_INDEX)
         self.tab_widget.insertTab(
-            TAB_CHARACTERS_INDEX, self.character_info_widget, TAB_CHARACTER_INFO
+            TAB_CHARACTER_INFO_INDEX, self.character_info_widget, TAB_CHARACTER_INFO
         )
 
         self.inventory_tabview = InventoryTabView()

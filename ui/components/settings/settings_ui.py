@@ -33,11 +33,13 @@ class Ui_settings(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.db_groupbox.sizePolicy().hasHeightForWidth())
         self.db_groupbox.setSizePolicy(sizePolicy)
+        self.db_groupbox.setMinimumSize(QSize(200, 0))
+        self.db_groupbox.setMaximumSize(QSize(200, 16777215))
         self.formLayout = QFormLayout(self.db_groupbox)
         self.formLayout.setObjectName(u"formLayout")
         self.formLayout.setLabelAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
         self.formLayout.setFormAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignTop)
-        self.formLayout.setContentsMargins(4, 4, 4, 4)
+        self.formLayout.setContentsMargins(8, 8, 8, 8)
         self.host_label = QLabel(self.db_groupbox)
         self.host_label.setObjectName(u"host_label")
 
@@ -114,8 +116,11 @@ class Ui_settings(object):
         sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.pvf_groupbox.sizePolicy().hasHeightForWidth())
         self.pvf_groupbox.setSizePolicy(sizePolicy1)
+        self.pvf_groupbox.setMinimumSize(QSize(200, 0))
+        self.pvf_groupbox.setMaximumSize(QSize(16777215, 16777215))
         self.formLayout_2 = QFormLayout(self.pvf_groupbox)
         self.formLayout_2.setObjectName(u"formLayout_2")
+        self.formLayout_2.setContentsMargins(8, 8, 8, 8)
         self.pvf_label = QLabel(self.pvf_groupbox)
         self.pvf_label.setObjectName(u"pvf_label")
 
@@ -146,10 +151,10 @@ class Ui_settings(object):
 
         self.horizontalLayout.addWidget(self.pvf_groupbox)
 
-        self.other_groupbox = QGroupBox(settings)
-        self.other_groupbox.setObjectName(u"other_groupbox")
+        self.widget = QWidget(settings)
+        self.widget.setObjectName(u"widget")
 
-        self.horizontalLayout.addWidget(self.other_groupbox)
+        self.horizontalLayout.addWidget(self.widget)
 
 
         self.retranslateUi(settings)
@@ -159,18 +164,17 @@ class Ui_settings(object):
 
     def retranslateUi(self, settings):
         settings.setWindowTitle(QCoreApplication.translate("settings", u"Form", None))
-        self.db_groupbox.setTitle(QCoreApplication.translate("settings", u"Database", None))
-        self.host_label.setText(QCoreApplication.translate("settings", u"Host", None))
-        self.port_label.setText(QCoreApplication.translate("settings", u"Port", None))
-        self.username_label.setText(QCoreApplication.translate("settings", u"Username", None))
-        self.password_label.setText(QCoreApplication.translate("settings", u"Password", None))
-        self.status_label.setText(QCoreApplication.translate("settings", u"Status", None))
-        self.status_text_label.setText(QCoreApplication.translate("settings", u"Ready", None))
-        self.save_btn.setText(QCoreApplication.translate("settings", u"Test && Save", None))
+        self.db_groupbox.setTitle(QCoreApplication.translate("settings", u"\u6570\u636e\u5e93", None))
+        self.host_label.setText(QCoreApplication.translate("settings", u"\u4e3b\u673a", None))
+        self.port_label.setText(QCoreApplication.translate("settings", u"\u7aef\u53e3", None))
+        self.username_label.setText(QCoreApplication.translate("settings", u"\u7528\u6237", None))
+        self.password_label.setText(QCoreApplication.translate("settings", u"\u5bc6\u7801", None))
+        self.status_label.setText(QCoreApplication.translate("settings", u"\u72b6\u6001", None))
+        self.status_text_label.setText(QCoreApplication.translate("settings", u"\u5c31\u7eea", None))
+        self.save_btn.setText(QCoreApplication.translate("settings", u"\u6d4b\u8bd5 \u5e76 \u4fdd\u5b58", None))
         self.pvf_groupbox.setTitle(QCoreApplication.translate("settings", u"PVF", None))
         self.pvf_label.setText(QCoreApplication.translate("settings", u"PVF", None))
-        self.select_pvf_btn.setText(QCoreApplication.translate("settings", u"Select PVF", None))
-        self.progress_status.setText(QCoreApplication.translate("settings", u"Progress", None))
-        self.other_groupbox.setTitle(QCoreApplication.translate("settings", u"Others", None))
+        self.select_pvf_btn.setText(QCoreApplication.translate("settings", u"\u9009\u62e9 PVF", None))
+        self.progress_status.setText(QCoreApplication.translate("settings", u"\u8fdb\u5ea6", None))
     # retranslateUi
 

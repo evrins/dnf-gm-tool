@@ -108,23 +108,23 @@ class Ui_equipment_search(object):
 
         self.formLayout.setWidget(5, QFormLayout.ItemRole.FieldRole, self.ranged_spinbox)
 
-        self.widget = QWidget(self.search_form)
-        self.widget.setObjectName(u"widget")
-        self.horizontalLayout_2 = QHBoxLayout(self.widget)
+        self.btn_group = QWidget(self.search_form)
+        self.btn_group.setObjectName(u"btn_group")
+        self.horizontalLayout_2 = QHBoxLayout(self.btn_group)
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
-        self.search_btn = QPushButton(self.widget)
+        self.search_btn = QPushButton(self.btn_group)
         self.search_btn.setObjectName(u"search_btn")
 
         self.horizontalLayout_2.addWidget(self.search_btn)
 
-        self.submit_btn = QPushButton(self.widget)
+        self.submit_btn = QPushButton(self.btn_group)
         self.submit_btn.setObjectName(u"submit_btn")
 
         self.horizontalLayout_2.addWidget(self.submit_btn)
 
 
-        self.formLayout.setWidget(6, QFormLayout.ItemRole.SpanningRole, self.widget)
+        self.formLayout.setWidget(6, QFormLayout.ItemRole.SpanningRole, self.btn_group)
 
 
         self.horizontalLayout.addWidget(self.search_form)
@@ -174,17 +174,17 @@ class Ui_equipment_search(object):
 
     def retranslateUi(self, equipment_search):
         equipment_search.setWindowTitle(QCoreApplication.translate("equipment_search", u"Form", None))
-        self.search_form.setTitle(QCoreApplication.translate("equipment_search", u"Form", None))
-        self.name_label.setText(QCoreApplication.translate("equipment_search", u"Name", None))
-        self.main_label.setText(QCoreApplication.translate("equipment_search", u"Main", None))
-        self.minor_label.setText(QCoreApplication.translate("equipment_search", u"Minor", None))
-        self.patch_label.setText(QCoreApplication.translate("equipment_search", u"Patch", None))
-        self.rarity_label.setText(QCoreApplication.translate("equipment_search", u"Rarity", None))
-        self.level_label.setText(QCoreApplication.translate("equipment_search", u"Level", None))
-        self.search_btn.setText(QCoreApplication.translate("equipment_search", u"Search", None))
-        self.submit_btn.setText(QCoreApplication.translate("equipment_search", u"Send to Mail", None))
-        self.search_results.setTitle(QCoreApplication.translate("equipment_search", u"Results", None))
-        self.detail.setTitle(QCoreApplication.translate("equipment_search", u"Detail", None))
-        self.detail_text_edit.setPlaceholderText(QCoreApplication.translate("equipment_search", u"select equipment to show detail", None))
+        self.search_form.setTitle(QCoreApplication.translate("equipment_search", u"\u8868\u5355", None))
+        self.name_label.setText(QCoreApplication.translate("equipment_search", u"\u540d\u79f0", None))
+        self.main_label.setText(QCoreApplication.translate("equipment_search", u"\u4e3b\u9009\u9879", None))
+        self.minor_label.setText(QCoreApplication.translate("equipment_search", u"\u5b50\u9009\u9879", None))
+        self.patch_label.setText(QCoreApplication.translate("equipment_search", u"\u6b21\u9009\u9879", None))
+        self.rarity_label.setText(QCoreApplication.translate("equipment_search", u"\u7a00\u6709\u5ea6", None))
+        self.level_label.setText(QCoreApplication.translate("equipment_search", u"\u7b49\u7ea7", None))
+        self.search_btn.setText(QCoreApplication.translate("equipment_search", u"\u641c\u7d22", None))
+        self.submit_btn.setText(QCoreApplication.translate("equipment_search", u"\u53d1\u9001\u5230\u90ae\u4ef6", None))
+        self.search_results.setTitle(QCoreApplication.translate("equipment_search", u"\u7ed3\u679c", None))
+        self.detail.setTitle(QCoreApplication.translate("equipment_search", u"\u8be6\u7ec6\u4fe1\u606f", None))
+        self.detail_text_edit.setPlaceholderText(QCoreApplication.translate("equipment_search", u"\u70b9\u51fb\u88c5\u5907\u663e\u793a\u8be6\u7ec6\u4fe1\u606f", None))
     # retranslateUi
 

@@ -22,8 +22,20 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+     <property name="minimumSize">
+      <size>
+       <width>200</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>200</width>
+       <height>16777215</height>
+      </size>
+     </property>
      <property name="title">
-      <string>Database</string>
+      <string>数据库</string>
      </property>
      <layout class="QFormLayout" name="formLayout">
       <property name="labelAlignment">
@@ -33,21 +45,21 @@
        <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignTop</set>
       </property>
       <property name="leftMargin">
-       <number>4</number>
+       <number>8</number>
       </property>
       <property name="topMargin">
-       <number>4</number>
+       <number>8</number>
       </property>
       <property name="rightMargin">
-       <number>4</number>
+       <number>8</number>
       </property>
       <property name="bottomMargin">
-       <number>4</number>
+       <number>8</number>
       </property>
       <item row="0" column="0">
        <widget class="QLabel" name="host_label">
         <property name="text">
-         <string>Host</string>
+         <string>主机</string>
         </property>
        </widget>
       </item>
@@ -61,7 +73,7 @@
       <item row="1" column="0">
        <widget class="QLabel" name="port_label">
         <property name="text">
-         <string>Port</string>
+         <string>端口</string>
         </property>
        </widget>
       </item>
@@ -75,7 +87,7 @@
       <item row="2" column="0">
        <widget class="QLabel" name="username_label">
         <property name="text">
-         <string>Username</string>
+         <string>用户</string>
         </property>
        </widget>
       </item>
@@ -89,7 +101,7 @@
       <item row="3" column="0">
        <widget class="QLabel" name="password_label">
         <property name="text">
-         <string>Password</string>
+         <string>密码</string>
         </property>
        </widget>
       </item>
@@ -103,7 +115,7 @@
       <item row="4" column="0">
        <widget class="QLabel" name="status_label">
         <property name="text">
-         <string>Status</string>
+         <string>状态</string>
         </property>
        </widget>
       </item>
@@ -119,14 +131,14 @@
             }</string>
         </property>
         <property name="text">
-         <string>Ready</string>
+         <string>就绪</string>
         </property>
        </widget>
       </item>
       <item row="5" column="0" colspan="2">
        <widget class="QPushButton" name="save_btn">
         <property name="text">
-         <string>Test &amp;&amp; Save</string>
+         <string>测试 并 保存</string>
         </property>
        </widget>
       </item>
@@ -141,10 +153,34 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+     <property name="minimumSize">
+      <size>
+       <width>200</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>16777215</height>
+      </size>
+     </property>
      <property name="title">
       <string>PVF</string>
      </property>
      <layout class="QFormLayout" name="formLayout_2">
+      <property name="leftMargin">
+       <number>8</number>
+      </property>
+      <property name="topMargin">
+       <number>8</number>
+      </property>
+      <property name="rightMargin">
+       <number>8</number>
+      </property>
+      <property name="bottomMargin">
+       <number>8</number>
+      </property>
       <item row="0" column="0">
        <widget class="QLabel" name="pvf_label">
         <property name="text">
@@ -158,14 +194,14 @@
       <item row="1" column="0" colspan="2">
        <widget class="QPushButton" name="select_pvf_btn">
         <property name="text">
-         <string>Select PVF</string>
+         <string>选择 PVF</string>
         </property>
        </widget>
       </item>
       <item row="3" column="0">
        <widget class="QLabel" name="progress_status">
         <property name="text">
-         <string>Progress</string>
+         <string>进度</string>
         </property>
         <property name="wordWrap">
          <bool>true</bool>
@@ -183,11 +219,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="other_groupbox">
-     <property name="title">
-      <string>Others</string>
-     </property>
-    </widget>
+    <widget class="QWidget" name="widget" native="true"/>
    </item>
   </layout>
  </widget>

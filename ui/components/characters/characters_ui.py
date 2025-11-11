@@ -93,9 +93,9 @@ class Ui_characters(object):
     def retranslateUi(self, characters):
         characters.setWindowTitle(QCoreApplication.translate("characters", u"Form", None))
         self.search_group_box.setTitle(QCoreApplication.translate("characters", u"\u641c\u7d22", None))
-        self.name_label.setText(QCoreApplication.translate("characters", u"Name", None))
-        self.reset_btn.setText(QCoreApplication.translate("characters", u"Reset", None))
-        self.search_btn.setText(QCoreApplication.translate("characters", u"Search", None))
+        self.name_label.setText(QCoreApplication.translate("characters", u"\u89d2\u8272\u540d", None))
+        self.reset_btn.setText(QCoreApplication.translate("characters", u"\u91cd\u7f6e", None))
+        self.search_btn.setText(QCoreApplication.translate("characters", u"\u641c\u7d22", None))
         self.character_group_box.setTitle(QCoreApplication.translate("characters", u"\u5f53\u524d\u89d2\u8272", None))
     # retranslateUi
 

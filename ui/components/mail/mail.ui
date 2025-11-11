@@ -60,14 +60,14 @@
          <item>
           <widget class="QPushButton" name="refresh_btn">
            <property name="text">
-            <string>Refresh</string>
+            <string>刷新</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QPushButton" name="del_btn">
            <property name="text">
-            <string>Delete Selected</string>
+            <string>删除选中</string>
            </property>
           </widget>
          </item>

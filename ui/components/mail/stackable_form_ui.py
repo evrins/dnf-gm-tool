@@ -105,7 +105,7 @@ class Ui_stackable_form(object):
         self.id_label.setText(QCoreApplication.translate("stackable_form", u"ID", None))
         self.name_label.setText(QCoreApplication.translate("stackable_form", u"\u540d\u79f0", None))
         self.num_label.setText(QCoreApplication.translate("stackable_form", u"\u6570\u91cf", None))
-        self.max_btn.setText(QCoreApplication.translate("stackable_form", u"MAX", None))
+        self.max_btn.setText(QCoreApplication.translate("stackable_form", u"\u6700\u5927", None))
         self.gold_label.setText(QCoreApplication.translate("stackable_form", u"\u91d1\u94b1", None))
     # retranslateUi
 

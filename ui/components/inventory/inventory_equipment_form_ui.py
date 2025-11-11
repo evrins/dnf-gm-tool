@@ -275,6 +275,7 @@ class Ui_inventory_equipment_form(object):
         self.btn_group.setObjectName(u"btn_group")
         self.horizontalLayout_7 = QHBoxLayout(self.btn_group)
         self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
+        self.horizontalLayout_7.setContentsMargins(8, 8, 8, 8)
         self.save_btn = QPushButton(self.btn_group)
         self.save_btn.setObjectName(u"save_btn")
 
@@ -343,9 +344,9 @@ class Ui_inventory_equipment_form(object):
         self.ms_2_label.setText(QCoreApplication.translate("inventory_equipment_form", u"\u9b54\u6cd5\u5c01\u5370 2", None))
         self.ms_3_label.setText(QCoreApplication.translate("inventory_equipment_form", u"\u9b54\u6cd5\u5c01\u5370 3", None))
         self.ms_4_label.setText(QCoreApplication.translate("inventory_equipment_form", u"\u9b54\u6cd5\u5c01\u5370 4", None))
-        self.save_btn.setText(QCoreApplication.translate("inventory_equipment_form", u"Save", None))
-        self.reset_btn.setText(QCoreApplication.translate("inventory_equipment_form", u"Reset", None))
-        self.delete_btn.setText(QCoreApplication.translate("inventory_equipment_form", u"Delete", None))
-        self.max_btn.setText(QCoreApplication.translate("inventory_equipment_form", u"MAX", None))
+        self.save_btn.setText(QCoreApplication.translate("inventory_equipment_form", u"\u4fdd\u5b58", None))
+        self.reset_btn.setText(QCoreApplication.translate("inventory_equipment_form", u"\u91cd\u7f6e", None))
+        self.delete_btn.setText(QCoreApplication.translate("inventory_equipment_form", u"\u5220\u9664", None))
+        self.max_btn.setText(QCoreApplication.translate("inventory_equipment_form", u"\u6700\u5927", None))
     # retranslateUi
 

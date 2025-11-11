@@ -173,7 +173,7 @@ class Ui_equipment_form(object):
         self.name_label.setText(QCoreApplication.translate("equipment_form", u"\u540d\u79f0", None))
         self.seal_label.setText(QCoreApplication.translate("equipment_form", u"\u5c01\u88c5", None))
         self.grade_label.setText(QCoreApplication.translate("equipment_form", u"\u54c1\u7ea7", None))
-        self.max_btn.setText(QCoreApplication.translate("equipment_form", u"MAX", None))
+        self.max_btn.setText(QCoreApplication.translate("equipment_form", u"\u6700\u5927", None))
         self.endurance_label.setText(QCoreApplication.translate("equipment_form", u"\u8010\u4e45", None))
         self.reinforce_type_label.setText(QCoreApplication.translate("equipment_form", u"\u589e\u5e45\u7c7b\u578b", None))
         self.reinforce_value_label.setText(QCoreApplication.translate("equipment_form", u"\u589e\u5e45\u503c", None))

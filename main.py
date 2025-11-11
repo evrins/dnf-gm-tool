@@ -37,21 +37,21 @@ def handle_shutdown_signal(sig, frame=None):
     shutdown_requested = True
 
 
-TAB_CHARACTERS = '👥 Characters'
+TAB_CHARACTERS = '👥 角色列表'
 TAB_CHARACTERS_INDEX = 0
-TAB_CHARACTER_INFO = '👤 Character Info'
+TAB_CHARACTER_INFO = '👤 角色信息'
 TAB_CHARACTER_INFO_INDEX = 1
-TAB_EQUIPMENT_SEARCH = '🛡️ Equipment Search'
+TAB_EQUIPMENT_SEARCH = '🛡️ 装备搜索'
 TAB_EQUIPMENT_SEARCH_INDEX = 2
-TAB_STACKABLE_SEARCH = '📦 Stackable Search'
+TAB_STACKABLE_SEARCH = '📦 物品搜索'
 TAB_STACKABLE_SEARCH_INDEX = 3
-TAB_INVENTORY = '🎒 Inventory'
+TAB_INVENTORY = '🎒 物品'
 TAB_INVENTORY_INDEX = 4
-TAB_MAIL = '📧 Mail'
+TAB_MAIL = '📧 邮件'
 TAB_MAIL_INDEX = 5
-TAB_QUEST = '📜 Quest'
+TAB_QUEST = '📜 任务'
 TAB_QUEST_INDEX = 6
-TAB_SETTINGS = '⚙️ Settings'
+TAB_SETTINGS = '⚙️ 设置'
 TAB_SETTINGS_INDEX = 7
 
 
@@ -139,7 +139,7 @@ class MainWindow(QMainWindow):
 
         # Set window properties
         self.setWindowTitle('DNF GM Tool')
-        self.resize(1200, 840)  # Set initial size
+        self.resize(1200, 820)  # Set initial size
 
         # set default tab
         self.tab_widget.setCurrentIndex(0)
@@ -217,9 +217,9 @@ class MainWindow(QMainWindow):
         character_name = config.get_config().character_name
 
         if account_id == 0 or character_no == 0:
-            msg = 'No Character Selected'
+            msg = '无选中角色'
         else:
-            msg = f'Current Character [{character_no}] {character_name}'
+            msg = f'当前角色 [{character_no}] {character_name}'
 
         self.status_bar.showMessage(msg)
 

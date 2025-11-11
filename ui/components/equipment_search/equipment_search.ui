@@ -53,7 +53,7 @@
       </size>
      </property>
      <property name="title">
-      <string>Form</string>
+      <string>表单</string>
      </property>
      <layout class="QFormLayout" name="formLayout">
       <property name="leftMargin">
@@ -71,7 +71,7 @@
       <item row="0" column="0">
        <widget class="QLabel" name="name_label">
         <property name="text">
-         <string>Name</string>
+         <string>名称</string>
         </property>
        </widget>
       </item>
@@ -81,7 +81,7 @@
       <item row="1" column="0">
        <widget class="QLabel" name="main_label">
         <property name="text">
-         <string>Main</string>
+         <string>主选项</string>
         </property>
        </widget>
       </item>
@@ -91,7 +91,7 @@
       <item row="2" column="0">
        <widget class="QLabel" name="minor_label">
         <property name="text">
-         <string>Minor</string>
+         <string>子选项</string>
         </property>
        </widget>
       </item>
@@ -101,7 +101,7 @@
       <item row="3" column="0">
        <widget class="QLabel" name="patch_label">
         <property name="text">
-         <string>Patch</string>
+         <string>次选项</string>
         </property>
        </widget>
       </item>
@@ -111,7 +111,7 @@
       <item row="4" column="0">
        <widget class="QLabel" name="rarity_label">
         <property name="text">
-         <string>Rarity</string>
+         <string>稀有度</string>
         </property>
        </widget>
       </item>
@@ -121,7 +121,7 @@
       <item row="5" column="0">
        <widget class="QLabel" name="level_label">
         <property name="text">
-         <string>Level</string>
+         <string>等级</string>
         </property>
        </widget>
       </item>
@@ -136,7 +136,7 @@
        </widget>
       </item>
       <item row="6" column="0" colspan="2">
-       <widget class="QWidget" name="widget" native="true">
+       <widget class="QWidget" name="btn_group" native="true">
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <property name="leftMargin">
           <number>0</number>
@@ -153,14 +153,14 @@
          <item>
           <widget class="QPushButton" name="search_btn">
            <property name="text">
-            <string>Search</string>
+            <string>搜索</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QPushButton" name="submit_btn">
            <property name="text">
-            <string>Send to Mail</string>
+            <string>发送到邮件</string>
            </property>
           </widget>
          </item>
@@ -173,7 +173,7 @@
    <item>
     <widget class="QGroupBox" name="search_results">
      <property name="title">
-      <string>Results</string>
+      <string>结果</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <property name="leftMargin">
@@ -207,7 +207,7 @@
    <item>
     <widget class="QGroupBox" name="detail">
      <property name="title">
-      <string>Detail</string>
+      <string>详细信息</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <property name="leftMargin">
@@ -243,7 +243,7 @@
          <bool>true</bool>
         </property>
         <property name="placeholderText">
-         <string>select equipment to show detail</string>
+         <string>点击装备显示详细信息</string>
         </property>
        </widget>
       </item>

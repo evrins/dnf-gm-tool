@@ -125,9 +125,9 @@ class Ui_inventory_container(object):
 
     def retranslateUi(self, inventory_container):
         inventory_container.setWindowTitle(QCoreApplication.translate("inventory_container", u"Form", None))
-        self.table_view_container.setTitle(QCoreApplication.translate("inventory_container", u"Current Items", None))
-        self.show_blank_chkbox.setText(QCoreApplication.translate("inventory_container", u"Show Blank", None))
-        self.refresh_btn.setText(QCoreApplication.translate("inventory_container", u"Refresh", None))
-        self.item_edit.setTitle(QCoreApplication.translate("inventory_container", u"Item Edit", None))
+        self.table_view_container.setTitle(QCoreApplication.translate("inventory_container", u"\u5f53\u524d\u7269\u54c1", None))
+        self.show_blank_chkbox.setText(QCoreApplication.translate("inventory_container", u"\u663e\u793a\u7a7a\u683c\u5b50", None))
+        self.refresh_btn.setText(QCoreApplication.translate("inventory_container", u"\u5237\u65b0", None))
+        self.item_edit.setTitle(QCoreApplication.translate("inventory_container", u"\u7269\u54c1\u7f16\u8f91", None))
     # retranslateUi
 

@@ -23,7 +23,7 @@ class Ui_inventory_stackable_form(object):
     def setupUi(self, inventory_stackable_form):
         if not inventory_stackable_form.objectName():
             inventory_stackable_form.setObjectName(u"inventory_stackable_form")
-        inventory_stackable_form.resize(270, 161)
+        inventory_stackable_form.resize(629, 531)
         sizePolicy = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -73,6 +73,7 @@ class Ui_inventory_stackable_form(object):
         self.btn_group.setObjectName(u"btn_group")
         self.horizontalLayout_7 = QHBoxLayout(self.btn_group)
         self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
+        self.horizontalLayout_7.setContentsMargins(8, 8, 8, 8)
         self.save_btn = QPushButton(self.btn_group)
         self.save_btn.setObjectName(u"save_btn")
 
@@ -102,8 +103,8 @@ class Ui_inventory_stackable_form(object):
         self.id_label.setText(QCoreApplication.translate("inventory_stackable_form", u"ID", None))
         self.name_label.setText(QCoreApplication.translate("inventory_stackable_form", u"\u540d\u79f0", None))
         self.num_label.setText(QCoreApplication.translate("inventory_stackable_form", u"\u6570\u91cf", None))
-        self.save_btn.setText(QCoreApplication.translate("inventory_stackable_form", u"Save", None))
-        self.reset_btn.setText(QCoreApplication.translate("inventory_stackable_form", u"Reset", None))
-        self.delete_btn.setText(QCoreApplication.translate("inventory_stackable_form", u"Delete", None))
+        self.save_btn.setText(QCoreApplication.translate("inventory_stackable_form", u"\u4fdd\u5b58", None))
+        self.reset_btn.setText(QCoreApplication.translate("inventory_stackable_form", u"\u91cd\u7f6e", None))
+        self.delete_btn.setText(QCoreApplication.translate("inventory_stackable_form", u"\u5220\u9664", None))
     # retranslateUi
 

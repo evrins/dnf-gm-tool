@@ -402,7 +402,7 @@ class Ui_character_info(object):
         self.cargo_coin_label.setText(QCoreApplication.translate("character_info", u"\u91d1\u5e93\u91d1\u5e01", None))
         self.backpack_coin_label.setText(QCoreApplication.translate("character_info", u"\u80cc\u5305\u91d1\u5e01", None))
         self.pay_coin_label.setText(QCoreApplication.translate("character_info", u"\u590d\u6d3b\u5e01", None))
-        self.save_coin_btn.setText(QCoreApplication.translate("character_info", u"Save", None))
+        self.save_coin_btn.setText(QCoreApplication.translate("character_info", u"\u4fdd\u5b58", None))
         self.character_info_group_box.setTitle(QCoreApplication.translate("character_info", u"\u89d2\u8272\u4fe1\u606f", None))
         self.name_label.setText(QCoreApplication.translate("character_info", u"\u540d\u79f0", None))
         self.level_label.setText(QCoreApplication.translate("character_info", u"\u7b49\u7ea7", None))
@@ -410,7 +410,7 @@ class Ui_character_info(object):
         self.job_label.setText(QCoreApplication.translate("character_info", u"\u804c\u4e1a", None))
         self.wake_label.setText(QCoreApplication.translate("character_info", u"\u89c9\u9192", None))
         self.expert_label.setText(QCoreApplication.translate("character_info", u"\u526f\u804c\u4e1a", None))
-        self.save_character_info_btn.setText(QCoreApplication.translate("character_info", u"Save", None))
+        self.save_character_info_btn.setText(QCoreApplication.translate("character_info", u"\u4fdd\u5b58", None))
         self.action_button_group_box.setTitle(QCoreApplication.translate("character_info", u"\u5176\u4ed6\u529f\u80fd", None))
         self.remove_add_character_limit_btn.setText(QCoreApplication.translate("character_info", u"\u89e3\u9664\u5efa\u53f7\u9650\u5236", None))
         self.reset_dungeon_count_btn.setText(QCoreApplication.translate("character_info", u"\u91cd\u7f6e\u526f\u672c\u6b21\u6570", None))
@@ -427,6 +427,6 @@ class Ui_character_info(object):
         self.grade_label.setText(QCoreApplication.translate("character_info", u"\u6bb5\u4f4d", None))
         self.win_label.setText(QCoreApplication.translate("character_info", u"\u80dc\u573a", None))
         self.win_point_label.setText(QCoreApplication.translate("character_info", u"\u80dc\u70b9", None))
-        self.save_pvp_btn.setText(QCoreApplication.translate("character_info", u"Save", None))
+        self.save_pvp_btn.setText(QCoreApplication.translate("character_info", u"\u4fdd\u5b58", None))
     # retranslateUi
 

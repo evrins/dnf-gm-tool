@@ -43,7 +43,7 @@ class Ui_quests(object):
         self.btn_group.setObjectName(u"btn_group")
         self.gridLayout = QGridLayout(self.btn_group)
         self.gridLayout.setObjectName(u"gridLayout")
-        self.gridLayout.setContentsMargins(8, 8, 8, 8)
+        self.gridLayout.setContentsMargins(0, 0, 0, 0)
         self.cancel_select_btn = QPushButton(self.btn_group)
         self.cancel_select_btn.setObjectName(u"cancel_select_btn")
 
@@ -96,12 +96,12 @@ class Ui_quests(object):
 
     def retranslateUi(self, quests):
         quests.setWindowTitle(QCoreApplication.translate("quests", u"Form", None))
-        self.quest_group_box.setTitle(QCoreApplication.translate("quests", u"Quests", None))
-        self.cancel_select_btn.setText(QCoreApplication.translate("quests", u"Cancel Select", None))
-        self.cancel_all_btn.setText(QCoreApplication.translate("quests", u"Cancel All", None))
-        self.complete_all_btn.setText(QCoreApplication.translate("quests", u"Complete All", None))
-        self.complete_select_btn.setText(QCoreApplication.translate("quests", u"Complete Select", None))
-        self.refresh_btn.setText(QCoreApplication.translate("quests", u"Refresh", None))
-        self.detail_group_box.setTitle(QCoreApplication.translate("quests", u"Detail", None))
+        self.quest_group_box.setTitle(QCoreApplication.translate("quests", u"\u4efb\u52a1", None))
+        self.cancel_select_btn.setText(QCoreApplication.translate("quests", u"\u53d6\u6d88\u9009\u4e2d", None))
+        self.cancel_all_btn.setText(QCoreApplication.translate("quests", u"\u53d6\u6d88\u5168\u90e8", None))
+        self.complete_all_btn.setText(QCoreApplication.translate("quests", u"\u5b8c\u6210\u5168\u90e8", None))
+        self.complete_select_btn.setText(QCoreApplication.translate("quests", u"\u5b8c\u6210\u9009\u4e2d", None))
+        self.refresh_btn.setText(QCoreApplication.translate("quests", u"\u5237\u65b0", None))
+        self.detail_group_box.setTitle(QCoreApplication.translate("quests", u"\u8be6\u60c5", None))
     # retranslateUi
 

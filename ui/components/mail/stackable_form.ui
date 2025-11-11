@@ -98,7 +98,7 @@
          </sizepolicy>
         </property>
         <property name="text">
-         <string>MAX</string>
+         <string>最大</string>
         </property>
        </widget>
       </item>

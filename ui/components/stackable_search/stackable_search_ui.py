@@ -131,13 +131,13 @@ class Ui_stackable_search(object):
 
     def retranslateUi(self, stackable_search):
         stackable_search.setWindowTitle(QCoreApplication.translate("stackable_search", u"Form", None))
-        self.form_group.setTitle(QCoreApplication.translate("stackable_search", u"Form", None))
-        self.name_label.setText(QCoreApplication.translate("stackable_search", u"Name", None))
-        self.category_label.setText(QCoreApplication.translate("stackable_search", u"Category", None))
-        self.rarity_label.setText(QCoreApplication.translate("stackable_search", u"Rarity", None))
-        self.level_label.setText(QCoreApplication.translate("stackable_search", u"Level", None))
-        self.search_btn.setText(QCoreApplication.translate("stackable_search", u"Search", None))
-        self.submit_btn.setText(QCoreApplication.translate("stackable_search", u"Send to Mail", None))
-        self.result_group.setTitle(QCoreApplication.translate("stackable_search", u"Results", None))
+        self.form_group.setTitle(QCoreApplication.translate("stackable_search", u"\u8868\u5355", None))
+        self.name_label.setText(QCoreApplication.translate("stackable_search", u"\u540d\u79f0", None))
+        self.category_label.setText(QCoreApplication.translate("stackable_search", u"\u5206\u7c7b", None))
+        self.rarity_label.setText(QCoreApplication.translate("stackable_search", u"\u7a00\u6709\u5ea6", None))
+        self.level_label.setText(QCoreApplication.translate("stackable_search", u"\u7b49\u7ea7", None))
+        self.search_btn.setText(QCoreApplication.translate("stackable_search", u"\u641c\u7d22", None))
+        self.submit_btn.setText(QCoreApplication.translate("stackable_search", u"\u53d1\u9001\u5230\u90ae\u4ef6", None))
+        self.result_group.setTitle(QCoreApplication.translate("stackable_search", u"\u7ed3\u679c", None))
     # retranslateUi
 

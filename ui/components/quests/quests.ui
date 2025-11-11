@@ -29,7 +29,7 @@
    <item>
     <widget class="QGroupBox" name="quest_group_box">
      <property name="title">
-      <string>Quests</string>
+      <string>任务</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <property name="leftMargin">
@@ -58,49 +58,49 @@
        <widget class="QWidget" name="btn_group" native="true">
         <layout class="QGridLayout" name="gridLayout">
          <property name="leftMargin">
-          <number>8</number>
+          <number>0</number>
          </property>
          <property name="topMargin">
-          <number>8</number>
+          <number>0</number>
          </property>
          <property name="rightMargin">
-          <number>8</number>
+          <number>0</number>
          </property>
          <property name="bottomMargin">
-          <number>8</number>
+          <number>0</number>
          </property>
          <item row="2" column="0">
           <widget class="QPushButton" name="cancel_select_btn">
            <property name="text">
-            <string>Cancel Select</string>
+            <string>取消选中</string>
            </property>
           </widget>
          </item>
          <item row="2" column="1">
           <widget class="QPushButton" name="cancel_all_btn">
            <property name="text">
-            <string>Cancel All</string>
+            <string>取消全部</string>
            </property>
           </widget>
          </item>
          <item row="1" column="1">
           <widget class="QPushButton" name="complete_all_btn">
            <property name="text">
-            <string>Complete All</string>
+            <string>完成全部</string>
            </property>
           </widget>
          </item>
          <item row="1" column="0">
           <widget class="QPushButton" name="complete_select_btn">
            <property name="text">
-            <string>Complete Select</string>
+            <string>完成选中</string>
            </property>
           </widget>
          </item>
          <item row="0" column="0" colspan="2">
           <widget class="QPushButton" name="refresh_btn">
            <property name="text">
-            <string>Refresh</string>
+            <string>刷新</string>
            </property>
           </widget>
          </item>
@@ -113,7 +113,7 @@
    <item>
     <widget class="QGroupBox" name="detail_group_box">
      <property name="title">
-      <string>Detail</string>
+      <string>详情</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <property name="leftMargin">

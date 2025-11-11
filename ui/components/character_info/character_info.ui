@@ -56,12 +56,12 @@
         <property name="readOnly">
          <bool>true</bool>
         </property>
-           <property name="decimals">
-               <number>0</number>
-           </property>
-           <property name="maximum">
-               <double>4294967295.000000000000000</double>
-           </property>
+        <property name="decimals">
+         <number>0</number>
+        </property>
+        <property name="maximum">
+         <double>4294967295.000000000000000</double>
+        </property>
        </widget>
       </item>
       <item row="1" column="0">
@@ -76,12 +76,12 @@
         <property name="readOnly">
          <bool>true</bool>
         </property>
-           <property name="decimals">
-               <number>0</number>
-           </property>
-           <property name="maximum">
-               <double>4294967295.000000000000000</double>
-           </property>
+        <property name="decimals">
+         <number>0</number>
+        </property>
+        <property name="maximum">
+         <double>4294967295.000000000000000</double>
+        </property>
        </widget>
       </item>
       <item row="2" column="0">
@@ -96,12 +96,12 @@
         <property name="readOnly">
          <bool>true</bool>
         </property>
-           <property name="decimals">
-               <number>0</number>
-           </property>
-           <property name="maximum">
-               <double>4294967295.000000000000000</double>
-           </property>
+        <property name="decimals">
+         <number>0</number>
+        </property>
+        <property name="maximum">
+         <double>4294967295.000000000000000</double>
+        </property>
        </widget>
       </item>
       <item row="3" column="0">
@@ -116,12 +116,12 @@
         <property name="readOnly">
          <bool>true</bool>
         </property>
-           <property name="decimals">
-               <number>0</number>
-           </property>
-           <property name="maximum">
-               <double>4294967295.000000000000000</double>
-           </property>
+        <property name="decimals">
+         <number>0</number>
+        </property>
+        <property name="maximum">
+         <double>4294967295.000000000000000</double>
+        </property>
        </widget>
       </item>
       <item row="4" column="0">
@@ -136,12 +136,12 @@
         <property name="readOnly">
          <bool>true</bool>
         </property>
-           <property name="decimals">
-               <number>0</number>
-           </property>
-           <property name="maximum">
-               <double>4294967295.000000000000000</double>
-           </property>
+        <property name="decimals">
+         <number>0</number>
+        </property>
+        <property name="maximum">
+         <double>4294967295.000000000000000</double>
+        </property>
        </widget>
       </item>
      </layout>
@@ -192,12 +192,12 @@
       </item>
       <item row="0" column="1">
        <widget class="QDoubleSpinBox" name="cargo_coin_spin_box">
-           <property name="decimals">
-               <number>0</number>
-           </property>
-           <property name="maximum">
-               <double>4294967295.000000000000000</double>
-           </property>
+        <property name="decimals">
+         <number>0</number>
+        </property>
+        <property name="maximum">
+         <double>4294967295.000000000000000</double>
+        </property>
        </widget>
       </item>
       <item row="1" column="0">
@@ -209,12 +209,12 @@
       </item>
       <item row="1" column="1">
        <widget class="QDoubleSpinBox" name="backpack_coin_spin_box">
-           <property name="decimals">
-               <number>0</number>
-           </property>
-           <property name="maximum">
-               <double>4294967295.000000000000000</double>
-           </property>
+        <property name="decimals">
+         <number>0</number>
+        </property>
+        <property name="maximum">
+         <double>4294967295.000000000000000</double>
+        </property>
        </widget>
       </item>
       <item row="2" column="0">
@@ -226,18 +226,18 @@
       </item>
       <item row="2" column="1">
        <widget class="QDoubleSpinBox" name="pay_coin_spin_box">
-           <property name="decimals">
-               <number>0</number>
-           </property>
-           <property name="maximum">
-               <double>4294967295.000000000000000</double>
-           </property>
+        <property name="decimals">
+         <number>0</number>
+        </property>
+        <property name="maximum">
+         <double>4294967295.000000000000000</double>
+        </property>
        </widget>
       </item>
       <item row="3" column="0" colspan="2">
        <widget class="QPushButton" name="save_coin_btn">
         <property name="text">
-         <string>Save</string>
+         <string>保存</string>
         </property>
        </widget>
       </item>
@@ -351,7 +351,7 @@
       <item row="6" column="0" colspan="2">
        <widget class="QPushButton" name="save_character_info_btn">
         <property name="text">
-         <string>Save</string>
+         <string>保存</string>
         </property>
        </widget>
       </item>
@@ -451,12 +451,12 @@
       </item>
       <item row="2" column="1">
        <widget class="QDoubleSpinBox" name="charge_spin_box">
-           <property name="decimals">
-               <number>0</number>
-           </property>
-           <property name="maximum">
-               <double>4294967295.000000000000000</double>
-           </property>
+        <property name="decimals">
+         <number>0</number>
+        </property>
+        <property name="maximum">
+         <double>4294967295.000000000000000</double>
+        </property>
        </widget>
       </item>
       <item row="8" column="0" colspan="2">
@@ -572,7 +572,7 @@
       <item row="3" column="0" colspan="2">
        <widget class="QPushButton" name="save_pvp_btn">
         <property name="text">
-         <string>Save</string>
+         <string>保存</string>
         </property>
        </widget>
       </item>

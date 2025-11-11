@@ -29,7 +29,7 @@
    <item>
     <widget class="QGroupBox" name="table_view_container">
      <property name="title">
-      <string>Current Items</string>
+      <string>当前物品</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <property name="leftMargin">
@@ -62,7 +62,7 @@
          <item>
           <widget class="QCheckBox" name="show_blank_chkbox">
            <property name="text">
-            <string>Show Blank</string>
+            <string>显示空格子</string>
            </property>
           </widget>
          </item>
@@ -89,7 +89,7 @@
          <item>
           <widget class="QPushButton" name="refresh_btn">
            <property name="text">
-            <string>Refresh</string>
+            <string>刷新</string>
            </property>
           </widget>
          </item>
@@ -131,7 +131,7 @@
       </sizepolicy>
      </property>
      <property name="title">
-      <string>Item Edit</string>
+      <string>物品编辑</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <property name="leftMargin">

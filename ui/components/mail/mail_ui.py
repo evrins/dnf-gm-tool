@@ -121,8 +121,8 @@ class Ui_mail(object):
     def retranslateUi(self, mail):
         mail.setWindowTitle(QCoreApplication.translate("mail", u"Form", None))
         self.mail_list_groupbox.setTitle(QCoreApplication.translate("mail", u"\u5f53\u524d\u89d2\u8272\u90ae\u4ef6\u5217\u8868", None))
-        self.refresh_btn.setText(QCoreApplication.translate("mail", u"Refresh", None))
-        self.del_btn.setText(QCoreApplication.translate("mail", u"Delete Selected", None))
+        self.refresh_btn.setText(QCoreApplication.translate("mail", u"\u5237\u65b0", None))
+        self.del_btn.setText(QCoreApplication.translate("mail", u"\u5220\u9664\u9009\u4e2d", None))
         self.mail_form.setTitle(QCoreApplication.translate("mail", u"\u53d1\u9001\u90ae\u4ef6", None))
         self.send_to_current_character_btn.setText(QCoreApplication.translate("mail", u"\u53d1\u9001\u5f53\u524d\u89d2\u8272", None))
         self.send_to_online_character_btn.setText(QCoreApplication.translate("mail", u"\u53d1\u9001\u5728\u7ebf\u89d2\u8272", None))

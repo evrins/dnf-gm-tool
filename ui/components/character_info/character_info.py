@@ -1,5 +1,6 @@
 from PySide6.QtWidgets import QWidget
 
+from config import config
 from dnfpkgtool.db.entity.account_money import AccountMoney
 from dnfpkgtool.db.entity.signals import gs
 from dnfpkgtool.db.model.character_info import CharacterInfo
@@ -79,6 +80,8 @@ class CharacterInfoWidget(QWidget, Ui_character_info):
         self.grade_combox.addItems(pvp_grades)
         self.save_pvp_btn.clicked.connect(self.save_pvp)
 
+        self.save_coin_btn.clicked.connect(self.save_account_money)
+
         self.charge_type_combox.addItems(['点券', '代币', 'SP', 'QP', 'TP'])
         self.charge_btn.clicked.connect(self.charge_points)
         self.clear_btn.clicked.connect(self.clear_points)
@@ -103,6 +106,8 @@ class CharacterInfoWidget(QWidget, Ui_character_info):
         self.refresh()
 
     def refresh(self):
+        if not config.have_valid_account_id_and_character_no():
+            return
         self.init_pvp()
         self.init_character_info()
         self.init_account_money()

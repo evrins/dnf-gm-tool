@@ -278,6 +278,11 @@ class Ui_character_info(object):
 
         self.verticalLayout_2.addWidget(self.another_holder)
 
+        self.refresh_btn = QPushButton(self.action_button_group_box)
+        self.refresh_btn.setObjectName(u"refresh_btn")
+
+        self.verticalLayout_2.addWidget(self.refresh_btn)
+
 
         self.gridLayout.addWidget(self.action_button_group_box, 0, 4, 2, 1)
 
@@ -290,14 +295,14 @@ class Ui_character_info(object):
         self.charge_label = QLabel(self.charge_group_box)
         self.charge_label.setObjectName(u"charge_label")
 
-        self.formLayout_5.setWidget(2, QFormLayout.ItemRole.LabelRole, self.charge_label)
+        self.formLayout_5.setWidget(1, QFormLayout.ItemRole.LabelRole, self.charge_label)
 
         self.charge_spin_box = QDoubleSpinBox(self.charge_group_box)
         self.charge_spin_box.setObjectName(u"charge_spin_box")
         self.charge_spin_box.setDecimals(0)
         self.charge_spin_box.setMaximum(4294967295.000000000000000)
 
-        self.formLayout_5.setWidget(2, QFormLayout.ItemRole.FieldRole, self.charge_spin_box)
+        self.formLayout_5.setWidget(1, QFormLayout.ItemRole.FieldRole, self.charge_spin_box)
 
         self.btn_group = QWidget(self.charge_group_box)
         self.btn_group.setObjectName(u"btn_group")
@@ -315,7 +320,7 @@ class Ui_character_info(object):
         self.verticalLayout.addWidget(self.clear_btn)
 
 
-        self.formLayout_5.setWidget(8, QFormLayout.ItemRole.SpanningRole, self.btn_group)
+        self.formLayout_5.setWidget(2, QFormLayout.ItemRole.SpanningRole, self.btn_group)
 
         self.charge_type_label = QLabel(self.charge_group_box)
         self.charge_type_label.setObjectName(u"charge_type_label")
@@ -382,7 +387,7 @@ class Ui_character_info(object):
         self.placeholder = QWidget(character_info)
         self.placeholder.setObjectName(u"placeholder")
 
-        self.gridLayout.addWidget(self.placeholder, 0, 5, 1, 1)
+        self.gridLayout.addWidget(self.placeholder, 0, 5, 2, 1)
 
 
         self.retranslateUi(character_info)
@@ -418,6 +423,7 @@ class Ui_character_info(object):
         self.enable_all_dungeon_difficulty_btn.setText(QCoreApplication.translate("character_info", u"\u5f00\u542f\u5168\u56fe\u96be\u5ea6", None))
         self.enable_left_and_right_slot_btn.setText(QCoreApplication.translate("character_info", u"\u5f00\u542f\u5de6\u53f3\u69fd", None))
         self.max_expert_job_level_btn.setText(QCoreApplication.translate("character_info", u"\u8bbe\u7f6e\u526f\u804c\u4e1a\u6ee1\u7ea7", None))
+        self.refresh_btn.setText(QCoreApplication.translate("character_info", u"\u5237\u65b0", None))
         self.charge_group_box.setTitle(QCoreApplication.translate("character_info", u"\u5145\u503c", None))
         self.charge_label.setText(QCoreApplication.translate("character_info", u"\u5145\u503c\u91cf", None))
         self.charge_btn.setText(QCoreApplication.translate("character_info", u"\u5145\u503c", None))

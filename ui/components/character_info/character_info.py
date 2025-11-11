@@ -101,6 +101,8 @@ class CharacterInfoWidget(QWidget, Ui_character_info):
         )
         self.max_expert_job_level_btn.clicked.connect(self.max_expert_job_level)
 
+        self.refresh_btn.clicked.connect(self.refresh)
+
         gs.character_no_changed.connect(self.refresh)
 
         self.refresh()

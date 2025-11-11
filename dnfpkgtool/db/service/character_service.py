@@ -35,6 +35,7 @@ from dnfpkgtool.db.repo.limit_create_character_repo import (
     get_limit_create_character_repo,
 )
 from dnfpkgtool.db.repo.member_dungeon_repo import get_member_dungeon_repo
+from dnfpkgtool.db.repo.member_punish_info_repo import get_member_punish_info_repo
 from dnfpkgtool.db.repo.pvp_result_repo import get_pvp_result_repo
 from dnfpkgtool.db.repo.skill_repo import get_skill_repo
 from dnfpkgtool.repo.dungeon_repo import get_dungeon_repo
@@ -67,6 +68,7 @@ class CharacterService:
         self.character_dimension_inout_repo = get_character_dimension_inout_repo()
         self.character_manage_info_repo = get_character_manage_info_repo()
         self.member_dungeon_repo = get_member_dungeon_repo()
+        self.member_punish_info_repo = get_member_punish_info_repo()
 
         self.exp_repo = get_exp_repo()
         self.dungeon_repo = get_dungeon_repo()
@@ -85,13 +87,15 @@ class CharacterService:
         return self.character_info_repo.query_by_character_no(character_no)
 
     def update_current_character_info(
-        self, character_info: CharacterInfo, has_level_changed: bool
+            self, character_info: CharacterInfo, has_level_changed: bool
     ):
+        m_id = config.get_current_account_id()
         character_no = config.get_current_character_no()
         character_info.character_no = character_no
         if has_level_changed:
             exp = self.exp_repo.query_by_level(character_info.lev) + 1
             self.character_stat_repo.update_exp(CharacterStat(character_no=character_no, exp=exp))
+            self.member_punish_info_repo.delete_by_m_id(m_id)
         self.character_info_repo.update_character_info(character_info)
 
     def get_current_account_money(self):
@@ -185,8 +189,9 @@ class CharacterService:
         )
 
     def remove_current_account_add_character_limit(self):
-        mid = config.get_current_account_id()
-        self.limit_create_character_repo.update(LimitCreateCharacter(m_id=mid, count=0))
+        m_id = config.get_current_account_id()
+        self.limit_create_character_repo.update(LimitCreateCharacter(m_id=m_id, count=0))
+        self.member_punish_info_repo.delete_by_m_id(m_id)
 
     def reset_current_character_dungeon_count(self):
         character_no = config.get_current_character_no()

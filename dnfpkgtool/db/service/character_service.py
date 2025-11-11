@@ -91,7 +91,7 @@ class CharacterService:
         character_info.character_no = character_no
         if has_level_changed:
             exp = self.exp_repo.query_by_level(character_info.lev) + 1
-            self.character_stat_repo.update_exp(CharacterStat(character_no, exp))
+            self.character_stat_repo.update_exp(CharacterStat(character_no=character_no, exp=exp))
         self.character_info_repo.update_character_info(character_info)
 
     def get_current_account_money(self):

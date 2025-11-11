@@ -9,8 +9,12 @@ def test_add():
     letter = Letter(
         character_no=8,
         send_character_no=0,
-        send_character_name='你好世界',
-        letter_text='你好世界',
+        send_character_name='背包编辑工具'.encode('utf-8').decode(
+            'latin1', errors='replace'
+        ),
+        letter_text='欢迎使用GM功能，有运行错误请提交issue至GitHub'.encode(
+            'utf-8'
+        ).decode('latin1', errors='replace'),
         reg_date=datetime.now(),
         stat=1,
     )

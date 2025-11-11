@@ -1,6 +1,7 @@
 from PySide6.QtCore import QTimer, Signal
 from PySide6.QtWidgets import QWidget
 
+from config import config
 from dnfpkgtool.db.entity.dnf_item_slot import DnfItemSlot, reinforce_type_dict
 from dnfpkgtool.db.entity.magic_seal import MagicSeal
 from dnfpkgtool.repo.magic_seal_repo import get_magic_seal_repo
@@ -8,7 +9,6 @@ from dnfpkgtool.repo.orb_repo import get_orb_repo
 from ui.components.inventory.inventory_equipment_form_ui import (
     Ui_inventory_equipment_form,
 )
-from config import config
 
 orb_part_options = {
     '[magic stone]': ['物理攻击力', '魔法攻击力', '独立攻击力', '所有属性强化'],

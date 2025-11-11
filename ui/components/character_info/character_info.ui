@@ -1,0 +1,589 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>character_info</class>
+ <widget class="QWidget" name="character_info">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1275</width>
+    <height>725</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="3">
+    <widget class="QGroupBox" name="points_group_box">
+     <property name="minimumSize">
+      <size>
+       <width>200</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>200</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="title">
+      <string>点数信息</string>
+     </property>
+     <layout class="QFormLayout" name="formLayout_4">
+      <property name="leftMargin">
+       <number>8</number>
+      </property>
+      <property name="topMargin">
+       <number>8</number>
+      </property>
+      <property name="rightMargin">
+       <number>8</number>
+      </property>
+      <property name="bottomMargin">
+       <number>8</number>
+      </property>
+      <item row="0" column="0">
+       <widget class="QLabel" name="cash_cera_label">
+        <property name="text">
+         <string>点券</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QDoubleSpinBox" name="cash_cera_spin_box">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+           <property name="decimals">
+               <number>0</number>
+           </property>
+           <property name="maximum">
+               <double>4294967295.000000000000000</double>
+           </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="cash_cera_point_label">
+        <property name="text">
+         <string>代币</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QDoubleSpinBox" name="cash_cera_point_spin_box">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+           <property name="decimals">
+               <number>0</number>
+           </property>
+           <property name="maximum">
+               <double>4294967295.000000000000000</double>
+           </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="sp_label">
+        <property name="text">
+         <string>SP</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QDoubleSpinBox" name="sp_spin_box">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+           <property name="decimals">
+               <number>0</number>
+           </property>
+           <property name="maximum">
+               <double>4294967295.000000000000000</double>
+           </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="qp_label">
+        <property name="text">
+         <string>QP</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QDoubleSpinBox" name="qp_spin_box">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+           <property name="decimals">
+               <number>0</number>
+           </property>
+           <property name="maximum">
+               <double>4294967295.000000000000000</double>
+           </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="tp_label">
+        <property name="text">
+         <string>TP</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QDoubleSpinBox" name="tp_spin_box">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+           <property name="decimals">
+               <number>0</number>
+           </property>
+           <property name="maximum">
+               <double>4294967295.000000000000000</double>
+           </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QGroupBox" name="coin_group_box">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>200</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>200</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="title">
+      <string>金币 复活币</string>
+     </property>
+     <layout class="QFormLayout" name="formLayout_3">
+      <property name="leftMargin">
+       <number>8</number>
+      </property>
+      <property name="topMargin">
+       <number>8</number>
+      </property>
+      <property name="rightMargin">
+       <number>8</number>
+      </property>
+      <property name="bottomMargin">
+       <number>8</number>
+      </property>
+      <item row="0" column="0">
+       <widget class="QLabel" name="cargo_coin_label">
+        <property name="text">
+         <string>金库金币</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QDoubleSpinBox" name="cargo_coin_spin_box">
+           <property name="decimals">
+               <number>0</number>
+           </property>
+           <property name="maximum">
+               <double>4294967295.000000000000000</double>
+           </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="backpack_coin_label">
+        <property name="text">
+         <string>背包金币</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QDoubleSpinBox" name="backpack_coin_spin_box">
+           <property name="decimals">
+               <number>0</number>
+           </property>
+           <property name="maximum">
+               <double>4294967295.000000000000000</double>
+           </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="pay_coin_label">
+        <property name="text">
+         <string>复活币</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QDoubleSpinBox" name="pay_coin_spin_box">
+           <property name="decimals">
+               <number>0</number>
+           </property>
+           <property name="maximum">
+               <double>4294967295.000000000000000</double>
+           </property>
+       </widget>
+      </item>
+      <item row="3" column="0" colspan="2">
+       <widget class="QPushButton" name="save_coin_btn">
+        <property name="text">
+         <string>Save</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="0" column="0" rowspan="2">
+    <widget class="QGroupBox" name="character_info_group_box">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>200</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>200</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="title">
+      <string>角色信息</string>
+     </property>
+     <layout class="QFormLayout" name="formLayout">
+      <property name="leftMargin">
+       <number>8</number>
+      </property>
+      <property name="topMargin">
+       <number>8</number>
+      </property>
+      <property name="rightMargin">
+       <number>8</number>
+      </property>
+      <property name="bottomMargin">
+       <number>8</number>
+      </property>
+      <item row="0" column="0">
+       <widget class="QLabel" name="name_label">
+        <property name="text">
+         <string>名称</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="name_line_edit">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="level_label">
+        <property name="text">
+         <string>等级</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QSpinBox" name="level_spin_box">
+        <property name="maximum">
+         <number>200</number>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="role_label">
+        <property name="text">
+         <string>角色</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QComboBox" name="role_combox"/>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="job_label">
+        <property name="text">
+         <string>职业</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QComboBox" name="job_combox"/>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="wake_label">
+        <property name="text">
+         <string>觉醒</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QComboBox" name="wake_combox"/>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="expert_label">
+        <property name="text">
+         <string>副职业</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QComboBox" name="expert_combox"/>
+      </item>
+      <item row="6" column="0" colspan="2">
+       <widget class="QPushButton" name="save_character_info_btn">
+        <property name="text">
+         <string>Save</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="0" column="4" rowspan="2">
+    <widget class="QGroupBox" name="action_button_group_box">
+     <property name="minimumSize">
+      <size>
+       <width>200</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>200</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="title">
+      <string>其他功能</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QPushButton" name="remove_add_character_limit_btn">
+        <property name="text">
+         <string>解除建号限制</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="reset_dungeon_count_btn">
+        <property name="text">
+         <string>重置副本次数</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="remove_equipment_level_limit_btn">
+        <property name="text">
+         <string>取消装备等级限制</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="enable_all_dungeon_difficulty_btn">
+        <property name="text">
+         <string>开启全图难度</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="enable_left_and_right_slot_btn">
+        <property name="text">
+         <string>开启左右槽</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="max_expert_job_level_btn">
+        <property name="text">
+         <string>设置副职业满级</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="another_holder" native="true"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="3">
+    <widget class="QGroupBox" name="charge_group_box">
+     <property name="minimumSize">
+      <size>
+       <width>200</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>200</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="title">
+      <string>充值</string>
+     </property>
+     <layout class="QFormLayout" name="formLayout_5">
+      <item row="2" column="0">
+       <widget class="QLabel" name="charge_label">
+        <property name="text">
+         <string>充值量</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QDoubleSpinBox" name="charge_spin_box">
+           <property name="decimals">
+               <number>0</number>
+           </property>
+           <property name="maximum">
+               <double>4294967295.000000000000000</double>
+           </property>
+       </widget>
+      </item>
+      <item row="8" column="0" colspan="2">
+       <widget class="QWidget" name="btn_group" native="true">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <widget class="QPushButton" name="charge_btn">
+           <property name="text">
+            <string>充值</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="clear_btn">
+           <property name="text">
+            <string>清零</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="charge_type_label">
+        <property name="text">
+         <string>充值类型</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QComboBox" name="charge_type_combox"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QGroupBox" name="pvp_group_box">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>200</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>200</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="title">
+      <string>PVP</string>
+     </property>
+     <layout class="QFormLayout" name="formLayout_2">
+      <property name="leftMargin">
+       <number>8</number>
+      </property>
+      <property name="topMargin">
+       <number>8</number>
+      </property>
+      <property name="rightMargin">
+       <number>8</number>
+      </property>
+      <item row="0" column="0">
+       <widget class="QLabel" name="grade_label">
+        <property name="text">
+         <string>段位</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QComboBox" name="grade_combox"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="win_label">
+        <property name="text">
+         <string>胜场</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QSpinBox" name="win_spinbox">
+        <property name="maximum">
+         <number>2147483647</number>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="win_point_label">
+        <property name="text">
+         <string>胜点</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QSpinBox" name="win_point_spin_box">
+        <property name="maximum">
+         <number>2147483647</number>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0" colspan="2">
+       <widget class="QPushButton" name="save_pvp_btn">
+        <property name="text">
+         <string>Save</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="0" column="5">
+    <widget class="QWidget" name="placeholder" native="true"/>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

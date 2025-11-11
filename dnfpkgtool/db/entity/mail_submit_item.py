@@ -8,6 +8,9 @@ class MailSubmitItem(BaseModel):
     item_id: int
     item_name: str
 
+    # 可堆叠物品最大叠放数
+    stack_limit: int = 0
+
     # 装备最大耐久
     endurance: int = 0
 

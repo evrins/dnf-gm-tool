@@ -24,6 +24,21 @@ class AccountCargoRepo(BaseRepo):
             session.execute(stmt)
             session.commit()
 
+    def query_money_by_m_id(self, m_id: int) -> int:
+        with Session(self.get_engine()) as session:
+            stmt = select(AccountCargo.money).where(AccountCargo.m_id == m_id).limit(1)
+            return session.scalars(stmt).first()
+
+    def update_money_by_m_id(self, m_id: int, new_money: int):
+        with Session(self.get_engine()) as session:
+            stmt = (
+                update(AccountCargo)
+                .where(AccountCargo.m_id == m_id)
+                .values(money=new_money)
+            )
+            session.execute(stmt)
+            session.commit()
+
 
 def get_account_cargo_repo() -> AccountCargoRepo:
     return AccountCargoRepo()

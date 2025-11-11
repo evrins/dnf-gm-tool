@@ -13,7 +13,9 @@ from config import config
 from config.config import check_mysql_config
 from dnfpkgtool.db.entity.signals import gs
 from dnfpkgtool.pvf.pvf_reader import PVFReader
+from dnfpkgtool.repo.dungeon_repo import build_dungeon_repo_parquet
 from dnfpkgtool.repo.equipment_repo import build_equipment_repo_parquet
+from dnfpkgtool.repo.exp_repo import build_exp_repo_parquet
 from dnfpkgtool.repo.magic_seal_repo import build_magic_seal_parquet
 from dnfpkgtool.repo.orb_repo import build_orb_repo_parquet
 from dnfpkgtool.repo.quest_repo import build_quest_repo_parquet
@@ -38,7 +40,7 @@ class BuilderThread(QThread):
 
     def run(self):
         self.start_time = time()
-        total = 6
+        total = 8
         if config.create_pvf_dir(self.pvf_hash):
             self.progress.emit(
                 f'{self.elapsed():.2f}s: pvf dir already created skip build'
@@ -84,7 +86,9 @@ class BuilderThread(QThread):
                 f'{self.elapsed():.2f}s: End building magic seal repo 3/{total}'
             )
 
-            self.progress.emit(f'{self.elapsed():.2f}s: Start building skill repo 4/{total}')
+            self.progress.emit(
+                f'{self.elapsed():.2f}s: Start building skill repo 4/{total}'
+            )
             build_skill_repo_parquet(
                 reader.get_skill_list(),
                 config.build_skill_parquet_parquet_file_path(self.pvf_hash),
@@ -94,7 +98,9 @@ class BuilderThread(QThread):
             )
 
             # build orb repo should come after stackable_repo and skill_repo
-            self.progress.emit(f'{self.elapsed():.2f}s: Start building orb repo 5/{total}')
+            self.progress.emit(
+                f'{self.elapsed():.2f}s: Start building orb repo 5/{total}'
+            )
             stackable_repo = StackableRepo(
                 config.build_stackable_parquet_file_path(self.pvf_hash)
             )
@@ -106,15 +112,41 @@ class BuilderThread(QThread):
                 skill_repo,
                 config.build_orb_parquet_file_path(self.pvf_hash),
             )
-            self.progress.emit(f'{self.elapsed():.2f}s: End building orb repo 5/{total}')
+            self.progress.emit(
+                f'{self.elapsed():.2f}s: End building orb repo 5/{total}'
+            )
 
-            self.progress.emit(f'{self.elapsed():.2f}s: Start building quest repo 6/{total}')
+            self.progress.emit(
+                f'{self.elapsed():.2f}s: Start building quest repo 6/{total}'
+            )
             build_quest_repo_parquet(
                 reader.get_quest_dict(),
                 config.build_quest_parquet_file_path(self.pvf_hash),
             )
             self.progress.emit(
                 f'{self.elapsed():.2f}s: End building quest repo 6/{total}'
+            )
+
+            self.progress.emit(
+                f'{self.elapsed():.2f}s: Start building exp repo 7/{total}'
+            )
+            build_exp_repo_parquet(
+                reader.get_exp_table(),
+                config.build_exp_repo_parquet_file_path(self.pvf_hash),
+            )
+            self.progress.emit(
+                f'{self.elapsed():.2f}s: End building exp repo 7/{total}'
+            )
+
+            self.progress.emit(
+                f'{self.elapsed():.2f}s: Start building dungeon repo 8/{total}'
+            )
+            build_dungeon_repo_parquet(
+                reader.get_dungeon_dict(),
+                config.build_dungeon_repo_parquet_file_path(self.pvf_hash),
+            )
+            self.progress.emit(
+                f'{self.elapsed():.2f}s: End building dungeon repo 8/{total}'
             )
 
             reader.close()

@@ -73,6 +73,13 @@ def test_get_exp_table():
     pvf_path = '/Users/evrins/workspace/python/DNF_pvf_python/Script.pvf'
     reader = PVFReader(pvf_path)
     exp_table = reader.get_exp_table()
+    exp_table = [0] + exp_table
+    res = []
+    n = len(exp_table)
+    for i in range(0, n - 1):
+        res.append(exp_table[i + 1] - exp_table[i])
+    for i, v in enumerate(res):
+        print(i + 1, v)
     save_obj_2_file(exp_table, 'exp_table.json')
 
 

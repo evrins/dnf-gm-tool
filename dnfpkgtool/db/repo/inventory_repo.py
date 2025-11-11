@@ -50,6 +50,44 @@ class InventoryRepo(BaseRepo):
             session.execute(stmt)
             session.commit()
 
+    def query_money_by_character_no(self, character_no: int) -> int:
+        with Session(self.get_engine()) as session:
+            stmt = (
+                select(Inventory.money)
+                .where(Inventory.charac_no == character_no)
+                .limit(1)
+            )
+            return session.scalars(stmt).first()
+
+    def update_money_by_character_no(self, character_no: int, new_money: int) -> None:
+        with Session(self.get_engine()) as session:
+            stmt = (
+                update(Inventory)
+                .where(Inventory.charac_no == character_no)
+                .values(money=new_money)
+            )
+            session.execute(stmt)
+            session.commit()
+
+    def query_pay_coin_by_character_no(self, character_no: int) -> int:
+        with Session(self.get_engine()) as session:
+            stmt = (
+                select(Inventory.pay_coin)
+                .where(Inventory.charac_no == character_no)
+                .limit(1)
+            )
+            return session.scalars(stmt).first()
+
+    def update_pay_coin_by_character_no(self, character_no: int, pay_coin: int) -> None:
+        with Session(self.get_engine()) as session:
+            stmt = (
+                update(Inventory)
+                .where(Inventory.charac_no == character_no)
+                .values(pay_coin=pay_coin)
+            )
+            session.execute(stmt)
+            session.commit()
+
 
 def get_inventory_repo() -> InventoryRepo:
     return InventoryRepo()

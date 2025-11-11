@@ -1,6 +1,6 @@
 from typing import List
 
-from sqlalchemy import select
+from sqlalchemy import select, update
 from sqlalchemy.orm import Session
 
 from dnfpkgtool.db.model.character_info import CharacterInfo
@@ -36,3 +36,28 @@ class CharacterInfoRepo(BaseRepo):
                 .order_by(CharacterInfo.charac_no.desc())
             )
             return list(session.scalars(stmt).all())
+
+    def query_by_character_no(self, character_no: int) -> CharacterInfo:
+        with Session(self.get_engine()) as session:
+            stmt = (
+                select(CharacterInfo).where(CharacterInfo.charac_no == character_no)
+            ).limit(1)
+            return session.scalars(stmt).first()
+
+    def update_character_info(self, character_info: CharacterInfo):
+        with Session(self.get_engine()) as session:
+            stmt = (
+                update(CharacterInfo)
+                .where(CharacterInfo.charac_no == character_info.charac_no)
+                .values(
+                    lev=character_info.lev,
+                    job=character_info.job,
+                    grow_type=character_info.grow_type,
+                )
+            )
+            session.execute(stmt)
+            session.commit()
+
+
+def get_character_info_repo() -> CharacterInfoRepo:
+    return CharacterInfoRepo()

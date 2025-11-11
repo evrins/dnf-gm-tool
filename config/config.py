@@ -26,12 +26,15 @@ class History(BaseModel):
 
 base_dir = Path(__file__).parent.parent
 
+
 def get_config_path() -> Path:
     return base_dir / 'data' / 'config.json'
+
 
 def set_base_dir(dir_: Path):
     global base_dir
     base_dir = dir_
+
 
 def init_dirs():
     os.makedirs(base_dir / 'data' / 'log', exist_ok=True)
@@ -73,18 +76,20 @@ class Config(BaseModel):
 
         return True
 
+
 _config: Config = None
+
 
 def load():
     global _config
     if not os.path.exists(get_config_path()):
-        _config =  Config.default()
+        _config = Config.default()
     else:
         with open(get_config_path(), 'r') as f:
             json_data = f.read()
             cfg = Config.model_validate_json(json_data)
             cfg.pvf_dir = base_dir / 'data' / cfg.pvf_hash
-            _config =  cfg
+            _config = cfg
 
 
 def save():
@@ -125,8 +130,10 @@ def get_db_config() -> DbConfig:
     load()
     return _config.db_config
 
+
 def get_log_dir() -> Path:
     return base_dir / 'data' / 'log'
+
 
 def check_mysql_config(
     host: str,
@@ -155,6 +162,7 @@ def check_mysql_config(
             conn.close()
             logger.info('database connection closed')
     return True
+
 
 def get_db_conn(db_name: str) -> pymysql.Connection:
     db_config = get_db_config()
@@ -235,6 +243,22 @@ def get_quest_parquet_file_path() -> Path:
     return build_quest_parquet_file_path(_config.pvf_hash)
 
 
+def build_exp_repo_parquet_file_path(pvf_hash: str) -> Path:
+    return base_dir / 'data' / pvf_hash / 'exps.parquet'
+
+
+def get_exp_repo_parquet_file_path() -> Path:
+    return build_exp_repo_parquet_file_path(_config.pvf_hash)
+
+
+def build_dungeon_repo_parquet_file_path(pvf_hash: str) -> Path:
+    return base_dir / 'data' / pvf_hash / 'dungeons.parquet'
+
+
+def get_dungeon_repo_parquet_file_path() -> Path:
+    return build_dungeon_repo_parquet_file_path(_config.pvf_hash)
+
+
 path_map = {
     'stackable': build_stackable_parquet_file_path,
     'equipment': build_equipment_parquet_file_path,
@@ -242,6 +266,8 @@ path_map = {
     'skill': build_skill_parquet_parquet_file_path,
     'orb': build_orb_parquet_file_path,
     'quest': build_quest_parquet_file_path,
+    'exp': build_exp_repo_parquet_file_path,
+    'dungeon': build_dungeon_repo_parquet_file_path,
 }
 
 
@@ -278,5 +304,6 @@ def set_account_id_and_character_no(
 
     gs.account_id_changed.emit()
     gs.character_no_changed.emit()
+
 
 MAX_GRADE = 232

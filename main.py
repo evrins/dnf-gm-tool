@@ -1,6 +1,5 @@
 import signal
 import sys
-import tracemalloc
 from pathlib import Path
 
 from loguru import logger
@@ -20,6 +19,7 @@ from config import config
 from dnfpkgtool.db.entity.mail_submit_item import MailSubmitItem
 from dnfpkgtool.db.entity.signals import gs
 from startup_check import check_database, check_parquet_files
+from ui.components.character_info.character_info import CharacterInfoWidget
 from ui.components.characters.characters import Characters
 from ui.components.equipment_search.equipment_search import EquipmentSearch
 from ui.components.mail.mail import Mail
@@ -39,18 +39,20 @@ def handle_shutdown_signal(sig, frame=None):
 
 TAB_CHARACTERS = '👥 Characters'
 TAB_CHARACTERS_INDEX = 0
+TAB_CHARACTER_INFO = '👤 Character Info'
+TAB_CHARACTER_INFO_INDEX = 1
 TAB_EQUIPMENT_SEARCH = '🛡️ Equipment Search'
-TAB_EQUIPMENT_SEARCH_INDEX = 1
+TAB_EQUIPMENT_SEARCH_INDEX = 2
 TAB_STACKABLE_SEARCH = '📦 Stackable Search'
-TAB_STACKABLE_SEARCH_INDEX = 2
+TAB_STACKABLE_SEARCH_INDEX = 3
 TAB_INVENTORY = '🎒 Inventory'
-TAB_INVENTORY_INDEX = 3
+TAB_INVENTORY_INDEX = 4
 TAB_MAIL = '📧 Mail'
-TAB_MAIL_INDEX = 4
+TAB_MAIL_INDEX = 5
 TAB_QUEST = '📜 Quest'
-TAB_QUEST_INDEX = 5
+TAB_QUEST_INDEX = 6
 TAB_SETTINGS = '⚙️ Settings'
-TAB_SETTINGS_INDEX = 6
+TAB_SETTINGS_INDEX = 7
 
 
 class MainWindow(QMainWindow):
@@ -72,6 +74,15 @@ class MainWindow(QMainWindow):
             )
 
         self.tab_widget.addTab(self.character_widget, TAB_CHARACTERS)
+
+        if self.db_ready:
+            self.character_info_widget = CharacterInfoWidget()
+        else:
+            self.character_info_widget = self.create_not_ready_widget(
+                'Database not ready, setup in settings tab'
+            )
+
+        self.tab_widget.addTab(self.character_info_widget, TAB_CHARACTER_INFO)
 
         if self.parquet_ready:
             self.equip_search = EquipmentSearch()
@@ -177,6 +188,12 @@ class MainWindow(QMainWindow):
             self.replace_widgets()
 
     def replace_widgets(self):
+        self.character_info_widget = CharacterInfoWidget()
+        self.tab_widget.removeTab(TAB_CHARACTERS_INDEX)
+        self.tab_widget.insertTab(
+            TAB_CHARACTERS_INDEX, self.character_info_widget, TAB_CHARACTER_INFO
+        )
+
         self.inventory_tabview = InventoryTabView()
         self.tab_widget.removeTab(TAB_INVENTORY_INDEX)
         self.tab_widget.insertTab(
@@ -216,8 +233,10 @@ class MainWindow(QMainWindow):
             logger.info('Shutdown requested, closing application')
             self.close()
 
+
 def is_running_in_executable() -> bool:
     return hasattr(sys, '_MEIPASS')
+
 
 def start_app():
     if is_running_in_executable():
@@ -245,6 +264,7 @@ def start_app():
     mw.show()
 
     app.exec()
+
 
 if __name__ == '__main__':
     start_app()

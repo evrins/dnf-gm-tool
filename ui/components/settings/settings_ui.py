@@ -16,8 +16,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QComboBox, QFormLayout, QGroupBox,
-    QHBoxLayout, QLabel, QPushButton, QSizePolicy,
-    QWidget)
+    QHBoxLayout, QLabel, QProgressBar, QPushButton,
+    QSizePolicy, QWidget)
 
 class Ui_settings(object):
     def setupUi(self, settings):
@@ -135,7 +135,13 @@ class Ui_settings(object):
         self.progress_status.setObjectName(u"progress_status")
         self.progress_status.setWordWrap(True)
 
-        self.formLayout_2.setWidget(2, QFormLayout.ItemRole.LabelRole, self.progress_status)
+        self.formLayout_2.setWidget(3, QFormLayout.ItemRole.LabelRole, self.progress_status)
+
+        self.progress_bar = QProgressBar(self.pvf_groupbox)
+        self.progress_bar.setObjectName(u"progress_bar")
+        self.progress_bar.setValue(0)
+
+        self.formLayout_2.setWidget(2, QFormLayout.ItemRole.SpanningRole, self.progress_bar)
 
 
         self.horizontalLayout.addWidget(self.pvf_groupbox)

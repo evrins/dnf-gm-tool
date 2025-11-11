@@ -30,6 +30,7 @@ from util import calculate_hash_of_file
 
 class BuilderThread(QThread):
     progress = Signal(str)
+    progress_int = Signal(int)
     finished = Signal(bool)
 
     def __init__(self, pvf_path: str, pvf_hash: str, parent=None):
@@ -63,6 +64,7 @@ class BuilderThread(QThread):
             self.progress.emit(
                 f'{self.elapsed():.2f}s: End building equipment repo 1/{total}'
             )
+            self.progress_int.emit(100 / total)
 
             self.progress.emit(
                 f'{self.elapsed():.2f}s: Start building stackable repo 2/{total}'
@@ -74,6 +76,7 @@ class BuilderThread(QThread):
             self.progress.emit(
                 f'{self.elapsed():.2f}s: End building stackable repo 2/{total}'
             )
+            self.progress_int.emit(200 / total)
 
             self.progress.emit(
                 f'{self.elapsed():.2f}s: Start building magic seal repo 3/{total}'
@@ -85,6 +88,7 @@ class BuilderThread(QThread):
             self.progress.emit(
                 f'{self.elapsed():.2f}s: End building magic seal repo 3/{total}'
             )
+            self.progress_int.emit(300 / total)
 
             self.progress.emit(
                 f'{self.elapsed():.2f}s: Start building skill repo 4/{total}'
@@ -96,6 +100,7 @@ class BuilderThread(QThread):
             self.progress.emit(
                 f'{self.elapsed():.2f}s: End building magic seal repo 4/{total}'
             )
+            self.progress_int.emit(400 / total)
 
             # build orb repo should come after stackable_repo and skill_repo
             self.progress.emit(
@@ -115,6 +120,7 @@ class BuilderThread(QThread):
             self.progress.emit(
                 f'{self.elapsed():.2f}s: End building orb repo 5/{total}'
             )
+            self.progress_int.emit(500 / total)
 
             self.progress.emit(
                 f'{self.elapsed():.2f}s: Start building quest repo 6/{total}'
@@ -126,6 +132,7 @@ class BuilderThread(QThread):
             self.progress.emit(
                 f'{self.elapsed():.2f}s: End building quest repo 6/{total}'
             )
+            self.progress_int.emit(600 / total)
 
             self.progress.emit(
                 f'{self.elapsed():.2f}s: Start building exp repo 7/{total}'
@@ -137,6 +144,7 @@ class BuilderThread(QThread):
             self.progress.emit(
                 f'{self.elapsed():.2f}s: End building exp repo 7/{total}'
             )
+            self.progress_int.emit(700 / total)
 
             self.progress.emit(
                 f'{self.elapsed():.2f}s: Start building dungeon repo 8/{total}'
@@ -148,6 +156,7 @@ class BuilderThread(QThread):
             self.progress.emit(
                 f'{self.elapsed():.2f}s: End building dungeon repo 8/{total}'
             )
+            self.progress_int.emit(800 / total)
 
             reader.close()
             config.set_pvf_hash(self.pvf_hash)
@@ -190,6 +199,8 @@ class Setting(QWidget, Ui_settings):
         self.pvf_combox.currentTextChanged.connect(self.current_pvf_changed)
 
         self.save_btn.clicked.connect(self.save_and_test)
+
+        self.progress_bar.setValue(0)
 
         self.select_pvf_btn.clicked.connect(self.handle_add_pvf)
 
@@ -323,6 +334,8 @@ class Setting(QWidget, Ui_settings):
         self.pvf_combox.setEnabled(False)
         self.select_pvf_btn.setEnabled(False)
 
+        self.progress_bar.setValue(0)
+        self.builder_thread.progress_int.connect(self.update_progress_bar)
         self.builder_thread.progress.connect(self.update_progress)
         self.builder_thread.finished.connect(self.builder_finished)
 
@@ -332,6 +345,9 @@ class Setting(QWidget, Ui_settings):
         self.progress.append(status)
 
         self.progress_status.setText('\n'.join(self.progress))
+
+    def update_progress_bar(self, p: int):
+        self.progress_bar.setValue(p)
 
     def builder_finished(self, success: bool):
         self.pvf_combox.setEnabled(True)

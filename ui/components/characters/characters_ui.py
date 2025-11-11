@@ -52,6 +52,7 @@ class Ui_characters(object):
         self.btn_group.setObjectName(u"btn_group")
         self.horizontalLayout_7 = QHBoxLayout(self.btn_group)
         self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
+        self.horizontalLayout_7.setContentsMargins(0, 0, 0, 0)
         self.reset_btn = QPushButton(self.btn_group)
         self.reset_btn.setObjectName(u"reset_btn")
 

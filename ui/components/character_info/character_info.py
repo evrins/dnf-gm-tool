@@ -129,7 +129,7 @@ class CharacterInfoWidget(QWidget, Ui_character_info):
 
     def init_character_info(self):
         character_info = self.character_service.get_current_character_info()
-        self.name_line_edit.setText(character_info.charac_name)
+        self.name_line_edit.setText(character_info.character_name)
         self.character_level = character_info.lev
         self.level_spin_box.setValue(self.character_level)
         self.role_combox.setCurrentIndex(character_info.job)

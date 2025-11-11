@@ -47,12 +47,12 @@ class AccountService:
             res.append(
                 CharacterListItem(
                     account_id=it.m_id,
-                    character_no=it.charac_no,
-                    character_name=it.charac_name,
+                    character_no=it.character_no,
+                    character_name=it.character_name,
                     level=it.lev,
                     job=get_job_name_by_job_grow_type(it.job, it.grow_type),
                     expert_job=get_expert_job_name(it.expert_job),
-                    online=it.charac_no in online_character_set,
+                    online=it.character_no in online_character_set,
                 )
             )
 

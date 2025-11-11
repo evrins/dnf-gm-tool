@@ -115,12 +115,12 @@ class Mail(QWidget, Ui_mail):
 
     def send_to_online_character(self):
         character_list = self.account_service.get_online_character_list()
-        character_no_list = [it.charac_no for it in character_list]
+        character_no_list = [it.character_no for it in character_list]
         self._send_to_characters(character_no_list)
 
     def send_to_all_character(self):
         character_list = self.account_service.get_all_valid_character_list()
-        character_no_list = [it.charac_no for it in character_list]
+        character_no_list = [it.character_no for it in character_list]
         self._send_to_characters(character_no_list)
 
     def _send_to_characters(self, character_no_list: List[int]):

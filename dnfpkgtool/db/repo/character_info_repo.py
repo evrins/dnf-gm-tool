@@ -24,7 +24,7 @@ class CharacterInfoRepo(BaseRepo):
     def query_by_character_no_list(self, character_no_list) -> List[CharacterInfo]:
         with Session(self.get_engine()) as session:
             stmt = select(CharacterInfo).where(
-                CharacterInfo.charac_no.in_(character_no_list)
+                CharacterInfo.character_no.in_(character_no_list)
             )
             return list(session.scalars(stmt).all())
 
@@ -32,15 +32,15 @@ class CharacterInfoRepo(BaseRepo):
         with Session(self.get_engine()) as session:
             stmt = (
                 select(CharacterInfo)
-                .where(CharacterInfo.charac_name.ilike(f'%{name}%'))
-                .order_by(CharacterInfo.charac_no.desc())
+                .where(CharacterInfo.character_name.ilike(f'%{name}%'))
+                .order_by(CharacterInfo.character_no.desc())
             )
             return list(session.scalars(stmt).all())
 
     def query_by_character_no(self, character_no: int) -> CharacterInfo:
         with Session(self.get_engine()) as session:
             stmt = (
-                select(CharacterInfo).where(CharacterInfo.charac_no == character_no)
+                select(CharacterInfo).where(CharacterInfo.character_no == character_no)
             ).limit(1)
             return session.scalars(stmt).first()
 
@@ -48,7 +48,7 @@ class CharacterInfoRepo(BaseRepo):
         with Session(self.get_engine()) as session:
             stmt = (
                 update(CharacterInfo)
-                .where(CharacterInfo.charac_no == character_info.charac_no)
+                .where(CharacterInfo.character_no == character_info.character_no)
                 .values(
                     lev=character_info.lev,
                     job=character_info.job,

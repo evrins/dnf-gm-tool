@@ -321,7 +321,7 @@ class Setting(QWidget, Ui_settings):
 
     def handle_add_pvf(self):
         file_name, _ = QFileDialog.getOpenFileName(
-            self, 'Select PVF', '', 'All Files (*.*);;Pvf Files (*.pvf)'
+            self, 'Select PVF', '', 'Pvf Files (*.pvf)'
         )
         if not file_name:
             logger.warning('No file selected')

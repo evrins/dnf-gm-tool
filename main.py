@@ -1,3 +1,4 @@
+import os
 import signal
 import sys
 from pathlib import Path
@@ -230,6 +231,9 @@ def start_app():
     app.setStyle('Fusion')
     mw = MainWindow()
     mw.show()
+
+    pid = os.getpid()
+    logger.info(f'PID: {pid}')
 
     app.exec()
 

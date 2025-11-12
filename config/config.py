@@ -7,6 +7,7 @@ from loguru import logger
 from pydantic import BaseModel
 
 from dnfpkgtool.db.entity.signals import gs
+from config.config_saver import get_config_saver_manager
 
 
 class DbConfig(BaseModel):
@@ -93,6 +94,18 @@ def load():
 
 
 def save():
+    """Save config asynchronously using worker thread."""
+
+    config_json = _config.model_dump_json(indent=4)
+    config_path = get_config_path()
+    
+    # Use worker thread for async save
+    saver = get_config_saver_manager()
+    saver.save_config_async(config_path, config_json)
+
+
+def save_sync():
+    """Save config synchronously (blocking). Use only when necessary."""
     with open(get_config_path(), 'w') as f:
         f.write(_config.model_dump_json(indent=4))
 

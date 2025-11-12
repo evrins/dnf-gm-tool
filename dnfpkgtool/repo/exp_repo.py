@@ -2,9 +2,7 @@ from pathlib import Path
 from typing import List
 
 import polars as pl
-from loguru import logger
 
-from config import config
 from dnfpkgtool.repo.base_repo import BaseRepo
 
 
@@ -27,6 +25,3 @@ class ExpRepo(BaseRepo):
         return self.df.filter(cond).select('exp').limit(1).to_dicts()[0]['exp']
 
 
-def get_exp_repo():
-    fp = config.get_exp_repo_parquet_file_path()
-    return ExpRepo(fp)

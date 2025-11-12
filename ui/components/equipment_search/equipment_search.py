@@ -14,7 +14,8 @@ from PySide6.QtWidgets import (
 from dnfpkgtool.db.entity.mail_form_item import MailItemType
 from dnfpkgtool.db.entity.mail_submit_item import MailSubmitItem
 from dnfpkgtool.db.entity.signals import gs
-from dnfpkgtool.repo.equipment_repo import EquipmentRepo, get_equipment_repo
+from dnfpkgtool.repo.equipment_repo import EquipmentRepo
+from dnfpkgtool.repo.repo_manager import get_equipment_repo
 from ui.components.equipment_search.equipment_search_ui import Ui_equipment_search
 from ui.components.stackable_search.vars import (
     default_options,

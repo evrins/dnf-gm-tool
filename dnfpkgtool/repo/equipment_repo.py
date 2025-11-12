@@ -4,7 +4,6 @@ from typing import Dict, List
 import polars as pl
 from loguru import logger
 
-from config import config
 from dnfpkgtool.pvf.pvf_reader import PVFDict
 from dnfpkgtool.repo import MappingElementLocation, remapping_pvf_dict
 from dnfpkgtool.repo.base_repo import BaseRepo
@@ -289,6 +288,3 @@ class EquipmentRepo(BaseRepo):
         return rows[0]
 
 
-def get_equipment_repo() -> EquipmentRepo:
-    fp = config.get_equipment_parquet_file_path()
-    return EquipmentRepo(fp)

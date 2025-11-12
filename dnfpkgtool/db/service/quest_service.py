@@ -8,7 +8,7 @@ from dnfpkgtool.db.entity.mail_form_item import MailFormItem, MailItemType
 from dnfpkgtool.db.repo.new_character_quest_repo import NewCharacterQuestRepo
 from dnfpkgtool.db.service.item_service import ItemService, ItemType
 from dnfpkgtool.db.service.mail_service import MailService
-from dnfpkgtool.repo.quest_repo import get_quest_repo
+from dnfpkgtool.repo.repo_manager import get_quest_repo
 
 
 class CharacterQuest(BaseModel):

@@ -4,9 +4,7 @@ from pathlib import Path
 from typing import List
 
 import polars as pl
-from loguru import logger
 
-from config import config
 from dnfpkgtool.repo.base_repo import BaseRepo
 from dnfpkgtool.repo.skill_repo import SkillRepo
 from dnfpkgtool.repo.stackable_repo import StackableRepo
@@ -269,6 +267,3 @@ class OrbRepo(BaseRepo):
         )
 
 
-def get_orb_repo() -> OrbRepo:
-    fp = config.get_orb_parquet_file_path()
-    return OrbRepo(fp)

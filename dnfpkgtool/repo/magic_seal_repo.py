@@ -2,9 +2,7 @@ from pathlib import Path
 from typing import List
 
 import polars as pl
-from loguru import logger
 
-from config import config
 from dnfpkgtool.repo.base_repo import BaseRepo
 
 
@@ -29,6 +27,3 @@ class MagicSealRepo(BaseRepo):
         return rs
 
 
-def get_magic_seal_repo() -> MagicSealRepo:
-    fp = config.get_magic_seal_parquet_file_path()
-    return MagicSealRepo(fp)

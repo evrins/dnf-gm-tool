@@ -4,7 +4,6 @@ from typing import List
 import polars as pl
 from loguru import logger
 
-from config import config
 from dnfpkgtool.pvf.pvf_reader import PVFDict
 from dnfpkgtool.repo import MappingElementLocation, remapping_pvf_dict
 from dnfpkgtool.repo.base_repo import BaseRepo
@@ -147,6 +146,3 @@ class StackableRepo(BaseRepo):
         return rows[0]
 
 
-def get_stackable_repo() -> StackableRepo:
-    fp = config.get_stackable_parquet_file_path()
-    return StackableRepo(fp)

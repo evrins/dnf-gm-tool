@@ -9,9 +9,7 @@ generating unlock strings for dungeons.
 from pathlib import Path
 
 import polars as pl
-from loguru import logger
 
-from config import config
 from dnfpkgtool.pvf.pvf_reader import PVFDict
 from dnfpkgtool.repo import MappingElementLocation, remapping_pvf_dict
 from dnfpkgtool.repo.base_repo import BaseRepo
@@ -50,6 +48,3 @@ class DungeonRepo(BaseRepo):
         return ','.join(res)
 
 
-def get_dungeon_repo():
-    fp = config.get_dungeon_repo_parquet_file_path()
-    return DungeonRepo(fp)

@@ -9,8 +9,7 @@ import sys
 from loguru import logger
 
 from config.config import check_mysql_config, get_config, get_db_config
-from dnfpkgtool.repo.magic_seal_repo import get_magic_seal_repo
-from dnfpkgtool.repo.stackable_repo import get_stackable_repo
+from dnfpkgtool.repo.repo_manager import get_magic_seal_repo, get_orb_repo, get_skill_repo, get_stackable_repo
 
 
 def check_database() -> bool:
@@ -39,9 +38,7 @@ def check_parquet_files() -> bool:
             return False
 
         # Test all repositories
-        from dnfpkgtool.repo.equipment_repo import get_equipment_repo
-        from dnfpkgtool.repo.orb_repo import get_orb_repo
-        from dnfpkgtool.repo.skill_repo import get_skill_repo
+        from dnfpkgtool.repo.repo_manager import get_equipment_repo
 
         repos_to_test = [
             ('Stackable', get_stackable_repo),

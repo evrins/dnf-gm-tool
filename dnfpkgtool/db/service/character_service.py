@@ -38,8 +38,7 @@ from dnfpkgtool.db.repo.member_dungeon_repo import get_member_dungeon_repo
 from dnfpkgtool.db.repo.member_punish_info_repo import get_member_punish_info_repo
 from dnfpkgtool.db.repo.pvp_result_repo import get_pvp_result_repo
 from dnfpkgtool.db.repo.skill_repo import get_skill_repo
-from dnfpkgtool.repo.dungeon_repo import get_dungeon_repo
-from dnfpkgtool.repo.exp_repo import get_exp_repo
+from dnfpkgtool.repo.repo_manager import get_dungeon_repo, get_exp_repo
 
 
 class ChargeType(Enum):

@@ -2,9 +2,7 @@ from pathlib import Path
 from typing import Any, Dict, List
 
 import polars as pl
-from loguru import logger
 
-from config import config
 from dnfpkgtool.repo import MappingElementLocation, remapping_pvf_list
 from dnfpkgtool.repo.base_repo import BaseRepo
 
@@ -58,6 +56,3 @@ class SkillRepo(BaseRepo):
         return self.df.filter(cond).select('*').limit(1).to_dicts()[0]
 
 
-def get_skill_repo():
-    fp = config.get_skill_parquet_file_path()
-    return SkillRepo(fp)

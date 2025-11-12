@@ -14,11 +14,10 @@ from dnfpkgtool.db.repo.postal_repo import get_postal_repo
 from dnfpkgtool.db.repo.user_items_repo import get_user_items_repo
 from dnfpkgtool.repo.equipment_repo import (
     EquipmentIdNotFoundException,
-    get_equipment_repo,
 )
+from dnfpkgtool.repo.repo_manager import get_equipment_repo, get_stackable_repo
 from dnfpkgtool.repo.stackable_repo import (
     StackableIdNotFoundException,
-    get_stackable_repo,
 )
 
 

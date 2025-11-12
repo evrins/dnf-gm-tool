@@ -9,7 +9,8 @@ from PySide6.QtWidgets import (
 from dnfpkgtool.db.entity.mail_form_item import MailItemType
 from dnfpkgtool.db.entity.mail_submit_item import MailSubmitItem
 from dnfpkgtool.db.entity.signals import gs
-from dnfpkgtool.repo.stackable_repo import StackableRepo, get_stackable_repo
+from dnfpkgtool.repo.stackable_repo import StackableRepo
+from dnfpkgtool.repo.repo_manager import get_stackable_repo
 from ui.components.stackable_search.stackable_search_ui import Ui_stackable_search
 from ui.components.stackable_search.vars import (
     categoryed_stackable_type_dict,

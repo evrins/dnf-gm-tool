@@ -6,11 +6,9 @@ from config import config
 from dnfpkgtool.repo.orb_repo import (
     build_orb_repo_parquet,
     enchant_key_mapping,
-    get_orb_repo,
     orb_category_order,
 )
-from dnfpkgtool.repo.skill_repo import get_skill_repo
-from dnfpkgtool.repo.stackable_repo import get_stackable_repo
+from dnfpkgtool.repo.repo_manager import get_orb_repo, get_skill_repo, get_stackable_repo
 
 
 def test_build_orb_repo_parquet():

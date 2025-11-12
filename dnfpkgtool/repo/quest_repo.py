@@ -2,9 +2,7 @@ from pathlib import Path
 from typing import List
 
 import polars as pl
-from loguru import logger
 
-from config import config
 from dnfpkgtool.pvf.pvf_reader import PVFDict
 from dnfpkgtool.repo import (
     MappingElementLocation,
@@ -75,6 +73,3 @@ class QuestRepo(BaseRepo):
         return self.df.filter(cond).select('*').limit(1).to_dicts()[0]
 
 
-def get_quest_repo():
-    fp = config.get_quest_parquet_file_path()
-    return QuestRepo(fp)

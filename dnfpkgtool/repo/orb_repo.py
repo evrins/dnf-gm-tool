@@ -235,19 +235,6 @@ def build_orb_repo_parquet(
 
 
 class OrbRepo(BaseRepo):
-    def __init__(self, fp: str | Path):
-        self._is_available = True
-        try:
-            self.df = pl.read_parquet(fp)
-        except Exception as e:
-            logger.warning(f'OrbRepo failed to load parquet file {fp}: {e}')
-            # Create an empty dataframe with the expected schema
-            self.df = None
-            self._is_available = False
-
-    def is_available(self) -> bool:
-        """Check if the repository is available (parquet file loaded successfully)"""
-        return self._is_available
 
     def query_by_card_id(self, card_id: int) -> dict:
         return self.df.filter(pl.col('card_id') == card_id).limit(1).to_dicts()[0]

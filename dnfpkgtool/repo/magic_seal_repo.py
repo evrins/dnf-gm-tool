@@ -19,19 +19,6 @@ def build_magic_seal_parquet(magic_seal_dict: dict[int, str], out_path: str | Pa
 
 
 class MagicSealRepo(BaseRepo):
-    def __init__(self, fp: str | Path):
-        self._is_available = True
-        try:
-            self.df = pl.read_parquet(fp)
-        except Exception as e:
-            logger.warning(f'MagicSealRepo failed to load parquet file {fp}: {e}')
-            # Create an empty dataframe with the expected schema
-            self.df = None
-            self._is_available = False
-
-    def is_available(self) -> bool:
-        """Check if the repository is available (parquet file loaded successfully)"""
-        return self._is_available
 
     def query_by_id(self, id_: int) -> dict:
         rs = self.df.filter(pl.col('id') == id_).select('*').limit(1).to_dicts()

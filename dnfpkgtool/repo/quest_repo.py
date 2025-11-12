@@ -51,18 +51,6 @@ def build_quest_repo_parquet(pvf_dict: PVFDict, fp: str | Path):
 
 
 class QuestRepo(BaseRepo):
-    def __init__(self, fp: str | Path):
-        self._is_available = True
-        try:
-            self.df = pl.read_parquet(fp)
-        except Exception as e:
-            logger.warning(f'QuestRepo failed to load parquet file {fp}: {e}')
-            self.df = None
-            self._is_available = False
-
-    def is_available(self) -> bool:
-        """Check if the repository is available (parquet file loaded successfully)"""
-        return self._is_available
 
     def query(
         self,

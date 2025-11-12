@@ -32,19 +32,6 @@ def build_skill_repo_parquet(pvf_list: List[Dict[str, Any]], fp: str | Path):
 
 
 class SkillRepo(BaseRepo):
-    def __init__(self, fp: str | Path):
-        self._is_available = True
-        try:
-            self.df = pl.read_parquet(fp)
-        except Exception as e:
-            logger.warning(f'SkillRepo failed to load parquet file {fp}: {e}')
-            # Create an empty dataframe with the expected schema
-            self.df = None
-            self._is_available = False
-
-    def is_available(self) -> bool:
-        """Check if the repository is available (parquet file loaded successfully)"""
-        return self._is_available
 
     def query(
         self,

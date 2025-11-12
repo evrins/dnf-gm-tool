@@ -11,10 +11,7 @@ class MemberPunishInfoRepo(BaseRepo):
 
     def delete_by_m_id(self, m_id: int):
         with Session(self.get_engine()) as session:
-            stmt = (
-                delete(MemberPunishInfo)
-                .where(MemberPunishInfo.m_id == m_id)
-            )
+            stmt = delete(MemberPunishInfo).where(MemberPunishInfo.m_id == m_id)
             session.execute(stmt)
             session.commit()
 

@@ -1,10 +1,10 @@
 import signal
 import sys
-from enum import Enum
 from pathlib import Path
 from typing import Callable, List
 
 from loguru import logger
+from pydantic import BaseModel
 from PySide6.QtCore import Qt, QTimer
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import (
@@ -15,7 +15,6 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
     QWidget,
 )
-from pydantic import BaseModel
 
 import resources.resources_rc  # noqa: F401
 from config import config
@@ -68,53 +67,39 @@ class MainWindow(QMainWindow):
 
         self.tab_configs: List[TabConfig] = [
             TabConfig(
-                index=0,
-                name='👥 角色列表',
-                requires=req_database,
-                tab_class=Characters
+                index=0, name='👥 角色列表', requires=req_database, tab_class=Characters
             ),
             TabConfig(
                 index=1,
                 name='👤 角色信息',
                 requires=req_database | req_pvf | req_character_selected,
-                tab_class=CharacterInfoWidget
+                tab_class=CharacterInfoWidget,
             ),
             TabConfig(
-                index=2,
-                name='🛡️ 装备搜索',
-                requires=req_pvf,
-                tab_class=EquipmentSearch
+                index=2, name='🛡️ 装备搜索', requires=req_pvf, tab_class=EquipmentSearch
             ),
             TabConfig(
-                index=3,
-                name='📦 物品搜索',
-                requires=req_pvf,
-                tab_class=StackableSearch
+                index=3, name='📦 物品搜索', requires=req_pvf, tab_class=StackableSearch
             ),
             TabConfig(
                 index=4,
                 name='🎒 物品',
                 requires=req_database | req_pvf | req_character_selected,
-                tab_class=InventoryTabView
+                tab_class=InventoryTabView,
             ),
             TabConfig(
                 index=5,
                 name='📧 邮件',
                 requires=req_database | req_pvf | req_character_selected,
-                tab_class=Mail
+                tab_class=Mail,
             ),
             TabConfig(
                 index=6,
                 name='📜 任务',
                 requires=req_database | req_pvf | req_character_selected,
-                tab_class=Quests
+                tab_class=Quests,
             ),
-            TabConfig(
-                index=7,
-                name='⚙️ 设置',
-                requires=0,
-                tab_class=Setting
-            )
+            TabConfig(index=7, name='⚙️ 设置', requires=0, tab_class=Setting),
         ]
 
         self.create_tabs()
@@ -163,9 +148,7 @@ class MainWindow(QMainWindow):
                 '此页面需要可用的数据库连接配置, 请在设置页面配置'
             )
         elif it.requires & req_pvf and not self.parquet_ready:
-            tab = self.create_not_ready_widget(
-                '此页面需要 pvf 文件, 请在设置页面配置'
-            )
+            tab = self.create_not_ready_widget('此页面需要 pvf 文件, 请在设置页面配置')
         elif it.requires & req_character_selected and not self.have_user_selected:
             tab = self.create_not_ready_widget(
                 '此页面需要选中用户, 请在角色列表页面选择'

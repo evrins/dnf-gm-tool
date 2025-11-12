@@ -20,14 +20,16 @@ class CharacterManageInfoRepo(BaseRepo):
 
     def upsert(self, it: CharacterManageInfo):
         with Session(self.get_engine()) as session:
-            stmt = (insert(CharacterManageInfo)
-            .values(
-                character_no=it.character_no,
-                max_equip_level=it.max_equip_level,
+            stmt = (
+                insert(CharacterManageInfo)
+                .values(
+                    character_no=it.character_no,
+                    max_equip_level=it.max_equip_level,
+                )
+                .on_duplicate_key_update(
+                    max_equip_level=it.max_equip_level,
+                )
             )
-            .on_duplicate_key_update(
-                max_equip_level=it.max_equip_level,
-            ))
             session.execute(stmt)
             session.commit()
 

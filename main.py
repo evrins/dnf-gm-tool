@@ -1,6 +1,8 @@
 import signal
 import sys
+from enum import Enum
 from pathlib import Path
+from typing import Callable, List
 
 from loguru import logger
 from PySide6.QtCore import Qt, QTimer
@@ -13,6 +15,7 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
     QWidget,
 )
+from pydantic import BaseModel
 
 import resources.resources_rc  # noqa: F401
 from config import config
@@ -37,22 +40,18 @@ def handle_shutdown_signal(sig, frame=None):
     shutdown_requested = True
 
 
-TAB_CHARACTERS = '👥 角色列表'
-TAB_CHARACTERS_INDEX = 0
-TAB_CHARACTER_INFO = '👤 角色信息'
-TAB_CHARACTER_INFO_INDEX = 1
-TAB_EQUIPMENT_SEARCH = '🛡️ 装备搜索'
-TAB_EQUIPMENT_SEARCH_INDEX = 2
-TAB_STACKABLE_SEARCH = '📦 物品搜索'
-TAB_STACKABLE_SEARCH_INDEX = 3
-TAB_INVENTORY = '🎒 物品'
-TAB_INVENTORY_INDEX = 4
-TAB_MAIL = '📧 邮件'
-TAB_MAIL_INDEX = 5
-TAB_QUEST = '📜 任务'
-TAB_QUEST_INDEX = 6
-TAB_SETTINGS = '⚙️ 设置'
-TAB_SETTINGS_INDEX = 7
+req_database = 1
+req_pvf = 2
+req_character_selected = 4
+
+
+class TabConfig(BaseModel):
+    index: int
+    name: str
+    requires: int
+    tab_class: Callable
+    # 页面初始化标记
+    success_init: bool = False
 
 
 class MainWindow(QMainWindow):
@@ -65,68 +64,60 @@ class MainWindow(QMainWindow):
 
         self.db_ready = check_database()
         self.parquet_ready = check_parquet_files()
+        self.have_user_selected = config.have_valid_account_id_and_character_no()
 
-        if self.db_ready:
-            self.character_widget = Characters()
-        else:
-            self.character_widget = self.create_not_ready_widget(
-                'Database not ready, setup in settings tab'
+        self.tab_configs: List[TabConfig] = [
+            TabConfig(
+                index=0,
+                name='👥 角色列表',
+                requires=req_database,
+                tab_class=Characters
+            ),
+            TabConfig(
+                index=1,
+                name='👤 角色信息',
+                requires=req_database | req_pvf | req_character_selected,
+                tab_class=CharacterInfoWidget
+            ),
+            TabConfig(
+                index=2,
+                name='🛡️ 装备搜索',
+                requires=req_pvf,
+                tab_class=EquipmentSearch
+            ),
+            TabConfig(
+                index=3,
+                name='📦 物品搜索',
+                requires=req_pvf,
+                tab_class=StackableSearch
+            ),
+            TabConfig(
+                index=4,
+                name='🎒 物品',
+                requires=req_database | req_pvf | req_character_selected,
+                tab_class=InventoryTabView
+            ),
+            TabConfig(
+                index=5,
+                name='📧 邮件',
+                requires=req_database | req_pvf | req_character_selected,
+                tab_class=Mail
+            ),
+            TabConfig(
+                index=6,
+                name='📜 任务',
+                requires=req_database | req_pvf | req_character_selected,
+                tab_class=Quests
+            ),
+            TabConfig(
+                index=7,
+                name='⚙️ 设置',
+                requires=0,
+                tab_class=Setting
             )
+        ]
 
-        self.tab_widget.addTab(self.character_widget, TAB_CHARACTERS)
-
-        if self.db_ready:
-            self.character_info_widget = CharacterInfoWidget()
-        else:
-            self.character_info_widget = self.create_not_ready_widget(
-                'Database not ready, setup in settings tab'
-            )
-
-        self.tab_widget.addTab(self.character_info_widget, TAB_CHARACTER_INFO)
-
-        if self.parquet_ready:
-            self.equip_search = EquipmentSearch()
-        else:
-            self.equip_search = self.create_not_ready_widget(
-                'PVF data not ready, setup in settings tab'
-            )
-        self.tab_widget.addTab(self.equip_search, TAB_EQUIPMENT_SEARCH)
-
-        if self.parquet_ready:
-            self.stackable_search = StackableSearch()
-        else:
-            self.stackable_search = self.create_not_ready_widget(
-                'PVF data not ready, setup in settings tab'
-            )
-        self.tab_widget.addTab(self.stackable_search, TAB_STACKABLE_SEARCH)
-
-        if self.db_ready and self.parquet_ready:
-            self.inventory_tabview = InventoryTabView()
-        else:
-            self.inventory_tabview = self.create_not_ready_widget(
-                'Database or PVF data not ready, setup in settings tab'
-            )
-        self.tab_widget.addTab(self.inventory_tabview, TAB_INVENTORY)
-
-        if self.db_ready and self.parquet_ready:
-            self.mail_widget = Mail()
-        else:
-            self.mail_widget = self.create_not_ready_widget(
-                'Database or PVF data not ready, setup in settings tab'
-            )
-        self.tab_widget.addTab(self.mail_widget, TAB_MAIL)
-
-        if self.db_ready and self.parquet_ready:
-            self.quest_widget = Quests()
-        else:
-            self.quest_widget = self.create_not_ready_widget(
-                'Database or PVF data not ready, setup in settings tab'
-            )
-        self.tab_widget.addTab(self.quest_widget, TAB_QUEST)
-
-        self.settings_widget = Setting()
-        self.tab_widget.addTab(self.settings_widget, TAB_SETTINGS)
-
+        self.create_tabs()
         # Set up status bar
         self.status_bar = self.statusBar()
         self.update_status_message()
@@ -134,6 +125,7 @@ class MainWindow(QMainWindow):
         # Connect signals
         gs.db_config_changed.connect(self.handle_db_config_change)
         gs.pvf_changed.connect(self.handle_pvf_change)
+        gs.character_no_changed.connect(self.handle_character_no_change)
         gs.submit_mail_form.connect(self.handle_submit_to_mail)
         gs.character_no_changed.connect(self.update_status_message)
 
@@ -159,57 +151,50 @@ class MainWindow(QMainWindow):
         container.setLayout(layout)
         return container
 
+    def create_tabs(self):
+        for it in self.tab_configs:
+            self.create_tab(it)
+
+    def create_tab(self, it: TabConfig):
+        if it.success_init:
+            return
+        if it.requires & req_database and not self.db_ready:
+            tab = self.create_not_ready_widget(
+                '此页面需要可用的数据库连接配置, 请在设置页面配置'
+            )
+        elif it.requires & req_pvf and not self.parquet_ready:
+            tab = self.create_not_ready_widget(
+                '此页面需要 pvf 文件, 请在设置页面配置'
+            )
+        elif it.requires & req_character_selected and not self.have_user_selected:
+            tab = self.create_not_ready_widget(
+                '此页面需要选中用户, 请在角色列表页面选择'
+            )
+        else:
+            tab = it.tab_class()
+            it.success_init = True
+
+        # already exists replace it if not success inited
+        if it.index < self.tab_widget.count():
+            self.tab_widget.removeTab(it.index)
+            self.tab_widget.insertTab(it.index, tab, it.name)
+        else:
+            self.tab_widget.addTab(tab, it.name)
+
     def handle_db_config_change(self):
         self.db_ready = True
-        self.character_widget = Characters()
-        self.tab_widget.removeTab(TAB_CHARACTERS_INDEX)
-        self.tab_widget.insertTab(
-            TAB_CHARACTERS_INDEX, self.character_widget, TAB_CHARACTERS
-        )
-
-        if self.db_ready and self.parquet_ready:
-            self.replace_widgets()
+        self.create_tabs()
 
     def handle_pvf_change(self):
         self.parquet_ready = True
-        self.equip_search = EquipmentSearch()
-        self.tab_widget.removeTab(TAB_EQUIPMENT_SEARCH_INDEX)
-        self.tab_widget.insertTab(
-            TAB_EQUIPMENT_SEARCH_INDEX, self.equip_search, TAB_EQUIPMENT_SEARCH
-        )
+        self.create_tabs()
 
-        self.stackable_search = StackableSearch()
-        self.tab_widget.removeTab(TAB_STACKABLE_SEARCH_INDEX)
-        self.tab_widget.insertTab(
-            TAB_STACKABLE_SEARCH_INDEX, self.stackable_search, TAB_STACKABLE_SEARCH
-        )
-
-        if self.db_ready and self.parquet_ready:
-            self.replace_widgets()
-
-    def replace_widgets(self):
-        self.character_info_widget = CharacterInfoWidget()
-        self.tab_widget.removeTab(TAB_CHARACTER_INFO_INDEX)
-        self.tab_widget.insertTab(
-            TAB_CHARACTER_INFO_INDEX, self.character_info_widget, TAB_CHARACTER_INFO
-        )
-
-        self.inventory_tabview = InventoryTabView()
-        self.tab_widget.removeTab(TAB_INVENTORY_INDEX)
-        self.tab_widget.insertTab(
-            TAB_INVENTORY_INDEX, self.inventory_tabview, TAB_INVENTORY
-        )
-
-        self.mail_widget = Mail()
-        self.tab_widget.removeTab(TAB_MAIL_INDEX)
-        self.tab_widget.insertTab(TAB_MAIL_INDEX, self.mail_widget, TAB_MAIL)
-
-        self.quest_widget = Quests()
-        self.tab_widget.removeTab(TAB_QUEST_INDEX)
-        self.tab_widget.insertTab(TAB_QUEST_INDEX, self.quest_widget, TAB_QUEST)
+    def handle_character_no_change(self):
+        self.have_user_selected = True
+        self.create_tabs()
 
     def handle_submit_to_mail(self, mail_submit_item: MailSubmitItem):
-        self.tab_widget.setCurrentIndex(TAB_MAIL_INDEX)
+        self.tab_widget.setCurrentIndex(5)  # index of mail tab
 
     def update_status_message(self):
         account_id = config.get_current_account_id()

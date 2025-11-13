@@ -1,7 +1,7 @@
 from time import time
 
 from loguru import logger
-from PySide6.QtCore import QThread, QTimer, Signal
+from PySide6.QtCore import QThread, Signal
 from PySide6.QtWidgets import (
     QComboBox,
     QFileDialog,
@@ -26,6 +26,31 @@ from dnfpkgtool.repo.stackable_repo import (
 )
 from ui.components.settings.settings_ui import Ui_settings
 from util import calculate_hash_of_file
+
+
+class MySQLTestThread(QThread):
+    """Worker thread for testing MySQL connection without blocking UI."""
+
+    finished = Signal(bool, str)  # success, error_message
+
+    def __init__(self, host: str, port: int, username: str, password: str, parent=None):
+        super().__init__(parent)
+        self.host = host
+        self.port = port
+        self.username = username
+        self.password = password
+
+    def run(self):
+        try:
+            valid = check_mysql_config(
+                self.host, self.port, self.username, self.password
+            )
+            if valid:
+                self.finished.emit(True, '')
+            else:
+                self.finished.emit(False, 'Connection failed')
+        except Exception as e:
+            self.finished.emit(False, str(e))
 
 
 class BuilderThread(QThread):
@@ -228,23 +253,34 @@ class Setting(QWidget, Ui_settings):
         # Disable button during test
         self.save_btn.setEnabled(False)
 
-        # Test connection
-        try:
-            valid = check_mysql_config(host, port, username, password)
+        # Test connection in background thread
+        self.mysql_test_thread = MySQLTestThread(host, port, username, password)
+        self.mysql_test_thread.finished.connect(
+            lambda success, error_msg: self._on_mysql_test_finished(
+                success, error_msg, host, port, username, password
+            )
+        )
+        self.mysql_test_thread.start()
 
-            if valid:
-                self._show_success_status('Success')
-                self._save_settings(host, port, username, password)
-                gs.db_config_changed.emit()
-            else:
-                self._show_error_status('Failed')
+    def _on_mysql_test_finished(
+        self,
+        success: bool,
+        error_msg: str,
+        host: str,
+        port: int,
+        username: str,
+        password: str,
+    ):
+        """Handle MySQL test completion."""
+        if success:
+            self._show_success_status('Success')
+            self._save_settings(host, port, username, password)
+            gs.db_config_changed.emit()
+        else:
+            self._show_error_status(error_msg or 'Failed')
 
-        except Exception as e:
-            self._show_error_status(f'Connection error: {str(e)}')
-
-        finally:
-            # Re-enable button after test
-            QTimer.singleShot(100, lambda: self.save_btn.setEnabled(True))
+        # Re-enable button after test
+        self.save_btn.setEnabled(True)
 
     def _show_testing_status(self):
         """Show testing in progress status."""

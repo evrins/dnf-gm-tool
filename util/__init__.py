@@ -45,3 +45,11 @@ def decrypt_bytes(input_bytes: bytes, crc):
     value_2 = value_xored_all & mask_2_all
     value = value_1 << 26 | value_2 >> 6
     return value.to_bytes(4 * int_num, 'little')
+
+
+def cp1252_to_utf8(s: str) -> str:
+    return s.encode('cp1252').decode('utf-8')
+
+
+def utf8_to_cp1252(s: str) -> str:
+    return s.encode('utf-8').decode('cp1252')

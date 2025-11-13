@@ -9,7 +9,12 @@ import sys
 from loguru import logger
 
 from config.config import check_mysql_config, get_config, get_db_config
-from dnfpkgtool.repo.repo_manager import get_magic_seal_repo, get_orb_repo, get_skill_repo, get_stackable_repo
+from dnfpkgtool.repo.repo_manager import (
+    get_magic_seal_repo,
+    get_orb_repo,
+    get_skill_repo,
+    get_stackable_repo,
+)
 
 
 def check_database() -> bool:

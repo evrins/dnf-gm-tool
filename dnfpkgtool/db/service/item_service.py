@@ -18,12 +18,17 @@ from dnfpkgtool.repo.equipment_repo import (
     EquipmentIdNotFoundException,
     build_equipment_repo_parquet,
 )
-from dnfpkgtool.repo.repo_manager import get_equipment_repo, get_magic_seal_repo, get_skill_repo, get_stackable_repo
 from dnfpkgtool.repo.magic_seal_repo import (
     build_magic_seal_parquet,
 )
 from dnfpkgtool.repo.orb_repo import build_orb_repo_parquet
 from dnfpkgtool.repo.quest_repo import build_quest_repo_parquet
+from dnfpkgtool.repo.repo_manager import (
+    get_equipment_repo,
+    get_magic_seal_repo,
+    get_skill_repo,
+    get_stackable_repo,
+)
 from dnfpkgtool.repo.skill_repo import build_skill_repo_parquet
 from dnfpkgtool.repo.stackable_repo import (
     StackableIdNotFoundException,

@@ -228,7 +228,6 @@ class EquipmentIdNotFoundException(Exception):
 
 
 class EquipmentRepo(BaseRepo):
-
     @time_it
     def query(
         self,
@@ -286,5 +285,3 @@ class EquipmentRepo(BaseRepo):
         if len(rows) == 0:
             raise EquipmentIdNotFoundException(id_)
         return rows[0]
-
-

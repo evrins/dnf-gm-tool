@@ -17,7 +17,6 @@ def build_magic_seal_parquet(magic_seal_dict: dict[int, str], out_path: str | Pa
 
 
 class MagicSealRepo(BaseRepo):
-
     def query_by_id(self, id_: int) -> dict:
         rs = self.df.filter(pl.col('id') == id_).select('*').limit(1).to_dicts()
         return rs[0]
@@ -25,5 +24,3 @@ class MagicSealRepo(BaseRepo):
     def query_all(self) -> List[dict]:
         rs = self.df.select('*').to_dicts()
         return rs
-
-

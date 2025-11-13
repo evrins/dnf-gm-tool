@@ -23,5 +23,3 @@ class ExpRepo(BaseRepo):
         cond = pl.col('level') == level
 
         return self.df.filter(cond).select('exp').limit(1).to_dicts()[0]['exp']
-
-

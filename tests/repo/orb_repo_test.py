@@ -8,7 +8,11 @@ from dnfpkgtool.repo.orb_repo import (
     enchant_key_mapping,
     orb_category_order,
 )
-from dnfpkgtool.repo.repo_manager import get_orb_repo, get_skill_repo, get_stackable_repo
+from dnfpkgtool.repo.repo_manager import (
+    get_orb_repo,
+    get_skill_repo,
+    get_stackable_repo,
+)
 
 
 def test_build_orb_repo_parquet():

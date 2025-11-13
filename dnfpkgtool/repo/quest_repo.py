@@ -49,7 +49,6 @@ def build_quest_repo_parquet(pvf_dict: PVFDict, fp: str | Path):
 
 
 class QuestRepo(BaseRepo):
-
     def query(
         self,
         name: str,
@@ -71,5 +70,3 @@ class QuestRepo(BaseRepo):
         if job != 'all':
             cond = cond & (pl.col('job') == job)
         return self.df.filter(cond).select('*').limit(1).to_dicts()[0]
-
-

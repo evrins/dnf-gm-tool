@@ -46,5 +46,3 @@ class DungeonRepo(BaseRepo):
             res.append(f'{it}|3')
 
         return ','.join(res)
-
-

@@ -19,7 +19,9 @@ class BaseRepo:
             self.df = pl.read_parquet(fp)
             self._is_available = True
         except Exception as e:
-            logger.warning(f'{self.__class__.__name__} failed to load parquet file {fp}: {e}')
+            logger.warning(
+                f'{self.__class__.__name__} failed to load parquet file {fp}: {e}'
+            )
             # Create an empty dataframe with the expected schema
             self.df = None
             self._is_available = False

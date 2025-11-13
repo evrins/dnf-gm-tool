@@ -30,7 +30,6 @@ def build_skill_repo_parquet(pvf_list: List[Dict[str, Any]], fp: str | Path):
 
 
 class SkillRepo(BaseRepo):
-
     def query(
         self,
         name: str,
@@ -54,5 +53,3 @@ class SkillRepo(BaseRepo):
         if job != 'all':
             cond = cond & (pl.col('job') == job)
         return self.df.filter(cond).select('*').limit(1).to_dicts()[0]
-
-

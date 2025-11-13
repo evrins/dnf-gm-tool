@@ -233,7 +233,6 @@ def build_orb_repo_parquet(
 
 
 class OrbRepo(BaseRepo):
-
     def query_by_card_id(self, card_id: int) -> dict:
         return self.df.filter(pl.col('card_id') == card_id).limit(1).to_dicts()[0]
 
@@ -265,5 +264,3 @@ class OrbRepo(BaseRepo):
             .sort(pl.col('orb_id'), descending=False)
             .to_dicts()
         )
-
-

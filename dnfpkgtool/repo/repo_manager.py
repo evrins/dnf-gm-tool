@@ -1,4 +1,4 @@
-from typing import Dict, Callable, Tuple
+from typing import Callable, Dict
 
 from config import config
 from dnfpkgtool.db.entity.signals import gs
@@ -26,7 +26,7 @@ repo_config = {
     'orb': (OrbRepo, config.get_orb_parquet_file_path),
     'quest': (QuestRepo, config.get_quest_parquet_file_path),
     'skill': (SkillRepo, config.get_skill_parquet_file_path),
-    'dungeon': (DungeonRepo, config.get_dungeon_repo_parquet_file_path)
+    'dungeon': (DungeonRepo, config.get_dungeon_repo_parquet_file_path),
 }
 
 

@@ -99,7 +99,6 @@ class StackableIdNotFoundException(Exception):
 
 
 class StackableRepo(BaseRepo):
-
     def query(
         self,
         name: str,
@@ -144,5 +143,3 @@ class StackableRepo(BaseRepo):
         if len(rows) == 0:
             raise StackableIdNotFoundException(id_)
         return rows[0]
-
-

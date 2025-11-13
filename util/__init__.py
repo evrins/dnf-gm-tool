@@ -47,9 +47,13 @@ def decrypt_bytes(input_bytes: bytes, crc):
     return value.to_bytes(4 * int_num, 'little')
 
 
-def cp1252_to_utf8(s: str) -> str:
-    return s.encode('cp1252').decode('utf-8')
-
-
-def utf8_to_cp1252(s: str) -> str:
-    return s.encode('utf-8').decode('cp1252')
+def decode_string_to_utf8(s: str) -> str:
+    s1 = s.encode('latin1', 'replace')
+    s2 = s.encode('cp1252', 'replace')
+    s3 = b''
+    for i in range(len(s1)):
+        if s1[i: i + 1] == b'?':
+            s3 += s2[i: i + 1]
+        else:
+            s3 += s1[i: i + 1]
+    return s3.decode(errors='replace')

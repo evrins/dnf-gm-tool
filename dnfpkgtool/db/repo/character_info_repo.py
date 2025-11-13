@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 
 from dnfpkgtool.db.model.character_info import CharacterInfo
 from dnfpkgtool.db.repo.base_repo import BaseRepo
-from util import cp1252_to_utf8, utf8_to_cp1252
+from util import decode_string_to_utf8
 
 
 def apply_map_function(map_func: Callable[[CharacterInfo], CharacterInfo]):
@@ -49,7 +49,7 @@ def fix_character_name_encoding(character: CharacterInfo) -> CharacterInfo:
     """
     try:
         # Try to fix mojibake: encode as cp1252 to get original UTF-8 bytes, then decode as UTF-8
-        fixed_name = cp1252_to_utf8(character.character_name)
+        fixed_name = decode_string_to_utf8(character.character_name)
         character.character_name = fixed_name
     except (UnicodeEncodeError, UnicodeDecodeError):
         # If conversion fails, the name is probably already correct or has other encoding issues
@@ -115,7 +115,7 @@ class CharacterInfoRepo(BaseRepo):
 
 
 def recode_character_name(it: CharacterInfo) -> CharacterInfo:
-    it.character_name = cp1252_to_utf8(it.character_name)
+    it.character_name = decode_string_to_utf8(it.character_name)
     return it
 
 

@@ -159,6 +159,8 @@ class CharacterInfoWidget(QWidget, Ui_character_info):
             character_info, has_level_changed
         )
 
+        gs.character_info_changed.emit()
+
     def update_job_options(self):
         self.job_combox.clear()
         self.job_combox.addItems(jobs[self.role_combox.currentIndex()])

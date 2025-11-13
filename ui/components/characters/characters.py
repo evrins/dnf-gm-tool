@@ -5,6 +5,7 @@ from PySide6.QtWidgets import QWidget
 
 from config import config
 from dnfpkgtool.db.entity.character_list_item import CharacterListItem
+from dnfpkgtool.db.entity.signals import gs
 from dnfpkgtool.db.service.account_service import AccountService
 from ui.components.characters.characters_ui import Ui_characters
 
@@ -73,6 +74,7 @@ class Characters(QWidget, Ui_characters):
 
         self.character_table_view.clicked.connect(self.on_row_click)
 
+        gs.character_info_changed.connect(self.search_characters)
         self.reset()
 
     def reset(self):

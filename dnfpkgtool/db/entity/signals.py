@@ -9,6 +9,7 @@ class GlobalSignals(QObject):
     account_id_changed = Signal()
     character_no_changed = Signal()
     submit_mail_form = Signal(MailSubmitItem)
+    character_info_changed = Signal()
 
     def __init__(self):
         super().__init__()

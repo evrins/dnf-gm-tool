@@ -6,7 +6,7 @@ a = Analysis(
     pathex=[],
     binaries=[],
     datas=[
-        ('.venv\\Lib\\site-packages\\zhconv\\zhcdict.json', 'zhconv')
+        ('zhconv', 'zhconv')
     ],
     hiddenimports=[],
     hookspath=[],

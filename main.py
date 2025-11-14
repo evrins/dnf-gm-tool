@@ -6,7 +6,7 @@ from typing import Callable, List
 
 from loguru import logger
 from pydantic import BaseModel
-from PySide6.QtCore import Qt, QTimer
+from PySide6.QtCore import Qt, QTimer, QCoreApplication, QStandardPaths
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import (
     QApplication,
@@ -32,6 +32,9 @@ from ui.components.stackable_search.stackable_search import StackableSearch
 from ui.inventory_tabview import InventoryTabView
 
 shutdown_requested = False
+
+QCoreApplication.setOrganizationDomain('hu.evrins')
+QCoreApplication.setApplicationName('dnf-gm-tool')
 
 
 def handle_shutdown_signal(sig, frame=None):
@@ -203,14 +206,23 @@ class MainWindow(QMainWindow):
             self.close()
 
 
-def is_running_in_executable() -> bool:
-    return hasattr(sys, '_MEIPASS')
+def is_running_as_windows_executable() -> bool:
+    return sys.platform == 'win32' and getattr(sys, 'frozen', False)
+
+
+def is_running_as_macos_app() -> bool:
+    return sys.platform == 'darwin' and getattr(sys, 'frozen', False)
 
 
 def start_app():
-    if is_running_in_executable():
+    if is_running_as_windows_executable():
         base_dir = Path(__file__).parent.parent
         config.set_base_dir(base_dir)
+    elif is_running_as_macos_app():
+        app_data_path = QStandardPaths.writableLocation(
+            QStandardPaths.StandardLocation.AppDataLocation
+        )
+        config.set_base_dir(Path(app_data_path))
 
     config.init_dirs()
 

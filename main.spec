@@ -17,13 +17,13 @@ a = Analysis(
     optimize=0,
 )
 pyz = PYZ(a.pure)
- 
+
 exe = EXE(
     pyz,
     a.scripts,
     [],
     exclude_binaries=True,
-    name='gm_tool',
+    name='seria',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -34,7 +34,7 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['resources\\icon.ico'],
+    icon=['resources/icon.icns'],
 )
 coll = COLLECT(
     exe,
@@ -43,5 +43,11 @@ coll = COLLECT(
     strip=False,
     upx=True,
     upx_exclude=[],
-    name='main',
+    name='seria',
+)
+app = BUNDLE(
+    coll,
+    name='dnf-gm-tool.app',
+    icon='resources/icon.icns',
+    bundle_identifier='hu.evrins.dnf-gm-tool',
 )

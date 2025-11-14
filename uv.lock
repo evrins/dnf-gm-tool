@@ -49,6 +49,7 @@ dependencies = [
     { name = "pydantic" },
     { name = "pymysql" },
     { name = "pyside6" },
+    { name = "show-in-file-manager" },
     { name = "sqlalchemy" },
     { name = "zhconv" },
 ]
@@ -62,12 +63,13 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "cachetools", specifier = ">=6.2.0" },
+    { name = "cachetools", specifier = ">=6.2.1" },
     { name = "loguru", specifier = ">=0.7.3" },
-    { name = "polars", specifier = ">=1.34.0" },
-    { name = "pydantic", specifier = ">=2.11.9" },
+    { name = "polars", specifier = ">=1.35.1" },
+    { name = "pydantic", specifier = ">=2.12.3" },
     { name = "pymysql", specifier = ">=1.1.2" },
     { name = "pyside6", specifier = ">=6.10.0" },
+    { name = "show-in-file-manager", specifier = ">=1.1.5" },
     { name = "sqlalchemy", specifier = ">=2.0.44" },
     { name = "zhconv", git = "https://github.com/seamile/zhconv" },
 ]
@@ -383,6 +385,15 @@ wheels = [
 ]
 
 [[package]]
+name = "pyxdg"
+version = "0.28"
+source = { registry = "https://mirrors.bfsu.edu.cn/pypi/web/simple/" }
+sdist = { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/b0/25/7998cd2dec731acbd438fbf91bc619603fc5188de0a9a17699a781840452/pyxdg-0.28.tar.gz", hash = "sha256:3267bb3074e934df202af2ee0868575484108581e6f3cb006af1da35395e88b4", size = 77776, upload-time = "2022-06-05T11:35:01Z" }
+wheels = [
+    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/e5/8d/cf41b66a8110670e3ad03dab9b759704eeed07fa96e90fdc0357b2ba70e2/pyxdg-0.28-py2.py3-none-any.whl", hash = "sha256:bdaf595999a0178ecea4052b7f4195569c1ff4d344567bccdc12dfdf02d545ab", size = 49520, upload-time = "2022-06-05T11:34:58.832Z" },
+]
+
+[[package]]
 name = "setuptools"
 version = "80.9.0"
 source = { registry = "https://mirrors.bfsu.edu.cn/pypi/web/simple/" }
@@ -401,6 +412,20 @@ wheels = [
     { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/31/29/00e26f33a0fb259c2edce9c761a7a438d7531ca514bdb1a4c072673bd437/shiboken6-6.10.0-cp39-abi3-manylinux_2_39_aarch64.whl", hash = "sha256:b01377e68d14132360efb0f4b7233006d26aa8ae9bb50edf00960c2a5f52d148", size = 267698, upload-time = "2025-10-08T09:49:10.694Z" },
     { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/11/30/e4624a7e3f0dc9796b701079b77defcce0d32d1afc86bb1d0df04bc3d9e2/shiboken6-6.10.0-cp39-abi3-win_amd64.whl", hash = "sha256:0bc5631c1bf150cbef768a17f5f289aae1cb4db6c6b0c19b2421394e27783717", size = 1234227, upload-time = "2025-10-08T09:49:12.774Z" },
     { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/dd/e5/0ab862005ea87dc8647ba958a3099b3b0115fd6491c65da5c5a0f6364db1/shiboken6-6.10.0-cp39-abi3-win_arm64.whl", hash = "sha256:dfc4beab5fec7dbbebbb418f3bf99af865d6953aa0795435563d4cbb82093b61", size = 1794775, upload-time = "2025-10-08T09:49:14.641Z" },
+]
+
+[[package]]
+name = "show-in-file-manager"
+version = "1.1.5"
+source = { registry = "https://mirrors.bfsu.edu.cn/pypi/web/simple/" }
+dependencies = [
+    { name = "packaging" },
+    { name = "pywin32", marker = "sys_platform == 'win32'" },
+    { name = "pyxdg", marker = "sys_platform == 'linux'" },
+]
+sdist = { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/72/6c/0b8b6acd1e20ffa4e960b636a113f17c73e8022658c538672dd31303c3d3/show-in-file-manager-1.1.5.tar.gz", hash = "sha256:ed13a180a1d48fd88fdd4c58bfbcb3860268641a38805192c814d41387192d84" }
+wheels = [
+    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/8e/2d/cbae20c55a7a5a327de940eb217a5572ff6473e04406e56ece28729e447a/show_in_file_manager-1.1.5-py3-none-any.whl", hash = "sha256:a92a9ab2cd20fca45db5a8b2d2136e4bec624b182f000900855b2d992abd0cbc" },
 ]
 
 [[package]]

@@ -11,6 +11,7 @@ dependencies = [
     "pydantic>=2.12.3",
     "pymysql>=1.1.2",
     "pyside6>=6.10.0",
+    "show-in-file-manager>=1.1.5",
     "sqlalchemy>=2.0.44",
     "zhconv",
 ]

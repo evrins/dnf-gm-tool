@@ -1,3 +1,4 @@
+import os
 from time import time
 
 from loguru import logger
@@ -8,6 +9,7 @@ from PySide6.QtWidgets import (
     QMessageBox,
     QWidget,
 )
+from showinfm import show_in_file_manager
 
 from config import config
 from config.config import check_mysql_config
@@ -229,6 +231,8 @@ class Setting(QWidget, Ui_settings):
 
         self.select_pvf_btn.clicked.connect(self.handle_add_pvf)
 
+        self.open_data_dir_btn.clicked.connect(self.open_data_dir)
+
     def save_and_test(self):
         """Test MySQL connection and provide user feedback."""
         host = self.host_combox.currentText().strip()
@@ -396,3 +400,6 @@ class Setting(QWidget, Ui_settings):
 
     def current_pvf_changed(self, pvf_hash: str):
         config.set_pvf_hash(pvf_hash)
+
+    def open_data_dir(self):
+        show_in_file_manager(config.get_base_dir().__str__())

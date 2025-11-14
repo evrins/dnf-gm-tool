@@ -17,7 +17,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QComboBox, QFormLayout, QGroupBox,
     QHBoxLayout, QLabel, QProgressBar, QPushButton,
-    QSizePolicy, QWidget)
+    QSizePolicy, QVBoxLayout, QWidget)
 
 class Ui_settings(object):
     def setupUi(self, settings):
@@ -151,6 +151,23 @@ class Ui_settings(object):
 
         self.horizontalLayout.addWidget(self.pvf_groupbox)
 
+        self.others_groupbox = QGroupBox(settings)
+        self.others_groupbox.setObjectName(u"others_groupbox")
+        self.verticalLayout = QVBoxLayout(self.others_groupbox)
+        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.open_data_dir_btn = QPushButton(self.others_groupbox)
+        self.open_data_dir_btn.setObjectName(u"open_data_dir_btn")
+
+        self.verticalLayout.addWidget(self.open_data_dir_btn)
+
+        self.holder = QWidget(self.others_groupbox)
+        self.holder.setObjectName(u"holder")
+
+        self.verticalLayout.addWidget(self.holder)
+
+
+        self.horizontalLayout.addWidget(self.others_groupbox)
+
         self.widget = QWidget(settings)
         self.widget.setObjectName(u"widget")
 
@@ -176,5 +193,7 @@ class Ui_settings(object):
         self.pvf_label.setText(QCoreApplication.translate("settings", u"PVF", None))
         self.select_pvf_btn.setText(QCoreApplication.translate("settings", u"\u9009\u62e9 PVF", None))
         self.progress_status.setText(QCoreApplication.translate("settings", u"\u8fdb\u5ea6", None))
+        self.others_groupbox.setTitle(QCoreApplication.translate("settings", u"\u5176\u4ed6", None))
+        self.open_data_dir_btn.setText(QCoreApplication.translate("settings", u"\u6253\u5f00\u6570\u636e\u76ee\u5f55", None))
     # retranslateUi
 

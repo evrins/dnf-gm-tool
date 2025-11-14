@@ -37,6 +37,10 @@ def set_base_dir(dir_: Path):
     base_dir = dir_
 
 
+def get_base_dir() -> Path:
+    return base_dir
+
+
 def init_dirs():
     os.makedirs(base_dir / 'data' / 'log', exist_ok=True)
 
@@ -140,7 +144,6 @@ def get_config() -> Config:
 
 
 def get_db_config() -> DbConfig:
-    load()
     return _config.db_config
 
 

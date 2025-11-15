@@ -144,7 +144,7 @@ class CharacterInfoWidget(QWidget, Ui_character_info):
 
     def save_character_info(self):
         grow_type = (
-            self.job_combox.currentIndex() * 16 + self.wake_combox.currentIndex()
+            self.job_combox.currentIndex() + self.wake_combox.currentIndex() * 16
         )
 
         character_info = CharacterInfo(

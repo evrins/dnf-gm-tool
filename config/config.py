@@ -90,7 +90,7 @@ def load():
     if not os.path.exists(get_config_path()):
         _config = Config.default()
     else:
-        with open(get_config_path(), 'r') as f:
+        with open(get_config_path(), 'r', encoding='utf-8') as f:
             json_data = f.read()
             cfg = Config.model_validate_json(json_data)
             cfg.pvf_dir = base_dir / 'data' / cfg.pvf_hash

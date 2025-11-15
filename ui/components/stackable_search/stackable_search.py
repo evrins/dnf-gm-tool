@@ -1,6 +1,6 @@
 import json
 
-from PySide6.QtCore import QAbstractTableModel, QSortFilterProxyModel, Qt, QTimer
+from PySide6.QtCore import QAbstractTableModel, QSortFilterProxyModel, Qt, QTimer, QModelIndex
 from PySide6.QtWidgets import (
     QAbstractItemView,
     QWidget,
@@ -42,29 +42,6 @@ class StackableTableModel(QAbstractTableModel):
         if role == Qt.ItemDataRole.DisplayRole:
             key = self._headers[index.column()]
             return self._data[index.row()][key]
-        elif role == Qt.ItemDataRole.ToolTipRole:
-            indent = ' ' * 4
-            row = self._data[index.row()]
-            json_string = row['json']
-            d = json.loads(json_string)
-            lines = []
-            for k, v in d.items():
-                lines.append(k)
-                if (
-                    k == '[basic explain]'
-                    or k == '[detail explain]'
-                    or k == '[flavor text]'
-                ):
-                    if v:
-                        for it in v:
-                            for sub in it.split('\r\n'):
-                                sub = sub.strip()
-                                lines.append(f'{indent}{sub}')
-                    else:
-                        lines.append('')
-                else:
-                    lines.append(f'{indent}{v}')
-            return '\n'.join(lines)
         elif role == Qt.ItemDataRole.UserRole:
             return self._data[index.row()]
         return None
@@ -101,6 +78,8 @@ class StackableSearch(QWidget, Ui_stackable_search):
         self.search_btn.clicked.connect(self.do_search)
 
         self.submit_btn.clicked.connect(self.submit_to_mail)
+
+        self.result_table_view.clicked.connect(self.on_row_clicked)
 
     def _adjust_table_columns(self):
         """Adjust table column widths to content."""
@@ -151,14 +130,6 @@ class StackableSearch(QWidget, Ui_stackable_search):
 
         self.result_table_view.resizeColumnsToContents()
 
-        # Configure row selection behavior
-        self.result_table_view.setSelectionBehavior(
-            QAbstractItemView.SelectionBehavior.SelectRows
-        )
-        self.result_table_view.setSelectionMode(
-            QAbstractItemView.SelectionMode.SingleSelection
-        )
-
         # After search, adjust size to new content
         QTimer.singleShot(100, self._adjust_table_columns)
 
@@ -182,3 +153,28 @@ class StackableSearch(QWidget, Ui_stackable_search):
         elif n_result > 0:
             title = f'{title} {n_result} records found'
         self.result_group.setTitle(title)
+
+    def on_row_clicked(self, index: QModelIndex):
+        indent = ' ' * 4
+        row = index.data(Qt.ItemDataRole.UserRole)
+        json_string = row['json']
+        d = json.loads(json_string)
+        lines = []
+        for k, v in d.items():
+            lines.append(k)
+            if (
+                    k == '[basic explain]'
+                    or k == '[detail explain]'
+                    or k == '[flavor text]'
+            ):
+                if v:
+                    for it in v:
+                        for sub in it.split('\r\n'):
+                            sub = sub.strip()
+                            lines.append(f'{indent}{sub}')
+                else:
+                    lines.append('')
+            else:
+                lines.append(f'{indent}{v}')
+        content =  '\n'.join(lines)
+        self.detail_text_edit.setPlainText(content)

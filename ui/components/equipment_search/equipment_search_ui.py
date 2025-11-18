@@ -26,7 +26,7 @@ class Ui_equipment_search(object):
     def setupUi(self, equipment_search):
         if not equipment_search.objectName():
             equipment_search.setObjectName(u"equipment_search")
-        equipment_search.resize(956, 599)
+        equipment_search.resize(967, 677)
         self.horizontalLayout = QHBoxLayout(equipment_search)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.horizontalLayout.setContentsMargins(8, 8, 8, 8)
@@ -37,9 +37,9 @@ class Ui_equipment_search(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.search_form.sizePolicy().hasHeightForWidth())
         self.search_form.setSizePolicy(sizePolicy)
-        self.search_form.setMinimumSize(QSize(200, 0))
-        self.search_form.setMaximumSize(QSize(200, 16777215))
-        self.search_form.setBaseSize(QSize(240, 0))
+        self.search_form.setMinimumSize(QSize(0, 0))
+        self.search_form.setMaximumSize(QSize(16777215, 16777215))
+        self.search_form.setBaseSize(QSize(200, 0))
         self.formLayout = QFormLayout(self.search_form)
         self.formLayout.setObjectName(u"formLayout")
         self.formLayout.setContentsMargins(8, 8, 8, 8)

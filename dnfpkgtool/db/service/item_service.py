@@ -60,6 +60,8 @@ class ItemService:
     def get_current_account_cargo(self) -> List[DnfItemSlot]:
         account_id = config.get_current_account_id()
         account_cargo = self.account_cargo_repo.query_by_m_id(account_id)
+        if not account_cargo:
+            return []
         return self.unpack_blob_items(account_cargo.cargo)
 
     # 角色仓库

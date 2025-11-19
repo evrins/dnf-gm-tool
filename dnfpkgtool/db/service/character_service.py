@@ -74,7 +74,10 @@ class CharacterService:
 
     def get_current_character_pvp_result(self) -> PVPResult:
         character_no = config.get_current_character_no()
-        return self.pvp_result_repo.query_by_character_no(character_no)
+        res = self.pvp_result_repo.query_by_character_no(character_no)
+        if not res:
+            res = PVPResult(character_no=character_no, pvp_grade=0, win_point=0, pvp_point=0, win=0)
+        return res
 
     def update_current_character_pvp_result(self, pvp_result: PVPResult):
         character_no = config.get_current_character_no()
@@ -83,7 +86,8 @@ class CharacterService:
 
     def get_current_character_info(self) -> CharacterInfo:
         character_no = config.get_current_character_no()
-        return self.character_info_repo.query_by_character_no(character_no)
+        res = self.character_info_repo.query_by_character_no(character_no)
+        return res
 
     def update_current_character_info(
         self, character_info: CharacterInfo, has_level_changed: bool
@@ -103,6 +107,8 @@ class CharacterService:
         res = AccountMoney()
         mid = config.get_current_account_id()
         res.account_cargo_money = self.account_cargo_repo.query_money_by_m_id(mid)
+        if not res.account_cargo_money:
+            res.account_cargo_money = 0
 
         character_no = config.get_current_character_no()
         res.backpack_money = self.inventory_repo.query_money_by_character_no(

@@ -1,3 +1,4 @@
+import traceback
 from pathlib import Path
 
 from config import config
@@ -8,12 +9,15 @@ base_dir = Path(__file__).parent
 
 
 def test_build_equipment_repo():
-    pvf_path = '/Users/evrins/workspace/python/DNF_pvf_python/Script.pvf'
+    pvf_path = '/Users/evrins/workspace/python/dnf_gm_tool/Script.璀璨.pvf'
     reader = PVFReader(pvf_path)
     stackable_dict = reader.get_equipment_dict()
-    build_equipment_repo_parquet(
+    try:
+        build_equipment_repo_parquet(
         stackable_dict, base_dir / 'data' / 'equipments.parquet'
     )
+    except Exception as e:
+        traceback.print_exc()
 
 
 def test_query():

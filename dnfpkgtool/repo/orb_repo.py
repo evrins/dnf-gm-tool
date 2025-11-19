@@ -27,6 +27,8 @@ enchant_key_mapping = {
     '[magical critical hit]': '魔法暴击率',
     '[equipment physical attack]': '物理攻击力',
     '[equipment magical attack]': '魔法攻击力',
+    '[equipment physical defense]': '物理防御',
+    '[equipment magical defense]': '魔法防御',
     '[physical attack]': '力量',
     '[magical attack]': '智力',
     '[separate attack]': '独立攻击力',
@@ -50,6 +52,7 @@ enchant_key_mapping = {
     '[rigidity]': '僵直',
     '[all skill item]': '技能等级提升',
     '[hit recovery]': '硬直',
+    '[item aura]': '物品光环',
     'special': '特殊效果',
     # keys to ignore
     '': '',
@@ -200,6 +203,9 @@ def build_orb_repo_parquet(
         rs['card_name2'].append(card['name2'])
         card_d = json.loads(card['json'])
         enchant = card_d[enchant_key]
+        if not enchant:
+            enchant = {}
+
         enchant_category = list(enchant.keys())
         rs['enchant'].append(json.dumps(enchant))
         if '[if]' in enchant_category or '[then]' in enchant_category:
@@ -210,7 +216,7 @@ def build_orb_repo_parquet(
             list(
                 filter(
                     lambda it: it,
-                    map(lambda it: enchant_key_mapping[it], enchant_category),
+                    map(lambda it: enchant_key_mapping.get(it, it), enchant_category),
                 )
             )
         )

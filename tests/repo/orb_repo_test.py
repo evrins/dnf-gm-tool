@@ -13,13 +13,16 @@ from dnfpkgtool.repo.repo_manager import (
     get_skill_repo,
     get_stackable_repo,
 )
+from dnfpkgtool.repo.skill_repo import SkillRepo
+from dnfpkgtool.repo.stackable_repo import StackableRepo
+from tests.repo.equipment_repo_test import base_dir
 
 
 def test_build_orb_repo_parquet():
-    stackable_repo = get_stackable_repo()
-    skill_repo = get_skill_repo()
+    stackable_repo = StackableRepo(base_dir / 'data' / 'stackables.parquet')
+    skill_repo = SkillRepo(base_dir / 'data' / 'skills.parquet')
     build_orb_repo_parquet(
-        stackable_repo, skill_repo, config.get_orb_parquet_file_path()
+        stackable_repo, skill_repo, base_dir / 'data' / 'orbs.parquet'
     )
 
 

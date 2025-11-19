@@ -1,19 +1,22 @@
 import re
 import struct
 import traceback
-from typing import Dict, List, Tuple
+from functools import cache
+from typing import Dict, List
 
 from loguru import logger
 
+from dnfpkgtool.pvf.entity.binary_content import BinaryContent
+from dnfpkgtool.pvf.entity.pvf_dict import PVFDict
 from dnfpkgtool.pvf.lst import Lst
+from dnfpkgtool.pvf.parse_functions import parse_function_map, parse_piece_set
+from dnfpkgtool.pvf.piece_set import PieceSet
+from dnfpkgtool.pvf.piece_set_ability import PieceSetAbility
 from dnfpkgtool.pvf.pvf_header import PVFHeader, parse_pvf_header
+from dnfpkgtool.pvf.skill_levelup import SkillLevelUp
 from dnfpkgtool.pvf.str import Str
 from dnfpkgtool.pvf.string_table import StringTable
 from util import decrypt_bytes
-
-type PVFDict = dict[str, dict[str, List[str | int | float]]]
-
-type BinaryContent = List[Tuple[int, str | int | float]]
 
 
 class PVFReader:
@@ -36,6 +39,7 @@ class PVFReader:
     def close(self):
         self.f.close()
 
+    @cache
     def read_file(self, file_key: str) -> bytes:
         file_key = file_key.replace('//', '/').replace('\\', '/').lower()
         leaf_node = self.header.leaf_dict.get(file_key, None)
@@ -57,6 +61,7 @@ class PVFReader:
             base_dir = ''
         return Lst(content, self.string_table, base_dir=base_dir, encode=encode)
 
+    @cache
     def read_n_from_lst_file(self, lst_file: Lst, idx: int) -> Str:
         file_key = lst_file[idx]
         content = self.read_file(file_key)
@@ -67,7 +72,7 @@ class PVFReader:
         return self.list_2_dict(res)
 
     def list_2_dict(
-        self, res: BinaryContent
+            self, res: BinaryContent
     ) -> dict[str, List[str | int | float]] | List[str | int | float]:
         """
         not handle [variation] [layer variation] [equipment ani script] segment key well, but I don't need it now
@@ -146,7 +151,7 @@ class PVFReader:
             else:
                 struct_pattern += 'Bi'
 
-        units = struct.unpack(struct_pattern, content[2 : 2 + 5 * unit_num])
+        units = struct.unpack(struct_pattern, content[2: 2 + 5 * unit_num])
         types = units[::2]
         values = units[1::2]
 

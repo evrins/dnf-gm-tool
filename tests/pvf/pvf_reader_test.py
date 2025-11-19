@@ -62,6 +62,33 @@ def test_get_magic_seal_as_list():
     save_obj_2_file(magic_seal_dict, 'magic_seal_dict.json')
 
 
+def test_get_part_list():
+    file_key = 'etc/equipmentpartset.etc'
+    pvf_path = '/Users/evrins/workspace/python/DNF_pvf_python/Script.pvf'
+    reader = PVFReader(pvf_path)
+    magic_seal_list = reader.read_file_as_list(file_key)
+    save_obj_2_file(magic_seal_list, 'equipment_part_set_list.json')
+    magic_seal_dict = reader.read_file_as_dict(file_key)
+    save_obj_2_file(magic_seal_dict, 'equipment_part_set_dict.json')
+
+
+def test_get_part_set_list():
+    pvf_path = '/Users/evrins/workspace/python/DNF_pvf_python/Script.pvf'
+    reader = PVFReader(pvf_path)
+    part_set_list = reader.get_part_set_list()
+    save_obj_2_file(part_set_list, 'part_set_list.json')
+
+
+def test_get_item_dictionary():
+    file_key = 'etc/itemdictionary/(r)itemdictionary.etc'
+    pvf_path = '/Users/evrins/workspace/python/DNF_pvf_python/Script.pvf'
+    reader = PVFReader(pvf_path)
+    magic_seal_list = reader.read_file_as_list(file_key)
+    save_obj_2_file(magic_seal_list, 'item_dictionary_list.json')
+    magic_seal_dict = reader.read_file_as_dict(file_key)
+    save_obj_2_file(magic_seal_dict, 'item_dictionary_dict.json')
+
+
 def test_get_job_dict():
     pvf_path = '/Users/evrins/workspace/python/DNF_pvf_python/Script.pvf'
     reader = PVFReader(pvf_path)
@@ -116,6 +143,51 @@ def test_read_lst_file():
     reader = PVFReader(pvf_path)
     equipment_list = reader.load_lst_file('equipment/equipment.lst')
     save_obj_2_file(equipment_list.table_dict, 'equipment_list.json')
+
+
+def read_equ_file(equ_path: str):
+    pvf_path = '/Users/evrins/workspace/python/dnf_gm_tool/Script.pvf'
+    reader = PVFReader(pvf_path)
+    equ_name = equ_path.split('/')[-1]
+    equipment_as_list = reader.read_file_as_list(equ_path)
+    save_obj_2_file(equipment_as_list, f'equipment_{equ_name}.list.json')
+    equipment_as_dict = reader.read_file_as_dict(equ_path)
+    save_obj_2_file(equipment_as_dict, f'equipment_{equ_name}.dict.json')
+
+
+def test_read_equ_file_3choroset7():
+    equ_path = 'equipment/character/partset/3choroset7.equ'
+    read_equ_file(equ_path)
+
+
+def test_read_equ_file_3choroset10():
+    equ_path = 'equipment/character/partset/3choroset10.equ'
+    read_equ_file(equ_path)
+
+
+def test_read_equ_file_2choroset77():
+    equ_path = 'equipment/character/partset/2choroset77.equ'
+    read_equ_file(equ_path)
+
+
+def test_read_equ_file_2choroset2():
+    equ_path = 'equipment/character/partset/2choroset2.equ'
+    read_equ_file(equ_path)
+
+
+def test_read_equ_file_2choroset1():
+    equ_path = 'equipment/character/partset/2choroset1.equ'
+    read_equ_file(equ_path)
+
+
+def test_read_equ_file_upperset():
+    equ_path = 'equipment/character/partset/upperset.equ'
+    read_equ_file(equ_path)
+
+
+def test_read_equ_file_saba_sttitan():
+    equ_path = 'equipment/character/common/shoes/plate/saba_sttitan.equ'
+    read_equ_file(equ_path)
 
 
 def read_single_equipment(equipment_id):

@@ -1,14 +1,15 @@
 from config import config
 from dnfpkgtool.pvf.pvf_reader import PVFReader
 from dnfpkgtool.repo.stackable_repo import StackableRepo, build_stackable_repo_parquet
+from tests.repo.equipment_repo_test import base_dir
 
 
 def test_build_stackable_repo_parquet():
-    pvf_path = '/Users/evrins/workspace/python/DNF_pvf_python/Script.pvf'
+    pvf_path = '/Users/evrins/workspace/python/dnf_gm_tool/Script.璀璨.pvf'
     reader = PVFReader(pvf_path)
     stackable_dict = reader.get_stackable_dict()
     build_stackable_repo_parquet(
-        stackable_dict, config.get_stackable_parquet_file_path()
+        stackable_dict, base_dir / 'data' / 'stackables.parquet'
     )
 
 

@@ -34,6 +34,7 @@ stackable_mapping = {
     '[legacy]': '其他',
     '[multi upgradable legacy bonus cera]': '其他',
     '[multi upgradable legacy]': '其他',
+    '[random upgradable legacy]': '其他',
     '[stackable legacy]': '其他',
     '[only effect]': '其他',
     '[town and dungeon]': '其他',
@@ -56,7 +57,7 @@ def map_stackable_type(d: dict[str, str]) -> str:
     if item_category == 'monster card':
         return '卡片'
     stackable_type = d['stackable_type']
-    return stackable_mapping[stackable_type]
+    return stackable_mapping.get(stackable_type, '其他')
 
 
 def map_display_rarity(rarity: int) -> str:

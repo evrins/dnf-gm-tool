@@ -23,6 +23,7 @@ class Quest(BaseModel):
     type_: str = ''
     detail: str = ''
     required_items: List[int] = []
+    invalid: bool = False
 
 
 class QuestService:
@@ -52,10 +53,15 @@ class QuestService:
             )
             if q.id != 0:
                 quest_meta = self.quest_repo.query_by_id(id_)
-                q.name = quest_meta['name']
-                q.type_ = quest_meta['quest_type']
-                q.required_items = quest_meta['int_data']
-                q.detail = quest_meta['json']
+                if quest_meta is None:
+                    q.name = '任务信息缺失'
+                    q.invalid = True
+                else:
+                    q.name = quest_meta['name']
+                    q.type_ = quest_meta['quest_type']
+                    q.required_items = quest_meta['int_data']
+                    q.detail = quest_meta['json']
+                    q.invalid = False
             quest_list.append(q)
         cq = CharacterQuest(quest_list=quest_list)
         return cq
@@ -65,7 +71,7 @@ class QuestService:
         self.complete_quest(current_character_no, q)
 
     def complete_quest(self, character_no: int, q: Quest):
-        if q.id == 0:
+        if q.id == 0 or q.invalid:
             return
 
         if q.type_ == '[seeking]':
@@ -82,7 +88,7 @@ class QuestService:
     def complete_all_quests(self, character_no: int, cq: CharacterQuest):
         updates = {}
         for i, q in enumerate(cq.quest_list):
-            if q.id == 0:
+            if q.id == 0 or q.invalid:
                 continue
             if q.type_ == '[seeking]':
                 self.send_quest_item(character_no, q)

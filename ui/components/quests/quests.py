@@ -118,7 +118,7 @@ class Quests(QWidget, Ui_quests):
     def on_row_click(self, index: QModelIndex):
         row: Quest = index.data(Qt.ItemDataRole.UserRole)
 
-        if row.id == 0:
+        if row.id == 0 or row.invalid:
             self.quest_text_edit.setText('')
             return
 

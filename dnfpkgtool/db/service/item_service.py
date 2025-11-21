@@ -210,7 +210,7 @@ def build_repo_parquet(fp: str):
     )
 
     build_quest_repo_parquet(
-        reader.get_quest_dict(), config.get_quest_parquet_file_path()
+        reader.get_quest_list(), config.get_quest_parquet_file_path()
     )
 
     reader.close()

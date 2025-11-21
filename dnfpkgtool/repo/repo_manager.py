@@ -16,8 +16,6 @@ repo_path_getter = Callable[[], str]
 
 repo_cache: Dict[str, BaseRepo] = {}
 
-gs.pvf_changed.connect(repo_cache.update)
-
 repo_config = {
     'equipment': (EquipmentRepo, config.get_equipment_parquet_file_path),
     'stackable': (StackableRepo, config.get_stackable_parquet_file_path),
@@ -34,6 +32,9 @@ def refresh():
     for k, v in repo_cache.items():
         _, path_getter = repo_config[k]
         v.init_df(path_getter())
+
+
+gs.pvf_changed.connect(refresh)
 
 
 def get_repo(repo_name: str):

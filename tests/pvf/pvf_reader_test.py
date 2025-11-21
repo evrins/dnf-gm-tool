@@ -31,8 +31,9 @@ def test_pvf_reader():
 def test_get_quest_dict():
     pvf_path = '/Users/evrins/workspace/python/DNF_pvf_python/Script.pvf'
     reader = PVFReader(pvf_path)
-    quest_dict = reader.get_quest_dict()
-    save_obj_2_file(quest_dict, 'quest_dict.json')
+    quest_list = reader.get_quest_list()
+    quest_dict_list = [ it.model_dump() for it in quest_list]
+    save_obj_2_file(quest_dict_list, 'quest_list.json')
 
 
 def test_get_dungeon_dict():
@@ -73,11 +74,11 @@ def test_get_part_list():
 
 
 def test_get_part_set_list():
-    pvf_path = '/Users/evrins/workspace/python/DNF_pvf_python/Script.pvf'
+    # pvf_path = '/Users/evrins/workspace/python/DNF_pvf_python/Script.pvf'
+    pvf_path = '/Users/evrins/workspace/python/dnf_gm_tool/Script.璀璨.pvf'
     reader = PVFReader(pvf_path)
     part_set_list = reader.get_part_set_list()
     save_obj_2_file(part_set_list, 'part_set_list.json')
-
 
 def test_get_item_dictionary():
     file_key = 'etc/itemdictionary/(r)itemdictionary.etc'

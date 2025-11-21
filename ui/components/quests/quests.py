@@ -6,7 +6,7 @@ from PySide6.QtWidgets import QWidget
 
 from config import config
 from dnfpkgtool.db.entity.signals import gs
-from dnfpkgtool.db.service.quest_service import CharacterQuest, Quest, QuestService
+from dnfpkgtool.db.service.quest_service import CharacterQuest, Quest, QuestService, build_quest_detail
 from ui.components.quests.quests_ui import Ui_quests
 
 
@@ -123,16 +123,4 @@ class Quests(QWidget, Ui_quests):
             return
 
         # set quest detail
-        lines = []
-        data = json.loads(row.detail)
-        for k in [
-            '[name]',
-            '[depend message]',
-            '[condition message]',
-            '[solve message]',
-        ]:
-            if v := data.get(k):
-                lines.append(k)
-                lines.append(v[0])
-
-        self.quest_text_edit.setText('\n'.join(lines))
+        self.quest_text_edit.setText(row.detail)

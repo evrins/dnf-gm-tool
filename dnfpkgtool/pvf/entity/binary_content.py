@@ -1,3 +1,6 @@
 from typing import Tuple, List
 
-type BinaryContent = List[Tuple[int, str | int | float]]
+type BinaryItem = Tuple[int, str | int | float]
+
+type BinaryContent = List[BinaryItem]
+

@@ -60,7 +60,7 @@ class QuestService:
                     q.name = quest_meta['name']
                     q.type_ = quest_meta['quest_type']
                     q.required_items = quest_meta['int_data']
-                    q.detail = quest_meta['json']
+                    q.detail = build_quest_detail(quest_meta)
                     q.invalid = False
             quest_list.append(q)
         cq = CharacterQuest(quest_list=quest_list)
@@ -143,3 +143,18 @@ class QuestService:
         self.character_quest_repo.cancel_quest_by_character_no_and_idx(
             character_no, idx
         )
+
+
+def build_quest_detail(d: dict) -> str:
+    res = f"""ID:
+    {d['id']}
+Name:
+    {d['name']}
+Condition Message:
+    {d['condition_message'].strip()}
+Depend Message:
+    {d['depend_message'].strip()}
+Solve Message:
+    {d['solve_message'].strip()}
+"""
+    return res

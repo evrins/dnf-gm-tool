@@ -153,7 +153,7 @@ class BuilderThread(QThread):
                 f'{self.elapsed():.2f}s: Start building quest repo 6/{total}'
             )
             build_quest_repo_parquet(
-                reader.get_quest_dict(),
+                reader.get_quest_list(),
                 config.build_quest_parquet_file_path(self.pvf_hash),
             )
             self.progress.emit(

@@ -1,13 +1,12 @@
+import io
 from pathlib import Path
 from typing import List
 
 import polars as pl
+from pydantic import TypeAdapter
 
-from dnfpkgtool.pvf.pvf_reader import PVFDict
-from dnfpkgtool.repo import (
-    MappingElementLocation,
-    remapping_pvf_dict,
-)
+from dnfpkgtool.pvf.entity.quest import Quest
+
 from dnfpkgtool.repo.base_repo import BaseRepo
 
 quest_type_list = [
@@ -34,25 +33,17 @@ quest_type_list = [
 ]
 
 
-def build_quest_repo_parquet(pvf_dict: PVFDict, fp: str | Path):
-    mappings = [
-        ('grade', '[grade]', '', MappingElementLocation.First),
-        ('difficulty', '[difficulty]', '', MappingElementLocation.First),
-        ('quest_type', '[type]', '', MappingElementLocation.First),
-        ('int_data', '[int data]', [], MappingElementLocation.All),
-    ]
-    df = remapping_pvf_dict(pvf_dict, mappings)
-    del df['name2']
-    df = pl.DataFrame(df)
+def build_quest_repo_parquet(quest_list: List[Quest], fp: str | Path):
+    df = pl.DataFrame([it.model_dump() for it in quest_list])
 
     df.write_parquet(fp)
 
 
 class QuestRepo(BaseRepo):
     def query(
-        self,
-        name: str,
-        job: str | None = None,
+            self,
+            name: str,
+            job: str | None = None,
     ) -> List[dict]:
         name = name.lower()
         cond = pl.col('name').str.contains(name)

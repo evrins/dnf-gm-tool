@@ -14,9 +14,9 @@ def test_build_equipment_repo():
     stackable_dict = reader.get_equipment_dict()
     try:
         build_equipment_repo_parquet(
-        stackable_dict, base_dir / 'data' / 'equipments.parquet'
-    )
-    except Exception as e:
+            stackable_dict, base_dir / 'data' / 'equipments.parquet'
+        )
+    except Exception:
         traceback.print_exc()
 
 

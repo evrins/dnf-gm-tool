@@ -99,7 +99,7 @@ job_name_mapping = {
     '[thief]': '暗夜使者',
     '[demonic swordman]': '黑暗武士',
     '[creator mage]': '缔造者',
-    '[smiest]': '圣职者-女'
+    '[smiest]': '圣职者-女',
 }
 
 
@@ -266,8 +266,8 @@ class EquipmentRepo(BaseRepo):
 
         if usable_job is not None:
             cond = cond & (
-                    pl.col('usable_job').list.contains('[all]')
-                    | (pl.col('usable_job').list.contains(usable_job))
+                pl.col('usable_job').list.contains('[all]')
+                | (pl.col('usable_job').list.contains(usable_job))
             )
 
         if item_group_name is not None:

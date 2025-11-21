@@ -36,11 +36,11 @@ def test_add():
 def test_handle_chinese():
     """Test that Chinese characters are properly handled in the database."""
     repo = LetterRepo()
-    
+
     # Test data with Chinese characters
     test_name = '测试角色名'
     test_text = '这是一条测试消息，包含中文字符：你好世界！'
-    
+
     letter = Letter(
         character_no=999,
         send_character_no=0,
@@ -49,15 +49,15 @@ def test_handle_chinese():
         reg_date=datetime.now(),
         stat=1,
     )
-    
+
     # Add the letter to the database
     added_letter = repo.add(letter)
-    
+
     # Verify the Chinese characters are preserved correctly
     assert added_letter.send_character_name == test_name
     assert added_letter.letter_text == test_text
     assert added_letter.letter_id is not None
-    
+
     print(f'Chinese character test passed. Letter ID: {added_letter.letter_id}')
     print(f'Name: {added_letter.send_character_name}')
     print(f'Text: {added_letter.letter_text}')

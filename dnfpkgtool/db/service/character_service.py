@@ -76,7 +76,9 @@ class CharacterService:
         character_no = config.get_current_character_no()
         res = self.pvp_result_repo.query_by_character_no(character_no)
         if not res:
-            res = PVPResult(character_no=character_no, pvp_grade=0, win_point=0, pvp_point=0, win=0)
+            res = PVPResult(
+                character_no=character_no, pvp_grade=0, win_point=0, pvp_point=0, win=0
+            )
         return res
 
     def update_current_character_pvp_result(self, pvp_result: PVPResult):
@@ -90,7 +92,7 @@ class CharacterService:
         return res
 
     def update_current_character_info(
-        self, character_info: CharacterInfo, has_level_changed: bool
+            self, character_info: CharacterInfo, has_level_changed: bool
     ):
         m_id = config.get_current_account_id()
         character_no = config.get_current_character_no()

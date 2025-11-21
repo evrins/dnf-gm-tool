@@ -1,4 +1,3 @@
-import json
 from typing import List
 
 from PySide6.QtCore import QAbstractTableModel, QModelIndex, QSortFilterProxyModel, Qt
@@ -6,7 +5,11 @@ from PySide6.QtWidgets import QWidget
 
 from config import config
 from dnfpkgtool.db.entity.signals import gs
-from dnfpkgtool.db.service.quest_service import CharacterQuest, Quest, QuestService, build_quest_detail
+from dnfpkgtool.db.service.quest_service import (
+    CharacterQuest,
+    Quest,
+    QuestService,
+)
 from ui.components.quests.quests_ui import Ui_quests
 
 

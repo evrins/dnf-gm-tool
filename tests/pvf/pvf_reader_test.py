@@ -32,7 +32,7 @@ def test_get_quest_dict():
     pvf_path = '/Users/evrins/workspace/python/DNF_pvf_python/Script.pvf'
     reader = PVFReader(pvf_path)
     quest_list = reader.get_quest_list()
-    quest_dict_list = [ it.model_dump() for it in quest_list]
+    quest_dict_list = [it.model_dump() for it in quest_list]
     save_obj_2_file(quest_dict_list, 'quest_list.json')
 
 
@@ -79,6 +79,7 @@ def test_get_part_set_list():
     reader = PVFReader(pvf_path)
     part_set_list = reader.get_part_set_list()
     save_obj_2_file(part_set_list, 'part_set_list.json')
+
 
 def test_get_item_dictionary():
     file_key = 'etc/itemdictionary/(r)itemdictionary.etc'

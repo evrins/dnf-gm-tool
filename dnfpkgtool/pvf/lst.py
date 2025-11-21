@@ -5,11 +5,11 @@ from dnfpkgtool.pvf.string_table import StringTable
 
 class Lst(object):
     def __init__(
-        self,
-        content_bytes: bytes,
-        string_table: StringTable,
-        encode='big5',
-        base_dir='',
+            self,
+            content_bytes: bytes,
+            string_table: StringTable,
+            encode='big5',
+            base_dir='',
     ):
         self.ver_code = content_bytes[:2]
         self.table_dict: dict[int, str] = {}

@@ -101,15 +101,15 @@ class StackableIdNotFoundException(Exception):
 
 class StackableRepo(BaseRepo):
     def query(
-        self,
-        name: str,
-        stackable_type_list: list[str] | None = None,
-        item_category_list: list[str] | None = None,
-        min_level: int | None = None,
-        max_level: int | None = None,
-        display_rarity: str | None = None,
-        item_type: str | None = None,
-        limit: int | None = None,
+            self,
+            name: str,
+            stackable_type_list: list[str] | None = None,
+            item_category_list: list[str] | None = None,
+            min_level: int | None = None,
+            max_level: int | None = None,
+            display_rarity: str | None = None,
+            item_type: str | None = None,
+            limit: int | None = None,
     ) -> List[dict]:
         logger.info(
             f'query with name {name} stackable_type_list {stackable_type_list} item_category_list {item_category_list} min_level {min_level} max_level {max_level} display_rarity {display_rarity} item_type {item_type}'

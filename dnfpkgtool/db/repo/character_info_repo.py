@@ -12,10 +12,10 @@ from util import decode_string_to_utf8
 def apply_map_function(map_func: Callable[[CharacterInfo], CharacterInfo]):
     """
     Decorator that applies a map function to each CharacterInfo in the returned list.
-    
+
     Args:
         map_func: A function that takes a CharacterInfo and returns a modified CharacterInfo
-        
+
     Example:
         @apply_map_function(lambda char: fix_character_encoding(char))
         def query_all_character_info_list(self) -> List[CharacterInfo]:
@@ -40,10 +40,10 @@ def apply_map_function(map_func: Callable[[CharacterInfo], CharacterInfo]):
 def fix_character_name_encoding(character: CharacterInfo) -> CharacterInfo:
     """
     Fix mojibake in character names by converting cp1252 misinterpreted UTF-8 back to proper UTF-8.
-    
+
     Args:
         character: CharacterInfo object with potentially garbled character_name
-        
+
     Returns:
         CharacterInfo with fixed character_name encoding
     """

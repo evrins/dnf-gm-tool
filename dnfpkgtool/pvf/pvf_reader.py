@@ -8,10 +8,10 @@ from loguru import logger
 
 from dnfpkgtool.pvf.binary_content_parser import BinaryContentParser
 from dnfpkgtool.pvf.entity.binary_content import BinaryContent
+from dnfpkgtool.pvf.entity.piece_set import PieceSet
 from dnfpkgtool.pvf.entity.pvf_dict import PVFDict
 from dnfpkgtool.pvf.entity.quest import Quest
 from dnfpkgtool.pvf.lst import Lst
-from dnfpkgtool.pvf.entity.piece_set import PieceSet
 from dnfpkgtool.pvf.pvf_header import PVFHeader, parse_pvf_header
 from dnfpkgtool.pvf.str import Str
 from dnfpkgtool.pvf.string_table import StringTable
@@ -150,7 +150,7 @@ class PVFReader:
             else:
                 struct_pattern += 'Bi'
 
-        units = struct.unpack(struct_pattern, content[2: 2 + 5 * unit_num])
+        units = struct.unpack(struct_pattern, content[2 : 2 + 5 * unit_num])
         types = units[::2]
         values = units[1::2]
 
@@ -249,7 +249,9 @@ class PVFReader:
     def get_dungeon_dict(self) -> PVFDict:
         return self.get_as_dict('dungeon/dungeon.lst', 'dungeon')
 
-    def parse_from_lst(self, lst_file_name: str, dict_name: str, parse_function_name: str) -> List:
+    def parse_from_lst(
+            self, lst_file_name: str, dict_name: str, parse_function_name: str
+    ) -> List:
         lst_file = self.load_lst_file(lst_file_name)
 
         logger.info(f'loading {dict_name} list...({len(lst_file)})')
@@ -346,6 +348,6 @@ class PVFReader:
         bcp = BinaryContentParser(equ_property_list)
         try:
             res = bcp.parse_piece_set()
-        except Exception as e:
+        except Exception:
             traceback.print_exc()
         return res

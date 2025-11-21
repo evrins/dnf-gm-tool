@@ -1,8 +1,13 @@
 import json
 
-from PySide6.QtCore import QAbstractTableModel, QSortFilterProxyModel, Qt, QTimer, QModelIndex
+from PySide6.QtCore import (
+    QAbstractTableModel,
+    QModelIndex,
+    QSortFilterProxyModel,
+    Qt,
+    QTimer,
+)
 from PySide6.QtWidgets import (
-    QAbstractItemView,
     QWidget,
 )
 
@@ -163,9 +168,9 @@ class StackableSearch(QWidget, Ui_stackable_search):
         for k, v in d.items():
             lines.append(k)
             if (
-                    k == '[basic explain]'
-                    or k == '[detail explain]'
-                    or k == '[flavor text]'
+                k == '[basic explain]'
+                or k == '[detail explain]'
+                or k == '[flavor text]'
             ):
                 if v:
                     for it in v:
@@ -176,5 +181,5 @@ class StackableSearch(QWidget, Ui_stackable_search):
                     lines.append('')
             else:
                 lines.append(f'{indent}{v}')
-        content =  '\n'.join(lines)
+        content = '\n'.join(lines)
         self.detail_text_edit.setPlainText(content)

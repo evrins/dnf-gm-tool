@@ -16,6 +16,7 @@ def test_parse_pvf_header():
             leaf_dict[k] = v.model_dump()
         save_obj_2_file(leaf_dict, 'header.json')
 
+
 def test_filter_by_prefix():
     fp = '/Users/evrins/workspace/python/dnf_gm_tool/Script.pvf'
     prefix = 'equipment/character/partset/'
@@ -30,6 +31,7 @@ def test_filter_by_prefix():
             leaf_dict[k] = v.model_dump()
             count += 1
             print(f'{count} : {k}')
+
 
 def test_filter_by_suffix():
     fp = '/Users/evrins/workspace/python/dnf_gm_tool/Script.pvf'

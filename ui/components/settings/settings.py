@@ -1,4 +1,3 @@
-import os
 from time import time
 
 from loguru import logger
@@ -267,13 +266,13 @@ class Setting(QWidget, Ui_settings):
         self.mysql_test_thread.start()
 
     def _on_mysql_test_finished(
-        self,
-        success: bool,
-        error_msg: str,
-        host: str,
-        port: int,
-        username: str,
-        password: str,
+            self,
+            success: bool,
+            error_msg: str,
+            host: str,
+            port: int,
+            username: str,
+            password: str,
     ):
         """Handle MySQL test completion."""
         if success:

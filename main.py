@@ -6,7 +6,7 @@ from typing import Callable, List
 
 from loguru import logger
 from pydantic import BaseModel
-from PySide6.QtCore import Qt, QTimer, QCoreApplication, QStandardPaths
+from PySide6.QtCore import QCoreApplication, QStandardPaths, Qt, QTimer
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import (
     QApplication,

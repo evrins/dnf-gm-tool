@@ -31,9 +31,9 @@ def build_skill_repo_parquet(pvf_list: List[Dict[str, Any]], fp: str | Path):
 
 class SkillRepo(BaseRepo):
     def query(
-        self,
-        name: str,
-        job: str | None = None,
+            self,
+            name: str,
+            job: str | None = None,
     ) -> List[dict]:
         name = name.lower()
         cond = pl.col('name').str.contains(name) | pl.col(

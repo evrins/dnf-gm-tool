@@ -52,7 +52,7 @@ type MappingConfig = Tuple[str, str, any, MappingElementLocation]
 
 
 def remapping_pvf_dict(
-    pvf_dict: PVFDict, mappings: List[MappingConfig], separate: str = '-'
+        pvf_dict: PVFDict, mappings: List[MappingConfig], separate: str = '-'
 ) -> dict[str, List[any]]:
     res = {
         'id': [],
@@ -103,9 +103,9 @@ def remapping_pvf_dict(
 
 
 def remapping_pvf_list(
-    pvf_list: List[Dict[str, List[any]]],
-    mappings: List[MappingConfig],
-    separate: str = '-',
+        pvf_list: List[Dict[str, List[any]]],
+        mappings: List[MappingConfig],
+        separate: str = '-',
 ) -> Dict[str, List[any]]:
     res = {}
 

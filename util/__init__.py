@@ -52,8 +52,8 @@ def decode_string_to_utf8(s: str) -> str:
     s2 = s.encode('cp1252', 'replace')
     s3 = b''
     for i in range(len(s1)):
-        if s1[i: i + 1] == b'?':
-            s3 += s2[i: i + 1]
+        if s1[i : i + 1] == b'?':
+            s3 += s2[i : i + 1]
         else:
-            s3 += s1[i: i + 1]
+            s3 += s1[i : i + 1]
     return s3.decode(errors='replace')

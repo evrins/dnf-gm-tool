@@ -1,12 +1,9 @@
-import io
 from pathlib import Path
 from typing import List
 
 import polars as pl
-from pydantic import TypeAdapter
 
 from dnfpkgtool.pvf.entity.quest import Quest
-
 from dnfpkgtool.repo.base_repo import BaseRepo
 
 quest_type_list = [

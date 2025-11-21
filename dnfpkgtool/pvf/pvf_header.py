@@ -50,7 +50,7 @@ def parse_pvf_header(f) -> PVFHeader:
 
 
 def parse_leafs(
-    header_bytes: bytes, num_of_files_in_dir_tree: int
+        header_bytes: bytes, num_of_files_in_dir_tree: int
 ) -> dict[str, LeafNode]:
     current_index = 0
     leafs = {}

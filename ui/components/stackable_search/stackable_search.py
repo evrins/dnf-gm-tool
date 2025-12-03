@@ -1,9 +1,7 @@
-import json
 from typing import Dict
 
 from PySide6.QtCore import (
     QAbstractTableModel,
-    QModelIndex,
     QSortFilterProxyModel,
     Qt,
     QTimer,
@@ -163,7 +161,6 @@ class StackableSearch(QWidget, Ui_stackable_search):
         self.result_group.setTitle(title)
 
     def on_selection_changed(self, selected, deselected):
-        indent = ' ' * 4
         rows = self.selection_model.selectedRows()
 
         if rows:

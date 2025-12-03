@@ -131,16 +131,11 @@ def test_get_equipment():
     pvf_path = '/Users/evrins/workspace/python/DNF_pvf_python/Script.pvf'
     reader = PVFReader(pvf_path)
     equipment_list = reader.get_equipment_list()
-    equipment_dict = {
-        it.id: it.model_dump()
-        for it in equipment_list
-    }
+    equipment_dict = {it.id: it.model_dump() for it in equipment_list}
     save_obj_2_file(equipment_dict, 'equipment_dict.json')
 
 
-def get_equipment_from_equ_file(
-        equ_file: str
-):
+def get_equipment_from_equ_file(equ_file: str):
     pvf_path = '/Users/evrins/workspace/python/DNF_pvf_python/Script.pvf'
     base_name = equ_file.split('/')[-1].replace('.equ', '')
     reader = PVFReader(pvf_path)
@@ -149,9 +144,7 @@ def get_equipment_from_equ_file(
 
     bcp = BinaryContentParser(equ_data)
     equ = bcp.parse_equipment()
-    save_obj_2_file(
-        equ.model_dump(), f'{base_name}.json'
-    )
+    save_obj_2_file(equ.model_dump(), f'{base_name}.json')
 
 
 def test_get_equipment_chn_equ_special_avatar_at_gunner_cap_105550481():

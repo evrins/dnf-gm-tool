@@ -15,10 +15,16 @@ from dnfpkgtool.repo.stackable_repo import StackableRepo
 
 
 def test_build_orb_repo_parquet():
-    stackable_repo = StackableRepo('/Users/evrins/workspace/python/dnf_gm_tool/dump/stackables.parquet')
-    skill_repo = SkillRepo('/Users/evrins/workspace/python/dnf_gm_tool/dump/skills.parquet')
+    stackable_repo = StackableRepo(
+        '/Users/evrins/workspace/python/dnf_gm_tool/dump/stackables.parquet'
+    )
+    skill_repo = SkillRepo(
+        '/Users/evrins/workspace/python/dnf_gm_tool/dump/skills.parquet'
+    )
     build_orb_repo_parquet(
-        stackable_repo, skill_repo, '/Users/evrins/workspace/python/dnf_gm_tool/dump/orbs.parquet'
+        stackable_repo,
+        skill_repo,
+        '/Users/evrins/workspace/python/dnf_gm_tool/dump/orbs.parquet',
     )
 
 

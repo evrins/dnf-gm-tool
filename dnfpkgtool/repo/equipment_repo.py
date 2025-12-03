@@ -5,8 +5,6 @@ import polars as pl
 from loguru import logger
 
 from dnfpkgtool.pvf.entity.equipment import Equipment
-from dnfpkgtool.pvf.pvf_reader import PVFDict
-from dnfpkgtool.repo import MappingElementLocation, remapping_pvf_dict
 from dnfpkgtool.repo.base_repo import BaseRepo
 from util import time_it
 
@@ -188,16 +186,16 @@ class EquipmentIdNotFoundException(Exception):
 class EquipmentRepo(BaseRepo):
     @time_it
     def query(
-            self,
-            name: str,
-            equipment_type_list: List[str] | None = None,
-            usable_job: str | None = None,
-            item_group_name: str | None = None,
-            armor_type: str | None = None,
-            min_level: int | None = None,
-            max_level: int | None = None,
-            rarity: str | None = None,
-            limit: int | None = None,
+        self,
+        name: str,
+        equipment_type_list: List[str] | None = None,
+        usable_job: str | None = None,
+        item_group_name: str | None = None,
+        armor_type: str | None = None,
+        min_level: int | None = None,
+        max_level: int | None = None,
+        rarity: str | None = None,
+        limit: int | None = None,
     ):
         logger.info(
             f'querying {name} equipment types {equipment_type_list} usable job {usable_job} item group {item_group_name} armor_type {armor_type} min_level {min_level} max_level {max_level} rarity {rarity}'
@@ -221,8 +219,8 @@ class EquipmentRepo(BaseRepo):
 
         if usable_job is not None:
             cond = cond & (
-                    pl.col('usable_job').list.contains('[all]')
-                    | (pl.col('usable_job').list.contains(usable_job))
+                pl.col('usable_job').list.contains('[all]')
+                | (pl.col('usable_job').list.contains(usable_job))
             )
 
         if item_group_name is not None:

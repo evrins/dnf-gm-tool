@@ -250,7 +250,6 @@ class BinaryContentParser:
             '[anti evil]': ('anti_evil', ReturnType.Single, self.parse_next_one),
             '[hit recovery]': ('hit_recovery', ReturnType.Single, self.parse_next_one),
             '[item aura]': ('item_aura', ReturnType.List, self.parse_item_aura),
-
             '[if]': ('-', ReturnType.NoneValue, self.skip_until('[/if]')),
             '[then]': ('-', ReturnType.NoneValue, self.skip_until('[/then]')),
             '[skill data up]': (
@@ -377,13 +376,11 @@ class BinaryContentParser:
                 ReturnType.NoneValue,
                 self.skip_until('[/clear reward item]'),
             ),
-
             '[collision quest]': (
                 '-',
                 ReturnType.NoneValue,
                 self.skip_until('[/collision quest]'),
             ),
-
             '[limit dungeon index]': (
                 '-',
                 ReturnType.NoneValue,
@@ -394,7 +391,6 @@ class BinaryContentParser:
                 ReturnType.NoneValue,
                 self.skip_until('[/check count]'),
             ),
-
             '[condition data]': (
                 'condition_data',
                 ReturnType.NoneValue,
@@ -504,7 +500,6 @@ class BinaryContentParser:
                 ReturnType.Single,
                 self.parse_avatar_select_ability,
             ),
-
             '[item category]': (
                 'item_category',
                 ReturnType.Single,
@@ -516,7 +511,6 @@ class BinaryContentParser:
                 self.skip_until('[/impossible contents]'),
             ),
             '[pvp]': ('-', ReturnType.NoneValue, self.skip_until('[/pvp]')),
-
             '[rebirth]': ('-', ReturnType.NoneValue, self.skip_until('[/rebirth]')),
             '[elemental property]': (
                 'elemental_property',
@@ -642,7 +636,6 @@ class BinaryContentParser:
                 ReturnType.Single,
                 self.parse_until_close_segment,
             ),
-
             '[expertjob only]': (
                 '-',
                 ReturnType.NoneValue,
@@ -844,7 +837,9 @@ class BinaryContentParser:
             it = self.current_item()
             if it[1] == '[/set ability]':  # end of segment
                 break
-            if it[0] == 5 and it[1] == '[set name]': # this segment is duplicated in global space
+            if (
+                it[0] == 5 and it[1] == '[set name]'
+            ):  # this segment is duplicated in global space
                 res.set_name = self.next_n_item(1)[1]
                 self.idx += 2
                 continue
@@ -856,8 +851,8 @@ class BinaryContentParser:
     def parse_avatar_select_ability(self) -> List[AvatarSelectAbility]:
         res: List[AvatarSelectAbility] = []
         while (
-                self.idx < self.total - 1
-                and self.next_n_item(1)[1] != '[/avatar select ability]'
+            self.idx < self.total - 1
+            and self.next_n_item(1)[1] != '[/avatar select ability]'
         ):
             # todo implement it later skip by now
             self.idx += 1

@@ -97,7 +97,7 @@ class ItemService:
 
     # 更新角色装备, 角色宠物, 角色装备 中的物品
     def update_current_character_inventory(
-            self, item: DnfItemSlot, inventory_loc: InventoryLoc
+        self, item: DnfItemSlot, inventory_loc: InventoryLoc
     ) -> None:
         character_no = config.get_current_character_no()
         inventory = self.character_inventory.query_by_character_no(character_no)
@@ -123,7 +123,7 @@ class ItemService:
         prefix = buf[:4]
         items_bytes = bytearray(zlib.decompress(buf[4:]))
         idx = item.display_idx
-        items_bytes[idx * 61: idx * 61 + 61] = item.to_bytes()
+        items_bytes[idx * 61 : idx * 61 + 61] = item.to_bytes()
         res = prefix + zlib.compress(items_bytes)
         return res
 
@@ -132,7 +132,7 @@ class ItemService:
         num = len(buf) // 61
         res = []
         for i in range(num):
-            item = self.unpack_blob_item(buf[i * 61: (i + 1) * 61])
+            item = self.unpack_blob_item(buf[i * 61 : (i + 1) * 61])
             item.display_idx = i
             res.append(item)
         return res
@@ -162,7 +162,7 @@ class ItemService:
 
         magic_seal_range_list = [(0, 3), (3, 6), (6, 9), (10, 13)]
         for idx, it in enumerate(magic_seal_range_list):
-            ms = MagicSeal.from_bytes(item.magic_seal[it[0]: it[1]])
+            ms = MagicSeal.from_bytes(item.magic_seal[it[0] : it[1]])
             if ms.id == 0:
                 continue
             ms.name = self.magic_seal_repo.query_by_id(ms.id)['name']

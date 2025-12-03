@@ -2,10 +2,10 @@ from pathlib import Path
 from typing import Any, Dict, List
 
 import polars as pl
+from loguru import logger
 
 from dnfpkgtool.repo import MappingElementLocation, remapping_pvf_list
 from dnfpkgtool.repo.base_repo import BaseRepo
-from loguru import logger
 
 
 def build_skill_repo_parquet(pvf_list: List[Dict[str, Any]], fp: str | Path):

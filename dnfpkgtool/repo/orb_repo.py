@@ -1,7 +1,6 @@
-import json
 from collections import defaultdict
 from pathlib import Path
-from typing import List, Dict
+from typing import Dict, List
 
 import polars as pl
 
@@ -118,7 +117,9 @@ def render_skills_text(skill_repo: SkillRepo, arr: List[Dict]) -> list[str]:
 
 
 def render_skill_text(skill_repo: SkillRepo, it: Dict) -> str | None:
-    skill = skill_repo.query_by_job_and_id_of_job(transform_job_name(it['role']), it['skill_id'])
+    skill = skill_repo.query_by_job_and_id_of_job(
+        transform_job_name(it['role']), it['skill_id']
+    )
     if skill:
         return f'{skill["name"]} +{it["level_up"]}'
     else:
@@ -190,7 +191,7 @@ def render_display_effect(enchant: dict, skill_repo: SkillRepo) -> str:
 
 
 def build_orb_repo_parquet(
-        stackable_repo: StackableRepo, skill_repo: SkillRepo, fp: str | Path
+    stackable_repo: StackableRepo, skill_repo: SkillRepo, fp: str | Path
 ):
     orb_list = stackable_repo.query('', stackable_type_list=['[enchant waste]'])
     rs: defaultdict = defaultdict(list)
@@ -231,7 +232,7 @@ class OrbRepo(BaseRepo):
         return self.df.filter(pl.col('card_id') == card_id).limit(1).to_dicts()[0]
 
     def query_by_display_enchant_category(
-            self, display_enchant_category: str
+        self, display_enchant_category: str
     ) -> List[dict]:
         return (
             self.df.filter(
@@ -244,7 +245,7 @@ class OrbRepo(BaseRepo):
         )
 
     def query_by_display_enchant_category_and_equipment_type(
-            self, display_enchant_category: str, equipment_type: str
+        self, display_enchant_category: str, equipment_type: str
     ) -> List[dict]:
         return (
             self.df.filter(

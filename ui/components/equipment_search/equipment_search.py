@@ -1,9 +1,7 @@
-import json
 from typing import Dict, List
 
 from PySide6.QtCore import (
     QAbstractTableModel,
-    QModelIndex,
     QSortFilterProxyModel,
     Qt,
     QTimer,
@@ -272,7 +270,6 @@ class EquipmentSearch(QWidget, Ui_equipment_search):
         gs.submit_mail_form.emit(mail_submit_item)
 
     def on_selection_changed(self, selected, deselected):
-        indent = ' ' * 4
         rows = self.selection_model.selectedRows()
         if not rows:
             return
@@ -293,17 +290,17 @@ class EquipmentSearch(QWidget, Ui_equipment_search):
 
     def render_detail(self, equipment: Dict) -> str:
         detail = [
-            f"名称: {equipment['name']}",
-            f"名称2: {equipment['name2']}",
-            f"等级: {equipment['minimum_level']}",
-            f"稀有度: {equipment['display_rarity']}",
-            f"类型: {equipment['display_equipment_type']}",
+            f'名称: {equipment["name"]}',
+            f'名称2: {equipment["name2"]}',
+            f'等级: {equipment["minimum_level"]}',
+            f'稀有度: {equipment["display_rarity"]}',
+            f'类型: {equipment["display_equipment_type"]}',
         ]
 
         detail.extend(render_stat_property(self.skill_repo, equipment))
 
         if explain := equipment['basic_explain']:
-            detail.append(f'说明: {explain.replace('%%', '%')}')
+            detail.append(f'说明: {explain.replace("%%", "%")}')
 
         if set_name := equipment['set_name']:
             detail.append(f'套装名: {set_name}')
@@ -314,15 +311,25 @@ class EquipmentSearch(QWidget, Ui_equipment_search):
         else:
             master_set_item = equipment
 
-        if fullset_detail_explain := master_set_item['set_ability']['fullset_detail_explain']:
-            detail.append(f'套装效果: {fullset_detail_explain.replace('%%', '%')}')
-        elif fullset_basic_explain := master_set_item['set_ability']['fullset_basic_explain']:
-            detail.append(f'套装效果: {fullset_basic_explain.replace('%%', '%')}')
+        if fullset_detail_explain := master_set_item['set_ability'][
+            'fullset_detail_explain'
+        ]:
+            detail.append(f'套装效果: {fullset_detail_explain.replace("%%", "%")}')
+        elif fullset_basic_explain := master_set_item['set_ability'][
+            'fullset_basic_explain'
+        ]:
+            detail.append(f'套装效果: {fullset_basic_explain.replace("%%", "%")}')
 
         if skill_level_up_list := master_set_item['skill_level_up']:
             detail.append('技能增强')
             for it in skill_level_up_list:
-                job = it['role'].replace('[', '').replace(']', '').replace(' ', '').lower()
+                job = (
+                    it['role']
+                    .replace('[', '')
+                    .replace(']', '')
+                    .replace(' ', '')
+                    .lower()
+                )
                 skill = self.skill_repo.query_by_job_and_id_of_job(job, it['skill_id'])
                 if skill:
                     detail.append(f'    {skill["name"]} +{it["level_up"]}')
@@ -340,7 +347,6 @@ def render_stat_property(skill_repo: SkillRepo, d: Dict) -> List[str]:
         'separate_attack': '独立攻击力',
         'equipment_physical_defense': '物理防御力',
         'equipment_magical_defense': '魔法防御力',
-
         'physical_attack': '力量',
         'physical_defense': '体力',
         'magical_attack': '智力',
@@ -354,10 +360,8 @@ def render_stat_property(skill_repo: SkillRepo, d: Dict) -> List[str]:
         'move_speed': '移动速度',
         'attack_speed': '攻击速度',
         'cast_speed': '释放速度',
-
         'physical_critical_hit': '物理暴击率',
         'magical_critical_hit': '魔法暴击率',
-
         'stuck': '命中率',
         'rigidity': '僵直',
         'hit_recovery': '硬直',
@@ -378,36 +382,26 @@ def render_stat_property(skill_repo: SkillRepo, d: Dict) -> List[str]:
         'sleep_resistance': '睡眠抗性',
         'slow_resistance': '减速抗性',
         'hold_resistance': '束缚抗性',
-
         'dark_attack': '暗属性强化',
         'light_attack': '光属性强化',
         'fire_attack': '火属性强化',
         'water_attack': '冰属性强化',
-
         'dark_resistance': '暗属性抗性',
         'light_resistance': '光属性抗性',
         'fire_resistance': '火属性抗性',
         'water_resistance': '冰属性抗性',
-
         'all_activestatus_resistance': '所有异常状态抗性',
         'room_list_move_speed_rate': '地图移动速度',
         'jump_power': '跳跃力',
-
-
         'anti_evil': '抗魔值',
-
         'elemental_property': '属性攻击',
-
         'creature_magical_attack': '宠物魔法攻击力',
         'creature_physical_attack': '宠物物理攻击力',
         'creature_skill_charge_time_rate': '宠物蓄力时间',
-
         'hp_max_rate': 'HP 最大值',
         'mp_max_rate': 'MP 最大值',
-
         'lift_up': 'lift_up',
-
-        'inventory_limit': '负重'
+        'inventory_limit': '负重',
     }
 
     res = []
@@ -436,9 +430,14 @@ def render_stat_property(skill_repo: SkillRepo, d: Dict) -> List[str]:
         elif k in ['attack_speed', 'move_speed', 'cast_speed']:
             vv = vv / 10
             res.append(f'{v} {vv:+.1f}%')
-        elif k in ['physical_critical_hit', 'magical_critical_hit',
-                   'hp_max_rate', 'mp_max_rate',
-                   'hp_regen_speed_rate', 'mp_regen_speed_rate']:
+        elif k in [
+            'physical_critical_hit',
+            'magical_critical_hit',
+            'hp_max_rate',
+            'mp_max_rate',
+            'hp_regen_speed_rate',
+            'mp_regen_speed_rate',
+        ]:
             res.append(f'{v} {vv:+}%')
         elif k == 'skill_level_up':
             res.extend(render_skills_text(skill_repo, v))

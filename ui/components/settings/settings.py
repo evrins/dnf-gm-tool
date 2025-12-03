@@ -3,6 +3,7 @@ from time import time
 from traceback import print_exc
 
 from loguru import logger
+from pvf_parser_rs import save_parquet
 from PySide6.QtCore import QThread, Signal
 from PySide6.QtWidgets import (
     QComboBox,
@@ -10,7 +11,6 @@ from PySide6.QtWidgets import (
     QMessageBox,
     QWidget,
 )
-from pvf_parser_rs import save_parquet
 from showinfm import show_in_file_manager
 
 from config import config
@@ -174,13 +174,13 @@ class Setting(QWidget, Ui_settings):
         self.mysql_test_thread.start()
 
     def _on_mysql_test_finished(
-            self,
-            success: bool,
-            error_msg: str,
-            host: str,
-            port: int,
-            username: str,
-            password: str,
+        self,
+        success: bool,
+        error_msg: str,
+        host: str,
+        port: int,
+        username: str,
+        password: str,
     ):
         """Handle MySQL test completion."""
         if success:

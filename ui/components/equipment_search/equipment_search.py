@@ -309,7 +309,7 @@ class EquipmentSearch(QWidget, Ui_equipment_search):
             detail.append(f'套装名: {set_name}')
 
         master_set_item_id = equipment['set_item_master']
-        if master_set_item_id != 0:
+        if master_set_item_id > 0:
             master_set_item = self.equipment_repo.query_by_id(master_set_item_id)
         else:
             master_set_item = equipment

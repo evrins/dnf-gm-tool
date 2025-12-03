@@ -1,7 +1,7 @@
 use crate::parser::pvf_encoding::PVFEncoding;
+use crate::parser::utils::to_string_with_encoding;
 use byteorder::{ByteOrder, LittleEndian};
 use std::collections::HashMap;
-use crate::parser::utils::to_string_with_encoding;
 
 #[derive(Debug, Default)]
 pub struct StringTable {

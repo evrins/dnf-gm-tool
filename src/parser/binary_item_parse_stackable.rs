@@ -65,9 +65,7 @@ impl BinaryItemParser {
         res.update_display_stackable_type();
         res.update_display_usable_job();
 
-        if res.item_category == "monster card"
-            && res.enchant.display_enchant_category.len() == 0
-        {
+        if res.item_category == "monster card" && res.enchant.display_enchant_category.len() == 0 {
             res.enchant.display_enchant_category = vec!["特殊效果".into()];
         }
 

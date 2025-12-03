@@ -116,7 +116,10 @@ pub fn get_stackable_scheme() -> Arc<Schema> {
         Field::new("enchant".into(), get_enchant_dtype()),
         Field::new("stat_desc".into(), DataType::String),
         Field::new("monster_card_id".into(), DataType::Int32),
-        Field::new("string_data".into(), DataType::List(Box::new(DataType::String))),
+        Field::new(
+            "string_data".into(),
+            DataType::List(Box::new(DataType::String)),
+        ),
         Field::new("display_rarity".into(), DataType::String),
         Field::new("display_stackable_type".into(), DataType::String),
         Field::new("display_usable_job".into(), DataType::String),

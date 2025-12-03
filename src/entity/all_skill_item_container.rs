@@ -1,4 +1,4 @@
-use crate::entity::all_skill_item::{get_all_skill_item_dtype, AllSkillItem};
+use crate::entity::all_skill_item::{AllSkillItem, get_all_skill_item_dtype};
 use polars::datatypes::{DataType, Field};
 use serde::Serialize;
 
@@ -8,7 +8,8 @@ pub struct AllSkillItemContainer {
 }
 
 pub fn get_all_skill_item_container_dtype() -> DataType {
-    DataType::Struct(vec![
-        Field::new("all_skill_item".into(), get_all_skill_item_dtype()),
-    ])
+    DataType::Struct(vec![Field::new(
+        "all_skill_item".into(),
+        get_all_skill_item_dtype(),
+    )])
 }

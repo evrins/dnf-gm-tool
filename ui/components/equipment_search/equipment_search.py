@@ -442,6 +442,8 @@ def render_stat_property(skill_repo: SkillRepo, d: Dict) -> List[str]:
             res.append(f'{v} {vv:+}%')
         elif k == 'skill_level_up':
             res.extend(render_skills_text(skill_repo, v))
+        elif k == 'room_list_move_speed_rate':
+            res.append(f'{v} {100 * vv:+.0f}%')
         elif k == 'all_skill_item_container':
             if not v['all_skill_item']['item_grow_type']:
                 continue

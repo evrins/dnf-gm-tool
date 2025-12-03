@@ -1,4 +1,6 @@
+import os
 from time import time
+from traceback import print_exc
 
 from loguru import logger
 from PySide6.QtCore import QThread, Signal
@@ -8,23 +10,15 @@ from PySide6.QtWidgets import (
     QMessageBox,
     QWidget,
 )
+from pvf_parser_rs import save_parquet
 from showinfm import show_in_file_manager
 
 from config import config
 from config.config import check_mysql_config
 from dnfpkgtool.db.entity.signals import gs
-from dnfpkgtool.pvf.pvf_reader import PVFReader
-from dnfpkgtool.repo.dungeon_repo import build_dungeon_repo_parquet
-from dnfpkgtool.repo.equipment_repo import build_equipment_repo_parquet
-from dnfpkgtool.repo.exp_repo import build_exp_repo_parquet
-from dnfpkgtool.repo.magic_seal_repo import build_magic_seal_parquet
 from dnfpkgtool.repo.orb_repo import build_orb_repo_parquet
-from dnfpkgtool.repo.quest_repo import build_quest_repo_parquet
-from dnfpkgtool.repo.skill_repo import SkillRepo, build_skill_repo_parquet
-from dnfpkgtool.repo.stackable_repo import (
-    StackableRepo,
-    build_stackable_repo_parquet,
-)
+from dnfpkgtool.repo.skill_repo import SkillRepo
+from dnfpkgtool.repo.stackable_repo import StackableRepo
 from ui.components.settings.settings_ui import Ui_settings
 from util import calculate_hash_of_file
 
@@ -67,70 +61,20 @@ class BuilderThread(QThread):
 
     def run(self):
         self.start_time = time()
-        total = 8
-        if config.create_pvf_dir(self.pvf_hash):
-            self.progress.emit(
-                f'{self.elapsed():.2f}s: pvf dir already created skip build'
-            )
-            config.set_pvf_hash(self.pvf_hash)
-            self.finished.emit(True)
-            return
+        total = 2
+        config.create_pvf_dir(self.pvf_hash)
 
         try:
             self.progress.emit(f'{self.elapsed():.2f}s: Start building repo parquet')
-            reader = PVFReader(self.pvf_path)
+            pvf_dir = config.build_pvf_dir(self.pvf_hash)
 
-            self.progress.emit(
-                f'{self.elapsed():.2f}s: Start building equipment repo 1/{total}'
-            )
-            build_equipment_repo_parquet(
-                reader.get_equipment_dict(),
-                config.build_equipment_parquet_file_path(self.pvf_hash),
-            )
-            self.progress.emit(
-                f'{self.elapsed():.2f}s: End building equipment repo 1/{total}'
-            )
+            save_parquet(self.pvf_path, 2, os.fspath(pvf_dir))
+
             self.progress_int.emit(100 / total)
-
-            self.progress.emit(
-                f'{self.elapsed():.2f}s: Start building stackable repo 2/{total}'
-            )
-            build_stackable_repo_parquet(
-                reader.get_stackable_dict(),
-                config.build_stackable_parquet_file_path(self.pvf_hash),
-            )
-            self.progress.emit(
-                f'{self.elapsed():.2f}s: End building stackable repo 2/{total}'
-            )
-            self.progress_int.emit(200 / total)
-
-            self.progress.emit(
-                f'{self.elapsed():.2f}s: Start building magic seal repo 3/{total}'
-            )
-            build_magic_seal_parquet(
-                reader.get_magic_seal_dict(),
-                config.build_magic_seal_parquet_file_path(self.pvf_hash),
-            )
-            self.progress.emit(
-                f'{self.elapsed():.2f}s: End building magic seal repo 3/{total}'
-            )
-            self.progress_int.emit(300 / total)
-
-            self.progress.emit(
-                f'{self.elapsed():.2f}s: Start building skill repo 4/{total}'
-            )
-            build_skill_repo_parquet(
-                reader.get_skill_list(),
-                config.build_skill_parquet_parquet_file_path(self.pvf_hash),
-            )
-            self.progress.emit(
-                f'{self.elapsed():.2f}s: End building magic seal repo 4/{total}'
-            )
-            self.progress_int.emit(400 / total)
 
             # build orb repo should come after stackable_repo and skill_repo
             self.progress.emit(
-                f'{self.elapsed():.2f}s: Start building orb repo 5/{total}'
+                f'{self.elapsed():.2f}s: Start building orb repo 2/{total}'
             )
             stackable_repo = StackableRepo(
                 config.build_stackable_parquet_file_path(self.pvf_hash)
@@ -144,52 +88,16 @@ class BuilderThread(QThread):
                 config.build_orb_parquet_file_path(self.pvf_hash),
             )
             self.progress.emit(
-                f'{self.elapsed():.2f}s: End building orb repo 5/{total}'
+                f'{self.elapsed():.2f}s: End building orb repo 2/{total}'
             )
-            self.progress_int.emit(500 / total)
+            self.progress_int.emit(200 / total)
 
-            self.progress.emit(
-                f'{self.elapsed():.2f}s: Start building quest repo 6/{total}'
-            )
-            build_quest_repo_parquet(
-                reader.get_quest_list(),
-                config.build_quest_parquet_file_path(self.pvf_hash),
-            )
-            self.progress.emit(
-                f'{self.elapsed():.2f}s: End building quest repo 6/{total}'
-            )
-            self.progress_int.emit(600 / total)
-
-            self.progress.emit(
-                f'{self.elapsed():.2f}s: Start building exp repo 7/{total}'
-            )
-            build_exp_repo_parquet(
-                reader.get_exp_table(),
-                config.build_exp_repo_parquet_file_path(self.pvf_hash),
-            )
-            self.progress.emit(
-                f'{self.elapsed():.2f}s: End building exp repo 7/{total}'
-            )
-            self.progress_int.emit(700 / total)
-
-            self.progress.emit(
-                f'{self.elapsed():.2f}s: Start building dungeon repo 8/{total}'
-            )
-            build_dungeon_repo_parquet(
-                reader.get_dungeon_dict(),
-                config.build_dungeon_repo_parquet_file_path(self.pvf_hash),
-            )
-            self.progress.emit(
-                f'{self.elapsed():.2f}s: End building dungeon repo 8/{total}'
-            )
-            self.progress_int.emit(800 / total)
-
-            reader.close()
             config.set_pvf_hash(self.pvf_hash)
 
             self.progress.emit(f'{self.elapsed():.2f}s: End building repo parquet')
             self.finished.emit(True)
         except Exception as e:
+            print_exc()
             logger.error(f'fail to build parquet: {e}')
             self.finished.emit(False)
 

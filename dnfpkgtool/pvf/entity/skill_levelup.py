@@ -2,6 +2,6 @@ from pydantic import BaseModel
 
 
 class SkillLevelUp(BaseModel):
-    role: str = ''
-    skill_id: int = 0
-    level_up: int = 0
+    role: str | None = None
+    skill_id: int | None = None
+    level_up: int | None = None

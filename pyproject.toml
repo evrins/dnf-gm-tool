@@ -16,8 +16,10 @@ dependencies = [
     "zhconv",
 ]
 
+
 [dependency-groups]
 dev = [
+    "maturin>=1.10.2",
     "pyinstaller>=6.16.0",
     "pympler>=1.1",
     "pytest>=8.4.2",
@@ -32,3 +34,7 @@ addopts = ["-v", "--tb=short"]
 
 [tool.uv.sources]
 zhconv = { git = "https://github.com/seamile/zhconv" }
+
+[build-system]
+requires = ["maturin>=1.10,<2.0"]
+build-backend = "maturin"

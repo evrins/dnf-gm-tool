@@ -1,4 +1,5 @@
 import json
+from typing import Dict, List
 
 from PySide6.QtCore import (
     QAbstractTableModel,
@@ -15,7 +16,9 @@ from dnfpkgtool.db.entity.mail_form_item import MailItemType
 from dnfpkgtool.db.entity.mail_submit_item import MailSubmitItem
 from dnfpkgtool.db.entity.signals import gs
 from dnfpkgtool.repo.equipment_repo import EquipmentRepo
-from dnfpkgtool.repo.repo_manager import get_equipment_repo
+from dnfpkgtool.repo.orb_repo import render_skills_text
+from dnfpkgtool.repo.repo_manager import get_equipment_repo, get_skill_repo
+from dnfpkgtool.repo.skill_repo import SkillRepo
 from ui.components.equipment_search.equipment_search_ui import Ui_equipment_search
 from ui.components.stackable_search.vars import (
     default_options,
@@ -37,7 +40,7 @@ class EquipmentTableModel(QAbstractTableModel):
             'name',
             'display_equipment_type',
             'display_usable_job',
-            'level',
+            'minimum_level',
             'display_rarity',
         ]
         self._headers_display = ['ID', '名称', '装备类型', '可用职业', '等级', '稀有度']
@@ -68,14 +71,15 @@ class EquipmentTableModel(QAbstractTableModel):
 
 class EquipmentSearch(QWidget, Ui_equipment_search):
     equipment_repo: EquipmentRepo
+    skill_repo: SkillRepo
 
     def __init__(self):
         super().__init__()
         self.setupUi(self)
 
-        self.set_equipment_repo()
+        self.set_repo()
 
-        gs.pvf_changed.connect(self.set_equipment_repo)
+        gs.pvf_changed.connect(self.set_repo)
 
         self.name_line_edit.returnPressed.connect(self.do_search)
         self.main_combox.addItems(main_options)
@@ -95,10 +99,9 @@ class EquipmentSearch(QWidget, Ui_equipment_search):
 
         self.submit_btn.clicked.connect(self.submit_to_mail)
 
-        self.result_table_view.clicked.connect(self.on_row_clicked)
-
-    def set_equipment_repo(self):
+    def set_repo(self):
         self.equipment_repo = get_equipment_repo()
+        self.skill_repo = get_skill_repo()
 
     def _adjust_table_columns(self):
         """Adjust table column widths to content."""
@@ -227,6 +230,10 @@ class EquipmentSearch(QWidget, Ui_equipment_search):
         proxy_model = QSortFilterProxyModel()
         proxy_model.setSourceModel(table_model)
         self.result_table_view.setModel(proxy_model)
+
+        self.selection_model = self.result_table_view.selectionModel()
+        self.selection_model.selectionChanged.connect(self.on_selection_changed)
+
         self.result_table_view.sortByColumn(0, Qt.SortOrder.AscendingOrder)
 
         # Adjust table columns to content
@@ -264,38 +271,194 @@ class EquipmentSearch(QWidget, Ui_equipment_search):
 
         gs.submit_mail_form.emit(mail_submit_item)
 
-    def on_row_clicked(self, index: QModelIndex):
-        row = index.data(Qt.ItemDataRole.UserRole)
+    def on_selection_changed(self, selected, deselected):
         indent = ' ' * 4
-        json_string = row['json']
-        d = json.loads(json_string)
-        lines = []
-        for k, v in d.items():
-            lines.append(k)
-            if (
-                k == '[basic explain]'
-                or k == '[detail explain]'
-                or k == '[flavor text]'
-            ):
-                if v:
-                    for it in v:
-                        for sub in it.split('\r\n'):
-                            sub = sub.strip()
-                            lines.append(f'{indent}{sub}')
-                else:
-                    lines.append('')
-            else:
-                lines.append(f'{indent}{v}')
-        content = '\n'.join(lines)
+        rows = self.selection_model.selectedRows()
+        if not rows:
+            return
+        row = rows[0].data(Qt.ItemDataRole.UserRole)
+        detail = self.render_detail(row)
         self.detail_text_edit.setAlignment(
             Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop
         )
-        self.detail_text_edit.setText(content)
+        self.detail_text_edit.setText(detail)
 
     def update_title(self, n_result: int):
-        title = 'Results'
+        title = '结果'
         if n_result > 1000:
-            title = f'{title} 1000+ records found'
+            title = f'找到 {title} 1000+ 条记录'
         elif n_result > 0:
-            title = f'{title} {n_result} records found'
+            title = f'找到 {n_result} 条记录'
         self.search_results.setTitle(title)
+
+    def render_detail(self, equipment: Dict) -> str:
+        detail = [
+            f"名称: {equipment['name']}",
+            f"名称2: {equipment['name2']}",
+            f"等级: {equipment['minimum_level']}",
+            f"稀有度: {equipment['display_rarity']}",
+            f"类型: {equipment['display_equipment_type']}",
+        ]
+
+        detail.extend(render_stat_property(self.skill_repo, equipment))
+
+        if explain := equipment['basic_explain']:
+            detail.append(f'说明: {explain.replace('%%', '%')}')
+
+        if set_name := equipment['set_name']:
+            detail.append(f'套装名: {set_name}')
+
+        master_set_item_id = equipment['set_item_master']
+        if master_set_item_id != 0:
+            master_set_item = self.equipment_repo.query_by_id(master_set_item_id)
+        else:
+            master_set_item = equipment
+
+        if fullset_detail_explain := master_set_item['set_ability']['fullset_detail_explain']:
+            detail.append(f'套装效果: {fullset_detail_explain.replace('%%', '%')}')
+        elif fullset_basic_explain := master_set_item['set_ability']['fullset_basic_explain']:
+            detail.append(f'套装效果: {fullset_basic_explain.replace('%%', '%')}')
+
+        if skill_level_up_list := master_set_item['skill_level_up']:
+            detail.append('技能增强')
+            for it in skill_level_up_list:
+                job = it['role'].replace('[', '').replace(']', '').replace(' ', '').lower()
+                skill = self.skill_repo.query_by_job_and_id_of_job(job, it['skill_id'])
+                if skill:
+                    detail.append(f'    {skill["name"]} +{it["level_up"]}')
+
+        if flavor_text := equipment['flavor_text']:
+            detail.append(f'\n{flavor_text}')
+
+        return '\n'.join(detail)
+
+
+def render_stat_property(skill_repo: SkillRepo, d: Dict) -> List[str]:
+    valid_keys = {
+        'equipment_physical_attack': '物理攻击力',
+        'equipment_magical_attack': '魔法攻击力',
+        'separate_attack': '独立攻击力',
+        'equipment_physical_defense': '物理防御力',
+        'equipment_magical_defense': '魔法防御力',
+
+        'physical_attack': '力量',
+        'physical_defense': '体力',
+        'magical_attack': '智力',
+        'magical_defense': '精神',
+        'hp_max': 'HP 最大值',
+        'mp_max': 'MP 最大值',
+        'hp_regen_speed': 'HP 回复速度',
+        'hp_regen_speed_rate': 'HP 回复速度',
+        'mp_regen_speed': 'MP 回复速度',
+        'mp_regen_speed_rate': 'MP 回复速度',
+        'move_speed': '移动速度',
+        'attack_speed': '攻击速度',
+        'cast_speed': '释放速度',
+
+        'physical_critical_hit': '物理暴击率',
+        'magical_critical_hit': '魔法暴击率',
+
+        'stuck': '命中率',
+        'rigidity': '僵直',
+        'hit_recovery': '硬直',
+        'all_elemental_attack': '所有属性攻击',
+        'all_elemental_resistance': '所有属性抗性',
+        'stuck_resistance': '回避率',
+        'stun_resistance': '眩晕抗性',
+        'piercing_resistance': '穿刺抗性',
+        'freeze_resistance': '冰冻抗性',
+        'confuse_resistance': '混乱抗性',
+        'poison_resistance': '中毒抗性',
+        'stone_resistance': '石化抗性',
+        'blind_resistance': '致盲抗性',
+        'curse_resistance': '诅咒抗性',
+        'bleeding_resistance': '出血抗性',
+        'lightning_resistance': '感电抗性',
+        'burn_resistance': '灼烧抗性',
+        'sleep_resistance': '睡眠抗性',
+        'slow_resistance': '减速抗性',
+        'hold_resistance': '束缚抗性',
+
+        'dark_attack': '暗属性强化',
+        'light_attack': '光属性强化',
+        'fire_attack': '火属性强化',
+        'water_attack': '冰属性强化',
+
+        'dark_resistance': '暗属性抗性',
+        'light_resistance': '光属性抗性',
+        'fire_resistance': '火属性抗性',
+        'water_resistance': '冰属性抗性',
+
+        'all_activestatus_resistance': '所有异常状态抗性',
+        'room_list_move_speed_rate': '地图移动速度',
+        'jump_power': '跳跃力',
+
+
+        'anti_evil': '抗魔值',
+
+        'elemental_property': '属性攻击',
+
+        'creature_magical_attack': '宠物魔法攻击力',
+        'creature_physical_attack': '宠物物理攻击力',
+        'creature_skill_charge_time_rate': '宠物蓄力时间',
+
+        'hp_max_rate': 'HP 最大值',
+        'mp_max_rate': 'MP 最大值',
+
+        'lift_up': 'lift_up',
+
+        'inventory_limit': '负重'
+    }
+
+    res = []
+
+    for k, v in valid_keys.items():
+        vv = d.get(k)
+        if not vv:
+            continue
+
+        if k == 'elemental_property':
+            if vv == '[light element]':
+                res.append('光属性攻击')
+            elif vv == '[fire element]':
+                res.append('火属性攻击')
+            elif vv == '[water element]':
+                res.append('冰属性攻击')
+            elif vv == '[dark element]':
+                res.append('暗属性攻击')
+            else:
+                res.append('未知属性')
+        elif k == 'stuck':
+            if abs(vv) < 1:
+                res.append(f'{v} {vv:+.1}%')
+            else:
+                res.append(f'{v} {vv:+}%')
+        elif k in ['attack_speed', 'move_speed', 'cast_speed']:
+            vv = vv / 10
+            res.append(f'{v} {vv:+.1f}%')
+        elif k in ['physical_critical_hit', 'magical_critical_hit',
+                   'hp_max_rate', 'mp_max_rate',
+                   'hp_regen_speed_rate', 'mp_regen_speed_rate']:
+            res.append(f'{v} {vv:+}%')
+        elif k == 'skill_level_up':
+            res.extend(render_skills_text(skill_repo, v))
+        elif k == 'all_skill_item_container':
+            if not v['all_skill_item']['item_grow_type']:
+                continue
+
+            lower = v['all_skill_item']['skill_apply_condition']['lower_bound_level']
+            upper = v['all_skill_item']['skill_apply_condition']['upper_bound_level']
+            level = v['all_skill_item']['skill_apply_condition']['value']
+            res.append(f'{lower}-{upper} 主动技能等级 +{level}')
+        elif k == 'all_skill_item':
+            if not v['skill_apply_condition']['item_grow_type']:
+                continue
+
+            lower = v['skill_apply_condition']['lower_bound_level']
+            upper = v['skill_apply_condition']['upper_bound_level']
+            level = v['skill_apply_condition']['value']
+            res.append(f'{lower}-{upper} 主动技能等级 +{level}')
+        else:
+            res.append(f'{v} {vv:+}')
+
+    return res

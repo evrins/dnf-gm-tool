@@ -123,7 +123,7 @@ class ItemService:
         prefix = buf[:4]
         items_bytes = bytearray(zlib.decompress(buf[4:]))
         idx = item.display_idx
-        items_bytes[idx * 61 : idx * 61 + 61] = item.to_bytes()
+        items_bytes[idx * 61: idx * 61 + 61] = item.to_bytes()
         res = prefix + zlib.compress(items_bytes)
         return res
 
@@ -132,7 +132,7 @@ class ItemService:
         num = len(buf) // 61
         res = []
         for i in range(num):
-            item = self.unpack_blob_item(buf[i * 61 : (i + 1) * 61])
+            item = self.unpack_blob_item(buf[i * 61: (i + 1) * 61])
             item.display_idx = i
             res.append(item)
         return res
@@ -155,12 +155,14 @@ class ItemService:
                 item.display_rarity_name = inner_item['display_rarity']
             except StackableIdNotFoundException:
                 item.is_missing = True
+                item.display_name = f'物品 ID {item.id} 不存在'
             except EquipmentIdNotFoundException:
                 item.is_missing = True
+                item.display_name = f'装备 ID {item.id} 不存在'
 
         magic_seal_range_list = [(0, 3), (3, 6), (6, 9), (10, 13)]
         for idx, it in enumerate(magic_seal_range_list):
-            ms = MagicSeal.from_bytes(item.magic_seal[it[0] : it[1]])
+            ms = MagicSeal.from_bytes(item.magic_seal[it[0]: it[1]])
             if ms.id == 0:
                 continue
             ms.name = self.magic_seal_repo.query_by_id(ms.id)['name']
@@ -190,7 +192,7 @@ def get_item_service() -> ItemService:
 def build_repo_parquet(fp: str):
     reader = PVFReader(fp)
     build_equipment_repo_parquet(
-        reader.get_equipment_dict(), config.get_equipment_parquet_file_path()
+        reader.get_equipment_list(), config.get_equipment_parquet_file_path()
     )
     build_stackable_repo_parquet(
         reader.get_stackable_dict(), config.get_stackable_parquet_file_path()

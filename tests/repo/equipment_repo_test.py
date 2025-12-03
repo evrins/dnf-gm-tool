@@ -9,12 +9,12 @@ base_dir = Path(__file__).parent
 
 
 def test_build_equipment_repo():
-    pvf_path = '/Users/evrins/workspace/python/dnf_gm_tool/Script.璀璨.pvf'
+    pvf_path = '/Users/evrins/workspace/python/dnf_gm_tool/Script.pvf'
     reader = PVFReader(pvf_path)
-    stackable_dict = reader.get_equipment_dict()
+    equipment_list = reader.get_equipment_list()
     try:
         build_equipment_repo_parquet(
-            stackable_dict, base_dir / 'data' / 'equipments.parquet'
+            equipment_list, base_dir / 'data' / 'equipments.parquet'
         )
     except Exception:
         traceback.print_exc()

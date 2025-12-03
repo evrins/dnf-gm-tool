@@ -4,6 +4,7 @@ from typing import Dict, List
 import polars as pl
 from loguru import logger
 
+from dnfpkgtool.pvf.entity.equipment import Equipment
 from dnfpkgtool.pvf.pvf_reader import PVFDict
 from dnfpkgtool.repo import MappingElementLocation, remapping_pvf_dict
 from dnfpkgtool.repo.base_repo import BaseRepo
@@ -148,54 +149,8 @@ def map_display_usable_job(usable_job: List[str]) -> str:
     return ','.join([job_name_mapping.get(it, it) for it in usable_job])
 
 
-def build_equipment_repo_parquet(pvf_dict: PVFDict, fp: str | Path):
-    mappings = [
-        ('level', '[minimum level]', 0, MappingElementLocation.First),
-        ('rarity', '[rarity]', 0, MappingElementLocation.First),
-        ('equipment_type', '[equipment type]', '', MappingElementLocation.First),
-        ('sub_equipment_type', '[equipment type]', 0, MappingElementLocation.Second),
-        ('item_group_name', '[item group name]', '', MappingElementLocation.First),
-        ('item_category', '[item category]', '', MappingElementLocation.First),
-        ('usable_job', '[usable job]', [], MappingElementLocation.All),
-        ('physical_attack', '[physical attack]', 0, MappingElementLocation.First),
-        ('magical_attack', '[magical attack]', 0, MappingElementLocation.First),
-        ('physical_defense', '[physical defense]', 0, MappingElementLocation.First),
-        ('magical_defense', '[magical defense]', 0, MappingElementLocation.First),
-        (
-            'physical_critical_hit',
-            '[physical critical hit]',
-            0.0,
-            MappingElementLocation.First,
-        ),
-        (
-            'magical_critical_hit',
-            '[magical critical hit]',
-            0.0,
-            MappingElementLocation.First,
-        ),
-        (
-            'all_elemental_attack',
-            '[all elemental attack]',
-            0,
-            MappingElementLocation.First,
-        ),
-        ('attack_speed', '[attack speed]', 0, MappingElementLocation.First),
-        ('cast_speed', '[cast speed]', 0, MappingElementLocation.First),
-        ('move_speed', '[move speed]', 0, MappingElementLocation.First),
-        (
-            'room_list_move_speed_rate',
-            '[room list move speed rate]',
-            0.0,
-            MappingElementLocation.First,
-        ),
-        ('mp_max_rate', '[MP MAX rate]', 0.0, MappingElementLocation.First),
-        ('set_name', '[set name]', '', MappingElementLocation.First),
-        ('set_item', '[set item]', [], MappingElementLocation.All),
-        ('durability', '[durability]', 0, MappingElementLocation.First),
-        ('sub_type', '[sub type]', 0, MappingElementLocation.First),
-    ]
-    df = remapping_pvf_dict(pvf_dict, mappings)
-    df = pl.DataFrame(df)
+def build_equipment_repo_parquet(equipment_list: List[Equipment], fp: str | Path):
+    df = pl.DataFrame([it.model_dump() for it in equipment_list])
     df = df.with_columns(
         pl.struct(['id', 'equipment_type', 'item_group_name'])
         .map_elements(map_armor_type, return_dtype=pl.String)
@@ -266,8 +221,8 @@ class EquipmentRepo(BaseRepo):
 
         if usable_job is not None:
             cond = cond & (
-                pl.col('usable_job').list.contains('[all]')
-                | (pl.col('usable_job').list.contains(usable_job))
+                    pl.col('usable_job').list.contains('[all]')
+                    | (pl.col('usable_job').list.contains(usable_job))
             )
 
         if item_group_name is not None:

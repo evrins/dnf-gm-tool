@@ -152,10 +152,10 @@ def get_log_dir() -> Path:
 
 
 def check_mysql_config(
-        host: str,
-        port: int,
-        user: str,
-        password: str,
+    host: str,
+    port: int,
+    user: str,
+    password: str,
 ) -> bool:
     conn = None
     try:
@@ -212,7 +212,7 @@ def have_valid_account_id_and_character_no() -> bool:
 
 
 def build_stackable_parquet_file_path(pvf_hash: str) -> Path:
-    return base_dir / 'data' / pvf_hash / 'stackable_parquet.parquet'
+    return base_dir / 'data' / pvf_hash / 'stackables.parquet'
 
 
 def get_stackable_parquet_file_path() -> Path:
@@ -270,6 +270,8 @@ def get_exp_repo_parquet_file_path() -> Path:
 def build_dungeon_repo_parquet_file_path(pvf_hash: str) -> Path:
     return base_dir / 'data' / pvf_hash / 'dungeons.parquet'
 
+def build_pvf_dir(pvf_hash: str) -> Path:
+    return base_dir / 'data' / pvf_hash
 
 def get_dungeon_repo_parquet_file_path() -> Path:
     return build_dungeon_repo_parquet_file_path(_config.pvf_hash)
@@ -310,7 +312,7 @@ def set_pvf_hash(pvf_hash: str):
 
 
 def set_account_id_and_character_no(
-        account_id: int, character_no: int, character_name: str
+    account_id: int, character_no: int, character_name: str
 ):
     _config.account_id = account_id
     _config.character_no = character_no

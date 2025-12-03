@@ -2,6 +2,7 @@ import json
 import os
 from pathlib import Path
 
+from dnfpkgtool.pvf.binary_content_parser import BinaryContentParser
 from dnfpkgtool.pvf.pvf_reader import PVFReader
 
 base_dir = Path(__file__).parent / 'dump'
@@ -129,8 +130,48 @@ def test_get_avatar_hidden_fixed():
 def test_get_equipment():
     pvf_path = '/Users/evrins/workspace/python/DNF_pvf_python/Script.pvf'
     reader = PVFReader(pvf_path)
-    equipment_dict = reader.get_equipment_dict()
+    equipment_list = reader.get_equipment_list()
+    equipment_dict = {
+        it.id: it.model_dump()
+        for it in equipment_list
+    }
     save_obj_2_file(equipment_dict, 'equipment_dict.json')
+
+
+def get_equipment_from_equ_file(
+        equ_file: str
+):
+    pvf_path = '/Users/evrins/workspace/python/DNF_pvf_python/Script.pvf'
+    base_name = equ_file.split('/')[-1].replace('.equ', '')
+    reader = PVFReader(pvf_path)
+    equ_data = reader.read_file_as_list(equ_file)
+    save_obj_2_file(equ_data, f'{base_name}.list.json')
+
+    bcp = BinaryContentParser(equ_data)
+    equ = bcp.parse_equipment()
+    save_obj_2_file(
+        equ.model_dump(), f'{base_name}.json'
+    )
+
+
+def test_get_equipment_chn_equ_special_avatar_at_gunner_cap_105550481():
+    equ_file = 'equipment/character/gunner/at_avatar/cap/chn_equ_special_avatar_at_gunner_cap_105550481.equ'
+    get_equipment_from_equ_file(equ_file)
+
+
+def test_get_equipment_aura_50700():
+    equ_file = 'equipment/character/gunner/avatar/aura/aura_50700.equ'
+    get_equipment_from_equ_file(equ_file)
+
+
+def test_get_equipment_amr_11345():
+    equ_file = 'equipment/character/common/jacket/harmor/amr_11345.equ'
+    get_equipment_from_equ_file(equ_file)
+
+
+def test_get_equipment_chn_2014_labor_normal_02_wind():
+    equ_file = 'equipment/character/common/title/chn_2014_labor_normal_02_wind.equ'
+    get_equipment_from_equ_file(equ_file)
 
 
 def test_get_skill_list():

@@ -1,4 +1,5 @@
 import json
+from typing import Dict
 
 from PySide6.QtCore import (
     QAbstractTableModel,
@@ -32,7 +33,7 @@ class StackableTableModel(QAbstractTableModel):
             'id',
             'name',
             'display_stackable_type',
-            'level',
+            'minimum_level',
             'display_rarity',
         ]
         self._display_headers = ['ID', '名称', '物品种类', '等级', '稀有度']
@@ -84,8 +85,6 @@ class StackableSearch(QWidget, Ui_stackable_search):
 
         self.submit_btn.clicked.connect(self.submit_to_mail)
 
-        self.result_table_view.clicked.connect(self.on_row_clicked)
-
     def _adjust_table_columns(self):
         """Adjust table column widths to content."""
         self.result_table_view.resizeColumnsToContents()
@@ -131,6 +130,10 @@ class StackableSearch(QWidget, Ui_stackable_search):
         proxy_model = QSortFilterProxyModel()
         proxy_model.setSourceModel(table_model)
         self.result_table_view.setModel(proxy_model)
+
+        self.selection_model = self.result_table_view.selectionModel()
+        self.selection_model.selectionChanged.connect(self.on_selection_changed)
+
         self.result_table_view.sortByColumn(0, Qt.SortOrder.AscendingOrder)
 
         self.result_table_view.resizeColumnsToContents()
@@ -152,34 +155,27 @@ class StackableSearch(QWidget, Ui_stackable_search):
         gs.submit_mail_form.emit(mail_submit_item)
 
     def update_title(self, n_result: int):
-        title = 'Results'
+        title = '结果'
         if n_result > 1000:
-            title = f'{title} 1000+ records found'
+            title = f'找到 {title} 1000+ 条记录'
         elif n_result > 0:
-            title = f'{title} {n_result} records found'
+            title = f'找到 {title} {n_result} 条记录'
         self.result_group.setTitle(title)
 
-    def on_row_clicked(self, index: QModelIndex):
+    def on_selection_changed(self, selected, deselected):
         indent = ' ' * 4
-        row = index.data(Qt.ItemDataRole.UserRole)
-        json_string = row['json']
-        d = json.loads(json_string)
-        lines = []
-        for k, v in d.items():
-            lines.append(k)
-            if (
-                k == '[basic explain]'
-                or k == '[detail explain]'
-                or k == '[flavor text]'
-            ):
-                if v:
-                    for it in v:
-                        for sub in it.split('\r\n'):
-                            sub = sub.strip()
-                            lines.append(f'{indent}{sub}')
-                else:
-                    lines.append('')
-            else:
-                lines.append(f'{indent}{v}')
-        content = '\n'.join(lines)
-        self.detail_text_edit.setPlainText(content)
+        rows = self.selection_model.selectedRows()
+
+        if rows:
+            row = rows[0].data(Qt.ItemDataRole.UserRole)
+            detail = self.render_detail(row)
+            self.detail_text_edit.setPlainText(detail)
+
+    def render_detail(self, stackable: Dict) -> str:
+        detail = f"""名称: {stackable['name']}
+名称2: {stackable['name2']}
+等级: {stackable['minimum_level']}
+稀有度: {stackable['display_rarity']}
+类型: {stackable['display_stackable_type']}
+"""
+        return detail

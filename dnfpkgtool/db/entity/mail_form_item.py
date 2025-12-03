@@ -8,6 +8,7 @@ class MailItemType(Enum):
     Equipment = 2
     Avatar = 3
     Creature = 4
+    Missing = 5
 
     def __repr__(self):
         if self == self.Stackable:
@@ -18,6 +19,8 @@ class MailItemType(Enum):
             return '时装'
         elif self == self.Creature:
             return '宠物'
+        elif self == self.Missing:
+            return '未找到'
         return None
 
     __str__ = __repr__

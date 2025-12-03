@@ -1,0 +1,25 @@
+[package]
+name = "pvf_parser_rs"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+name = "pvf_parser_rs"
+crate-type = ["cdylib", "rlib"]
+
+
+[dependencies]
+byteorder = "1.5.0"
+encoding_rs = { version = "0.8.35", features = ["fast-big5-hanzi-encode", "fast-gb-hanzi-encode"] }
+enum-as-inner = "0.6.1"
+polars = { version = "0.52.0", features = ["parquet", "json", "lazy", "timezones"] }
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = "1.0.145"
+tracing = "0.1.41"
+tracing-subscriber = "0.3.20"
+zhconv = "0.3.3"
+pyo3 = { version = "0.27.0", features = ["extension-module"], optional = true }
+
+[features]
+default = []
+python = ["pyo3"]

@@ -92,7 +92,7 @@ class CharacterService:
         return res
 
     def update_current_character_info(
-            self, character_info: CharacterInfo, has_level_changed: bool
+        self, character_info: CharacterInfo, has_level_changed: bool
     ):
         m_id = config.get_current_account_id()
         character_no = config.get_current_character_no()

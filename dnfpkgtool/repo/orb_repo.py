@@ -1,7 +1,7 @@
 import json
 from collections import defaultdict
 from pathlib import Path
-from typing import List
+from typing import List, Dict
 
 import polars as pl
 
@@ -109,16 +109,20 @@ def transform_job_name(job_name: str) -> str:
     return job_name.replace('[', '').replace(']', '').replace(' ', '').lower()
 
 
-def render_skills_text(skill_repo: SkillRepo, arr: list) -> list[str]:
+def render_skills_text(skill_repo: SkillRepo, arr: List[Dict]) -> list[str]:
     res = []
-    for i in range(0, len(arr), 3):
-        res.append(render_skill_text(skill_repo, arr[i : i + 3]))
+    for it in arr:
+        if text := render_skill_text(skill_repo, it):
+            res.append(text)
     return res
 
 
-def render_skill_text(skill_repo: SkillRepo, arr: list) -> str:
-    skill = skill_repo.query_by_job_and_id_of_job(transform_job_name(arr[0]), arr[1])
-    return f'{skill["name"]} +{arr[2]}'
+def render_skill_text(skill_repo: SkillRepo, it: Dict) -> str | None:
+    skill = skill_repo.query_by_job_and_id_of_job(transform_job_name(it['role']), it['skill_id'])
+    if skill:
+        return f'{skill["name"]} +{it["level_up"]}'
+    else:
+        return None
 
 
 # render effect display based on keys
@@ -130,55 +134,57 @@ def render_display_effect(enchant: dict, skill_repo: SkillRepo) -> str:
         return ''
 
     for k, v in enchant.items():
-        if k == '[elemental property]':
-            if v[0] == '[light element]':
+        if not v:
+            continue
+
+        # ignore keys
+        if k in ['display_enchant_category', 'item_aura', 'string_data']:
+            continue
+
+        if k == 'elemental_property':
+            if v == '[light element]':
                 res.append('光')
-            elif v[0] == '[fire element]':
+            elif v == '[fire element]':
                 res.append('火')
-            elif v[0] == '[water element]':
+            elif v == '[water element]':
                 res.append('冰')
-            elif v[0] == '[dark element]':
+            elif v == '[dark element]':
                 res.append('暗')
             else:
                 res.append('未知属性')
-        # skip empty key
-        elif k == '' or k == '[/enchant index]':
-            continue
-        elif k == '[skill levelup]':
+        elif k == 'skill_level_up':
             res.extend(render_skills_text(skill_repo, v))
-        # ignore this key
-        elif k == '[all skill item container]':
-            lower = v['[all skill item]']['[skill apply condition]'][
-                '[lower bound level]'
-            ][0]
-            upper = v['[all skill item]']['[skill apply condition]'][
-                '[upper bound level]'
-            ][0]
-            level = v['[all skill item]']['[skill apply condition]']['[value]'][0]
+        elif k == 'all_skill_item_container':
+            if not v['all_skill_item']['item_grow_type']:
+                continue
+
+            lower = v['all_skill_item']['skill_apply_condition']['lower_bound_level']
+            upper = v['all_skill_item']['skill_apply_condition']['upper_bound_level']
+            level = v['all_skill_item']['skill_apply_condition']['value']
             res.append(f'{lower}-{upper} 主动技能等级 +{level}')
-        elif k == '[all skill item]':
-            lower = v['[skill apply condition]']['[lower bound level]'][0]
-            upper = v['[skill apply condition]']['[upper bound level]'][0]
-            level = v['[skill apply condition]']['[value]'][0]
+        elif k == 'all_skill_item':
+            if not v['skill_apply_condition']['item_grow_type']:
+                continue
+
+            lower = v['skill_apply_condition']['lower_bound_level']
+            upper = v['skill_apply_condition']['upper_bound_level']
+            level = v['skill_apply_condition']['value']
             res.append(f'{lower}-{upper} 主动技能等级 +{level}')
-        elif k == '[stuck]':
-            v = abs(v[0])
+        elif k == 'stuck':
+            v = abs(v)
             if v < 1:
                 res.append(f'+{v:.1}%')
             else:
                 res.append(f'+{v}%')
-        elif k in ['[attack speed]', '[move speed]', '[cast speed]']:
-            v = v[0]
+        elif k in ['attack_speed', 'move_speed', 'cast_speed']:
             v = v / 10
             res.append(f'+{v:.1f}%')
-        elif k == '[physical critical hit]' or k == '[magical critical hit]':
-            res.append(f'+{v[0]}%')
+        elif k == 'physical_critical_hit' or k == 'magical_critical_hit':
+            res.append(f'+{v}%')
         else:
-            if len(v) == 0:
-                print('empty values')
             if isinstance(v, dict):
                 print('stop here')
-            res.append(f'+{v[0]}')
+            res.append(f'+{v}')
 
     return ' '.join(res)
 
@@ -189,46 +195,28 @@ def build_orb_repo_parquet(
     orb_list = stackable_repo.query('', stackable_type_list=['[enchant waste]'])
     rs: defaultdict = defaultdict(list)
     for orb in orb_list:
-        orb_d = json.loads(orb['json'])
         rs['orb_id'].append(orb['id'])
         rs['orb_name'].append(orb['name'])
         rs['orb_name2'].append(orb['name2'])
 
-        monster_card_id = orb_d['[monster card id]'][0]
+        monster_card_id = orb['monster_card_id']
         if not monster_card_id:
             print(f'[monster card id] not found in {orb["name"]}')
         card = stackable_repo.query_by_id(monster_card_id)
         rs['card_id'].append(card['id'])
         rs['card_name'].append(card['name'])
         rs['card_name2'].append(card['name2'])
-        card_d = json.loads(card['json'])
-        enchant = card_d[enchant_key]
-        if not enchant:
-            enchant = {}
-
-        enchant_category = list(enchant.keys())
-        rs['enchant'].append(json.dumps(enchant))
-        if '[if]' in enchant_category or '[then]' in enchant_category:
-            enchant_category = ['special']
-        rs['enchant_category'].append(enchant_category)
-
-        rs['display_enchant_category'].append(
-            list(
-                filter(
-                    lambda it: it,
-                    map(lambda it: enchant_key_mapping.get(it, it), enchant_category),
-                )
-            )
-        )
+        enchant = card['enchant']
+        rs['display_enchant_category'].append(enchant['display_enchant_category'])
 
         display_effect = render_display_effect(enchant, skill_repo)
         rs['display_effect'].append(display_effect)
 
-        apply_parts = card_d['[string data]'][1:]
+        apply_parts = card['string_data'][1:]
 
         rs['apply_parts'].append(apply_parts)
 
-        stat_desc = card_d.get('[stat desc]', '')
+        stat_desc = card['stat_desc']
         if stat_desc:
             stat_desc = stat_desc[0]
             stat_desc.strip()

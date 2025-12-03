@@ -50,7 +50,7 @@ def parse_pvf_header(f) -> PVFHeader:
 
 
 def parse_leafs(
-        header_bytes: bytes, num_of_files_in_dir_tree: int
+    header_bytes: bytes, num_of_files_in_dir_tree: int
 ) -> dict[str, LeafNode]:
     current_index = 0
     leafs = {}
@@ -68,8 +68,8 @@ def parse_leaf(header_bytes: bytes, index: int) -> tuple[LeafNode, int]:
     fn_bytes = header_bytes[index : index + 4]
     index += 4
     file_path_length_bytes = header_bytes[index : index + 4]
-    index += 4
     file_path_length = struct.unpack('I', file_path_length_bytes)[0]
+    index += 4
     file_path_bytes = header_bytes[index : index + file_path_length]
     index += file_path_length
     file_length_bytes = header_bytes[index : index + 4]

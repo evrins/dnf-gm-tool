@@ -8,6 +8,7 @@ from loguru import logger
 
 from dnfpkgtool.pvf.binary_content_parser import BinaryContentParser
 from dnfpkgtool.pvf.entity.binary_content import BinaryContent
+from dnfpkgtool.pvf.entity.equipment import Equipment
 from dnfpkgtool.pvf.entity.piece_set import PieceSet
 from dnfpkgtool.pvf.entity.pvf_dict import PVFDict
 from dnfpkgtool.pvf.entity.quest import Quest
@@ -71,7 +72,7 @@ class PVFReader:
         return self.list_2_dict(res)
 
     def list_2_dict(
-            self, res: BinaryContent
+        self, res: BinaryContent
     ) -> dict[str, List[str | int | float]] | List[str | int | float]:
         """
         not handle [variation] [layer variation] [equipment ani script] segment key well, but I don't need it now
@@ -217,8 +218,10 @@ class PVFReader:
         print(avatar_lst)
         return None
 
-    def get_equipment_dict(self) -> PVFDict:
-        return self.get_as_dict('equipment/equipment.lst', 'Equipment')
+    def get_equipment_list(self) -> List[Equipment]:
+        return self.parse_from_lst(
+            'equipment/equipment.lst', 'Equipment', 'parse_equipment'
+        )
 
     def get_stackable_dict(self) -> PVFDict:
         return self.get_as_dict('stackable/stackable.lst', 'Stackable')
@@ -250,7 +253,7 @@ class PVFReader:
         return self.get_as_dict('dungeon/dungeon.lst', 'dungeon')
 
     def parse_from_lst(
-            self, lst_file_name: str, dict_name: str, parse_function_name: str
+        self, lst_file_name: str, dict_name: str, parse_function_name: str
     ) -> List:
         lst_file = self.load_lst_file(lst_file_name)
 
@@ -269,9 +272,9 @@ class PVFReader:
                 fpath = fpath.replace('//', '/')
                 bc = self.read_file_as_list(fpath)
                 bcp = BinaryContentParser(bc)
-                quest = getattr(bcp, parse_function_name)()
-                quest.id = id_
-                res[id_] = quest
+                it = getattr(bcp, parse_function_name)()
+                it.id = id_
+                res[id_] = it
             except Exception as e:
                 traceback.print_exc()
                 logger.error(f'failed to read file {id_} {path_}: {e}')

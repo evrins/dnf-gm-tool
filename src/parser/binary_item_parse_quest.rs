@@ -60,6 +60,9 @@ impl BinaryItemParser {
                     "[relation quest]" => {
                         quest.relation_quest = self.parse_until_segment_as_int_list();
                     }
+                    "[int data]" => {
+                        quest.int_data = self.parse_until_segment_as_int_list();
+                    }
                     _ => {
                         debug!("skip {:?} in parse quest", segment);
                     }

@@ -149,7 +149,7 @@ fn test_save_quest_to_parquet() {
     let mut reader = PVFReader::new(TC_PVF, PVFEncoding::BIG5);
     let quest_list = reader.get_quest_list();
 
-    save_quest_to_parquet(quest_list, "quests.parquet");
+    save_quest_to_parquet(quest_list, "dump/quests.parquet");
 }
 
 #[test]

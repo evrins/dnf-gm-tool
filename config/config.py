@@ -174,6 +174,7 @@ def check_mysql_config(
             passwd=password,
             database='d_taiwan',
             connect_timeout=2,
+            charset='utf8',
         )
 
         conn.ping(True)

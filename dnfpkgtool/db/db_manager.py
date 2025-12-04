@@ -18,7 +18,7 @@ class DBManager:
             with self._engine_lock:
                 # Double-check pattern: recheck after acquiring lock
                 if db_name not in self.engines:
-                    url = 'mysql+pymysql://{}:{}@{}:{}/{}?charset=utf8mb4'.format(
+                    url = 'mysql+pymysql://{}:{}@{}:{}/{}?charset=utf8'.format(
                         self.config.username,
                         self.config.password,
                         self.config.host,

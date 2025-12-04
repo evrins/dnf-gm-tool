@@ -1,5 +1,22 @@
 # -*- mode: python ; coding: utf-8 -*-
+import sys
+import os
 
+block_cipher = None
+
+# --- Custom Logic: Select Icon based on Platform ---
+# Default to None
+icon_path = None
+
+if sys.platform.startswith('win'):
+    # Windows requires .ico
+    icon_path = 'resources/icon.ico'
+elif sys.platform.startswith('darwin'):
+    # macOS requires .icns
+    icon_path = 'resources/icon.icns'
+else:
+    # Linux (often uses .png, though PyInstaller exe icon support is limited on Linux)
+    icon_path = 'resources/icon.ico'
 
 a = Analysis(
     ['main.py'],
@@ -34,7 +51,7 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['resources/icon.icns'],
+    icon=[icon_path],
 )
 coll = COLLECT(
     exe,
@@ -48,6 +65,6 @@ coll = COLLECT(
 app = BUNDLE(
     coll,
     name='dnf-gm-tool.app',
-    icon='resources/icon.icns',
+    icon=icon_path,
     bundle_identifier='hu.evrins.dnf-gm-tool',
 )

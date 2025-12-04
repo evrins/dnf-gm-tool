@@ -49,6 +49,7 @@ dependencies = [
     { name = "pydantic" },
     { name = "pymysql" },
     { name = "pyside6" },
+    { name = "shortuuid" },
     { name = "show-in-file-manager" },
     { name = "sqlalchemy" },
     { name = "zhconv" },
@@ -70,6 +71,7 @@ requires-dist = [
     { name = "pydantic", specifier = ">=2.12.3" },
     { name = "pymysql", specifier = ">=1.1.2" },
     { name = "pyside6", specifier = ">=6.10.0" },
+    { name = "shortuuid", specifier = ">=1.0.13" },
     { name = "show-in-file-manager", specifier = ">=1.1.5" },
     { name = "sqlalchemy", specifier = ">=2.0.44" },
     { name = "zhconv", git = "https://github.com/seamile/zhconv" },
@@ -435,6 +437,15 @@ wheels = [
     { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/31/29/00e26f33a0fb259c2edce9c761a7a438d7531ca514bdb1a4c072673bd437/shiboken6-6.10.0-cp39-abi3-manylinux_2_39_aarch64.whl", hash = "sha256:b01377e68d14132360efb0f4b7233006d26aa8ae9bb50edf00960c2a5f52d148", size = 267698, upload-time = "2025-10-08T09:49:10.694Z" },
     { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/11/30/e4624a7e3f0dc9796b701079b77defcce0d32d1afc86bb1d0df04bc3d9e2/shiboken6-6.10.0-cp39-abi3-win_amd64.whl", hash = "sha256:0bc5631c1bf150cbef768a17f5f289aae1cb4db6c6b0c19b2421394e27783717", size = 1234227, upload-time = "2025-10-08T09:49:12.774Z" },
     { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/dd/e5/0ab862005ea87dc8647ba958a3099b3b0115fd6491c65da5c5a0f6364db1/shiboken6-6.10.0-cp39-abi3-win_arm64.whl", hash = "sha256:dfc4beab5fec7dbbebbb418f3bf99af865d6953aa0795435563d4cbb82093b61", size = 1794775, upload-time = "2025-10-08T09:49:14.641Z" },
+]
+
+[[package]]
+name = "shortuuid"
+version = "1.0.13"
+source = { registry = "https://mirrors.bfsu.edu.cn/pypi/web/simple/" }
+sdist = { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/8c/e2/bcf761f3bff95856203f9559baf3741c416071dd200c0fc19fad7f078f86/shortuuid-1.0.13.tar.gz", hash = "sha256:3bb9cf07f606260584b1df46399c0b87dd84773e7b25912b7e391e30797c5e72" }
+wheels = [
+    { url = "https://mirrors.bfsu.edu.cn/pypi/web/packages/c0/44/21d6bf170bf40b41396480d8d49ad640bca3f2b02139cd52aa1e272830a5/shortuuid-1.0.13-py3-none-any.whl", hash = "sha256:a482a497300b49b4953e15108a7913244e1bb0d41f9d332f5e9925dba33a3c5a" },
 ]
 
 [[package]]

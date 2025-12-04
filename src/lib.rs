@@ -29,8 +29,8 @@ fn save_parquet(fp: &str, encoding: i32, output_dir: &str) {
     tracing_subscriber::fmt().try_init().ok();
 
     let pvf_encoding = match encoding {
-        1 => PVFEncoding::GBK,
-        2 => PVFEncoding::BIG5,
+        1 => PVFEncoding::BIG5,
+        2 => PVFEncoding::GBK,
         _ => {
             panic!("Invalid encoding")
         }

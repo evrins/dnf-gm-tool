@@ -1,4 +1,5 @@
 import os
+import shutil
 from pathlib import Path
 from typing import List
 
@@ -22,7 +23,6 @@ class History(BaseModel):
     port_list: List[int]
     username_list: List[str]
     password_list: List[str]
-    pvf_hash_list: List[str] = []
 
 
 base_dir = Path(__file__).parent.parent
@@ -45,10 +45,17 @@ def init_dirs():
     os.makedirs(base_dir / 'data' / 'log', exist_ok=True)
 
 
+class Pvf(BaseModel):
+    remark: str = ''
+    uuid: str
+    encoding: int
+
+
 class Config(BaseModel):
     db_config: DbConfig
+    pvf_list: List[Pvf] = []
     history: History
-    pvf_hash: str = ''
+    pvf_uuid: str = ''
     pvf_dir: Path = ''
     account_id: int = 0
     character_no: int = 0
@@ -63,6 +70,7 @@ class Config(BaseModel):
                 username='root',
                 password='123456',
             ),
+            pvf_list=[],
             history=History(
                 host_list=['localhost', '192.168.200.131'],
                 port_list=[3306],
@@ -72,11 +80,11 @@ class Config(BaseModel):
         )
 
     def have_valid_pvf(self) -> bool:
-        if not self.pvf_hash:
+        if not self.pvf_uuid:
             return False
 
         for func in path_map.values():
-            if not func(self.pvf_hash):
+            if not func(self.pvf_uuid):
                 return False
 
         return True
@@ -93,7 +101,7 @@ def load():
         with open(get_config_path(), 'r', encoding='utf-8') as f:
             json_data = f.read()
             cfg = Config.model_validate_json(json_data)
-            cfg.pvf_dir = base_dir / 'data' / cfg.pvf_hash
+            cfg.pvf_dir = base_dir / 'data' / cfg.pvf_uuid
             _config = cfg
 
 
@@ -152,10 +160,10 @@ def get_log_dir() -> Path:
 
 
 def check_mysql_config(
-    host: str,
-    port: int,
-    user: str,
-    password: str,
+        host: str,
+        port: int,
+        user: str,
+        password: str,
 ) -> bool:
     conn = None
     try:
@@ -211,72 +219,72 @@ def have_valid_account_id_and_character_no() -> bool:
 # todo build path from config
 
 
-def build_stackable_parquet_file_path(pvf_hash: str) -> Path:
-    return base_dir / 'data' / pvf_hash / 'stackables.parquet'
+def build_stackable_parquet_file_path(uuid: str) -> Path:
+    return base_dir / 'data' / uuid / 'stackables.parquet'
 
 
 def get_stackable_parquet_file_path() -> Path:
-    return build_stackable_parquet_file_path(_config.pvf_hash)
+    return build_stackable_parquet_file_path(_config.pvf_uuid)
 
 
-def build_equipment_parquet_file_path(pvf_hash: str) -> Path:
-    return base_dir / 'data' / pvf_hash / 'equipments.parquet'
+def build_equipment_parquet_file_path(uuid: str) -> Path:
+    return base_dir / 'data' / uuid / 'equipments.parquet'
 
 
 def get_equipment_parquet_file_path() -> Path:
-    return build_equipment_parquet_file_path(_config.pvf_hash)
+    return build_equipment_parquet_file_path(_config.pvf_uuid)
 
 
-def build_magic_seal_parquet_file_path(pvf_hash: str) -> Path:
-    return base_dir / 'data' / pvf_hash / 'magic_seals.parquet'
+def build_magic_seal_parquet_file_path(uuid: str) -> Path:
+    return base_dir / 'data' / uuid / 'magic_seals.parquet'
 
 
 def get_magic_seal_parquet_file_path() -> Path:
-    return build_magic_seal_parquet_file_path(_config.pvf_hash)
+    return build_magic_seal_parquet_file_path(_config.pvf_uuid)
 
 
-def build_skill_parquet_parquet_file_path(pvf_hash: str) -> Path:
-    return base_dir / 'data' / pvf_hash / 'skills.parquet'
+def build_skill_parquet_parquet_file_path(uuid: str) -> Path:
+    return base_dir / 'data' / uuid / 'skills.parquet'
 
 
 def get_skill_parquet_file_path() -> Path:
-    return build_skill_parquet_parquet_file_path(_config.pvf_hash)
+    return build_skill_parquet_parquet_file_path(_config.pvf_uuid)
 
 
-def build_orb_parquet_file_path(pvf_hash: str) -> Path:
-    return base_dir / 'data' / pvf_hash / 'orbs.parquet'
+def build_orb_parquet_file_path(uuid: str) -> Path:
+    return base_dir / 'data' / uuid / 'orbs.parquet'
 
 
 def get_orb_parquet_file_path() -> Path:
-    return build_orb_parquet_file_path(_config.pvf_hash)
+    return build_orb_parquet_file_path(_config.pvf_uuid)
 
 
-def build_quest_parquet_file_path(pvf_hash: str) -> Path:
-    return base_dir / 'data' / pvf_hash / 'quests.parquet'
+def build_quest_parquet_file_path(uuid: str) -> Path:
+    return base_dir / 'data' / uuid / 'quests.parquet'
 
 
 def get_quest_parquet_file_path() -> Path:
-    return build_quest_parquet_file_path(_config.pvf_hash)
+    return build_quest_parquet_file_path(_config.pvf_uuid)
 
 
-def build_exp_repo_parquet_file_path(pvf_hash: str) -> Path:
-    return base_dir / 'data' / pvf_hash / 'exps.parquet'
+def build_exp_repo_parquet_file_path(uuid: str) -> Path:
+    return base_dir / 'data' / uuid / 'exps.parquet'
 
 
 def get_exp_repo_parquet_file_path() -> Path:
-    return build_exp_repo_parquet_file_path(_config.pvf_hash)
+    return build_exp_repo_parquet_file_path(_config.pvf_uuid)
 
 
-def build_dungeon_repo_parquet_file_path(pvf_hash: str) -> Path:
-    return base_dir / 'data' / pvf_hash / 'dungeons.parquet'
+def build_dungeon_repo_parquet_file_path(uuid: str) -> Path:
+    return base_dir / 'data' / uuid / 'dungeons.parquet'
 
 
-def build_pvf_dir(pvf_hash: str) -> Path:
-    return base_dir / 'data' / pvf_hash
+def build_pvf_dir(uuid: str) -> Path:
+    return base_dir / 'data' / uuid
 
 
 def get_dungeon_repo_parquet_file_path() -> Path:
-    return build_dungeon_repo_parquet_file_path(_config.pvf_hash)
+    return build_dungeon_repo_parquet_file_path(_config.pvf_uuid)
 
 
 path_map = {
@@ -291,22 +299,17 @@ path_map = {
 }
 
 
-def create_pvf_dir(pvf_hash: str) -> bool:
-    pvf_dir = base_dir / 'data' / pvf_hash
+def create_pvf_dir(uuid: str) -> bool:
+    pvf_dir = base_dir / 'data' / uuid
     if pvf_dir.exists():
         return True
     pvf_dir.mkdir()
     return False
 
 
-def set_pvf_hash(pvf_hash: str):
-    _config.pvf_hash = pvf_hash
-    _config.pvf_dir = base_dir / 'data' / pvf_hash
-
-    history = _config.history
-    if pvf_hash not in history.pvf_hash_list:
-        history.pvf_hash_list.append(pvf_hash)
-    _config.history = history
+def set_pvf_uuid(uuid: str):
+    _config.pvf_uuid = uuid
+    _config.pvf_dir = base_dir / 'data' / uuid
 
     save()
 
@@ -314,7 +317,7 @@ def set_pvf_hash(pvf_hash: str):
 
 
 def set_account_id_and_character_no(
-    account_id: int, character_no: int, character_name: str
+        account_id: int, character_no: int, character_name: str
 ):
     _config.account_id = account_id
     _config.character_no = character_no
@@ -327,3 +330,30 @@ def set_account_id_and_character_no(
 
 
 MAX_GRADE = 232
+
+
+def get_pvf_list() -> List[Pvf]:
+    return _config.pvf_list
+
+
+def add_pvf(it: Pvf):
+    _config.pvf_list.append(it)
+    save()
+
+
+def update_pvf_by_uuid(uuid: str, remark: str):
+    n = len(_config.pvf_list)
+    for i in range(n):
+        if _config.pvf_list[i].uuid == uuid:
+            _config.pvf_list[i].remark = remark
+            break
+    save()
+
+
+def delete_pvf_by_uuid(uuid: str):
+    if not uuid:
+        return
+    _config.pvf_list = [it for it in _config.pvf_list if it.uuid != uuid]
+    dir_name = build_pvf_dir(uuid)
+    shutil.rmtree(dir_name)
+    save()

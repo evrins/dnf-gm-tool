@@ -11,6 +11,7 @@ dependencies = [
     "pydantic>=2.12.3",
     "pymysql>=1.1.2",
     "pyside6>=6.10.0",
+    "shortuuid>=1.0.13",
     "show-in-file-manager>=1.1.5",
     "sqlalchemy>=2.0.44",
     "zhconv",
@@ -38,3 +39,7 @@ zhconv = { git = "https://github.com/seamile/zhconv" }
 [build-system]
 requires = ["maturin>=1.10,<2.0"]
 build-backend = "maturin"
+
+[tool.maturin]
+bindings = "pyo3"
+features = ["python"]

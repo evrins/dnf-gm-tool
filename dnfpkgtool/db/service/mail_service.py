@@ -1,6 +1,8 @@
 from functools import cache
 from typing import List, Tuple
 
+from loguru import logger
+
 from config import config
 from dnfpkgtool.db.entity.mail_form_item import MailFormItem, MailItemType
 from dnfpkgtool.db.entity.mail_list_item import MailListItem
@@ -103,6 +105,7 @@ class MailService:
     def send_mail(
         self, sender: str, msg: str, character_no: int, mail_item: MailFormItem
     ):
+        logger.info(f'send {mail_item.item_type} with id {mail_item.item_id} to {character_no}')
         if mail_item.item_type == MailItemType.Stackable:
             self.send_stackable_mail(sender, msg, character_no, mail_item)
         elif mail_item.item_type == MailItemType.Creature:

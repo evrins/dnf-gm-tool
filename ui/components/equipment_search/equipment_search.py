@@ -594,7 +594,7 @@ def render_as_html(data: Dict) -> str:
         rarity_color = '#fff'
 
     display_attach_type = data['display_attach_type']
-    if display_attach_type == '无法交易':
+    if display_attach_type in ['无法交易', '无法删除']:
         attach_type_color = '#da1823'
     else:
         attach_type_color = '#584d27'

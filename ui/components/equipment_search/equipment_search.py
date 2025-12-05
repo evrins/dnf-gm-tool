@@ -299,8 +299,25 @@ class EquipmentSearch(QWidget, Ui_equipment_search):
 
         detail.extend(render_stat_property(self.skill_repo, equipment))
 
+        if skill_level_up_list := equipment['skill_level_up']:
+            skills = {}
+            for it in skill_level_up_list:
+                job = (
+                    it['role']
+                    .replace('[', '')
+                    .replace(']', '')
+                    .replace(' ', '')
+                    .lower()
+                )
+                skill = self.skill_repo.query_by_job_and_id_of_job(job, it['skill_id'])
+                if skill:
+                    skills[f'[{skill["name"]}]技能等级 +{it["level_up"]}'] = 0
+            if skills:
+                detail.extend(skills.keys())
+
         if explain := equipment['basic_explain']:
-            detail.append(f'说明: {explain.replace("%%", "%")}')
+            detail.append('')
+            detail.append(f'{explain.replace("%%", "%")}')
 
         if set_name := equipment['set_name']:
             detail.append(f'套装名: {set_name}')
@@ -319,20 +336,6 @@ class EquipmentSearch(QWidget, Ui_equipment_search):
             'fullset_basic_explain'
         ]:
             detail.append(f'套装效果: {fullset_basic_explain.replace("%%", "%")}')
-
-        if skill_level_up_list := master_set_item['skill_level_up']:
-            detail.append('技能增强')
-            for it in skill_level_up_list:
-                job = (
-                    it['role']
-                    .replace('[', '')
-                    .replace(']', '')
-                    .replace(' ', '')
-                    .lower()
-                )
-                skill = self.skill_repo.query_by_job_and_id_of_job(job, it['skill_id'])
-                if skill:
-                    detail.append(f'    {skill["name"]} +{it["level_up"]}')
 
         if flavor_text := equipment['flavor_text']:
             detail.append(f'\n{flavor_text}')
@@ -362,7 +365,6 @@ def render_stat_property(skill_repo: SkillRepo, d: Dict) -> List[str]:
         'cast_speed': '释放速度',
         'physical_critical_hit': '物理暴击率',
         'magical_critical_hit': '魔法暴击率',
-        'stuck': '命中率',
         'rigidity': '僵直',
         'hit_recovery': '硬直',
         'all_elemental_attack': '所有属性攻击',
@@ -390,11 +392,12 @@ def render_stat_property(skill_repo: SkillRepo, d: Dict) -> List[str]:
         'light_resistance': '光属性抗性',
         'fire_resistance': '火属性抗性',
         'water_resistance': '冰属性抗性',
+        'elemental_property': '属性攻击',
+        'stuck': '命中率',
         'all_activestatus_resistance': '所有异常状态抗性',
-        'room_list_move_speed_rate': '地图移动速度',
+        'room_list_move_speed_rate': '城镇内移动速度',
         'jump_power': '跳跃力',
         'anti_evil': '抗魔值',
-        'elemental_property': '属性攻击',
         'creature_magical_attack': '宠物魔法攻击力',
         'creature_physical_attack': '宠物物理攻击力',
         'creature_skill_charge_time_rate': '宠物蓄力时间',
@@ -423,7 +426,8 @@ def render_stat_property(skill_repo: SkillRepo, d: Dict) -> List[str]:
             else:
                 res.append('未知属性')
         elif k == 'stuck':
-            if abs(vv) < 1:
+            vv = abs(vv)
+            if vv < 1:
                 res.append(f'{v} {vv:+.1}%')
             else:
                 res.append(f'{v} {vv:+}%')
@@ -439,6 +443,10 @@ def render_stat_property(skill_repo: SkillRepo, d: Dict) -> List[str]:
             'mp_regen_speed_rate',
         ]:
             res.append(f'{v} {vv:+}%')
+        elif k == 'hp_regen_speed':
+            res.append(f'每分钟恢复{vv}HP')
+        elif k == 'mp_regen_speed':
+            res.append(f'每分钟恢复{vv}MP')
         elif k == 'skill_level_up':
             res.extend(render_skills_text(skill_repo, v))
         elif k == 'room_list_move_speed_rate':

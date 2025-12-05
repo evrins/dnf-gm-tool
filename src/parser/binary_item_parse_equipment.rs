@@ -225,6 +225,9 @@ impl BinaryItemParser {
                     "[rigidity]" => {
                         sp.rigidity = *self.parse_next_one().as_int().unwrap();
                     }
+                    "[inventory limit]" => {
+                        sp.inventory_limit = *self.parse_next_one().as_int().unwrap();
+                    }
                     "[lift up]" => {
                         sp.lift_up = *self.parse_next_one().as_int().unwrap();
                     }
@@ -246,6 +249,9 @@ impl BinaryItemParser {
                     }
                     "[name2]" => {
                         res.name2 = self.parse_next_one().as_string().unwrap().clone();
+                    }
+                    "[attach type]" => {
+                        res.attach_type = self.parse_next_one().as_string().unwrap().clone();
                     }
                     "[rarity]" => {
                         res.rarity = *self.parse_next_one().as_int().unwrap();
@@ -409,6 +415,7 @@ impl BinaryItemParser {
         res.update_display_rarity();
         res.update_display_equipment_type();
         res.update_display_usable_job();
+        res.update_display_attach_type();
 
         res
     }

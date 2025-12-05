@@ -6,6 +6,7 @@ use pvf_parser_rs::parser::pvf_reader::{
     save_exp_to_parquet, save_magic_seal_to_parquet, save_quest_to_parquet, save_skill_to_parquet,
     save_stackable_to_parquet,
 };
+use std::fs;
 use std::fs::File;
 use std::io::{BufWriter, Write};
 use tracing::info;
@@ -70,6 +71,18 @@ fn test_binary_item_parse_equipment() {
     let mut parser = BinaryItemParser::new(res);
     let equ = parser.parse_equipment();
     info!("{:?}", equ);
+}
+#[test]
+fn test_binary_item_parse_equipment_100200005() {
+    let mut reader = PVFReader::new(TC_PVF, PVFEncoding::BIG5);
+    let equ_file = "equipment/character/common/belt/cloth/100200005.equ";
+    let res = reader.read_file_as_list(equ_file);
+    let parser = BinaryItemParser::new(res);
+    fs::write(
+        "dump/equipment_100200005.txt",
+        parser.to_string_list().join("\n"),
+    )
+    .unwrap();
 }
 
 #[test]

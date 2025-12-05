@@ -374,4 +374,17 @@ impl BinaryItemParser {
     pub fn next_n_item(&self, n: usize) -> &BinaryItem {
         &self.binary_item_list[self.idx + n]
     }
+
+    pub fn to_string_list(&self) -> Vec<String> {
+        self.binary_item_list
+            .iter()
+            .map(|it| match it {
+                BinaryItem::Int(v) => v.to_string(),
+                BinaryItem::UInt(v) => v.to_string(),
+                BinaryItem::Float(v) => v.to_string(),
+                BinaryItem::Segment(v) => format!("segment: {}", v),
+                BinaryItem::String(v) => v.to_string(),
+            })
+            .collect()
+    }
 }

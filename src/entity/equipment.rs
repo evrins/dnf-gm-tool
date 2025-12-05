@@ -20,6 +20,7 @@ pub struct Equipment {
     pub name2: String,
     pub grade: i32,
     pub rarity: i32,
+    pub attach_type: String,
     pub usable_job: Vec<String>,
     pub minimum_level: i32,
     pub maximum_level: i32,
@@ -84,6 +85,7 @@ pub struct Equipment {
 
     // field for display
     pub armor_type: String,
+    pub display_attach_type: String,
     pub display_equipment_type: String,
     pub display_rarity: String,
     pub display_usable_job: String,
@@ -207,6 +209,18 @@ impl Equipment {
     pub fn update_display_usable_job(&mut self) {
         self.display_usable_job = map_usable_job(&self.usable_job);
     }
+
+    pub fn update_display_attach_type(&mut self) {
+        self.display_attach_type = match self.attach_type.as_str() {
+            "[trade]" => "无法交易".into(),
+            "[sealing]" => "封装".into(),
+            "[account]" => "账号绑定".into(),
+            "[free]" => "".into(), // just empty string
+            "[trade delete]" => "无法删除".into(),
+            "[sealing trade]" => "无法交易".into(),
+            _ => "".into(),
+        }
+    }
 }
 
 pub fn get_equipment_schema() -> Arc<Schema> {
@@ -214,6 +228,7 @@ pub fn get_equipment_schema() -> Arc<Schema> {
         Field::new("id".into(), DataType::UInt32),
         Field::new("grade".into(), DataType::Int32),
         Field::new("rarity".into(), DataType::Int32),
+        Field::new("attach_type".into(), DataType::String),
         Field::new("minimum_level".into(), DataType::Int32),
         Field::new("maximum_level".into(), DataType::Int32),
         Field::new("price".into(), DataType::Int32),
@@ -256,6 +271,7 @@ pub fn get_equipment_schema() -> Arc<Schema> {
         Field::new("display_equipment_type".into(), DataType::String),
         Field::new("display_rarity".into(), DataType::String),
         Field::new("display_usable_job".into(), DataType::String),
+        Field::new("display_attach_type".into(), DataType::String),
         // --- Simple Lists (Vec<T>) ---
         Field::new(
             "usable_job".into(),

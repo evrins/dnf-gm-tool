@@ -9,6 +9,7 @@ from PySide6.QtCore import (
 from PySide6.QtWidgets import (
     QWidget,
 )
+from mako.template import Template
 
 from dnfpkgtool.db.entity.mail_form_item import MailItemType
 from dnfpkgtool.db.entity.mail_submit_item import MailSubmitItem
@@ -289,16 +290,20 @@ class EquipmentSearch(QWidget, Ui_equipment_search):
         self.search_results.setTitle(title)
 
     def render_detail(self, equipment: Dict) -> str:
-        detail = [
-            f'名称: {equipment["name"]}',
-            f'名称2: {equipment["name2"]}',
-            f'等级: {equipment["minimum_level"]}',
-            f'稀有度: {equipment["display_rarity"]}',
-            f'类型: {equipment["display_equipment_type"]}',
-        ]
+        detail = {'name': equipment['name'],
+                  'name2': equipment['name2'],
+                  'display_rarity': equipment['display_rarity'],
+                  'weight': f'{(equipment['weight'] / 1000.0):.1f}kg',
+                  'price': equipment['value'] // 5,
+                  'display_equipment_type': equipment['display_equipment_type'],
+                  'durability': f"{equipment["durability"]}/{equipment["durability"]}",
+                  'display_attach_type': equipment['display_attach_type'],
+                  'required_level': f'Lv{equipment["minimum_level"]}以上可以使用',
+                  'display_usable_job': equipment['display_usable_job'],
+                  'stat_property_1': render_stat_property_part1(equipment),
+                  'stat_property_2': render_stat_property_part2(self.skill_repo, equipment)}
 
-        detail.extend(render_stat_property(self.skill_repo, equipment))
-
+        rest = []
         if skill_level_up_list := equipment['skill_level_up']:
             skills = {}
             for it in skill_level_up_list:
@@ -313,14 +318,13 @@ class EquipmentSearch(QWidget, Ui_equipment_search):
                 if skill:
                     skills[f'[{skill["name"]}]技能等级 +{it["level_up"]}'] = 0
             if skills:
-                detail.extend(skills.keys())
+                rest.extend(skills.keys())
 
         if explain := equipment['basic_explain']:
-            detail.append('')
-            detail.append(f'{explain.replace("%%", "%")}')
+            rest.append(f'{explain.replace("%%", "%").replace("\r\n", "\n")}')
 
         if set_name := equipment['set_name']:
-            detail.append(f'套装名: {set_name}')
+            rest.append(f'套装名: {set_name}')
 
         master_set_item_id = equipment['set_item_master']
         if master_set_item_id > 0:
@@ -331,19 +335,20 @@ class EquipmentSearch(QWidget, Ui_equipment_search):
         if fullset_detail_explain := master_set_item['set_ability'][
             'fullset_detail_explain'
         ]:
-            detail.append(f'套装效果: {fullset_detail_explain.replace("%%", "%")}')
+            rest.append(f'套装效果: {fullset_detail_explain.replace("%%", "%")}')
         elif fullset_basic_explain := master_set_item['set_ability'][
             'fullset_basic_explain'
         ]:
-            detail.append(f'套装效果: {fullset_basic_explain.replace("%%", "%")}')
+            rest.append(f'套装效果: {fullset_basic_explain.replace("%%", "%")}')
 
-        if flavor_text := equipment['flavor_text']:
-            detail.append(f'\n{flavor_text}')
+        detail['rest'] = rest
 
-        return '\n'.join(detail)
+        detail['flavor'] = equipment['flavor_text']
+
+        return render_as_html(detail)
 
 
-def render_stat_property(skill_repo: SkillRepo, d: Dict) -> List[str]:
+def render_stat_property_part1(d: Dict) -> List[str]:
     valid_keys = {
         'equipment_physical_attack': '物理攻击力',
         'equipment_magical_attack': '魔法攻击力',
@@ -354,6 +359,19 @@ def render_stat_property(skill_repo: SkillRepo, d: Dict) -> List[str]:
         'physical_defense': '体力',
         'magical_attack': '智力',
         'magical_defense': '精神',
+        'anti_evil': '抗魔值',
+
+    }
+
+    res = []
+    for k, v in valid_keys.items():
+        if vv := d.get(k):
+            res.append(f'{v} {vv:+}')
+    return res
+
+
+def render_stat_property_part2(skill_repo: SkillRepo, d: dict) -> List[str]:
+    valid_keys = {
         'hp_max': 'HP 最大值',
         'mp_max': 'MP 最大值',
         'hp_regen_speed': 'HP 回复速度',
@@ -397,18 +415,15 @@ def render_stat_property(skill_repo: SkillRepo, d: Dict) -> List[str]:
         'all_activestatus_resistance': '所有异常状态抗性',
         'room_list_move_speed_rate': '城镇内移动速度',
         'jump_power': '跳跃力',
-        'anti_evil': '抗魔值',
         'creature_magical_attack': '宠物魔法攻击力',
         'creature_physical_attack': '宠物物理攻击力',
         'creature_skill_charge_time_rate': '宠物蓄力时间',
         'hp_max_rate': 'HP 最大值',
         'mp_max_rate': 'MP 最大值',
         'lift_up': 'lift_up',
-        'inventory_limit': '负重',
+        'inventory_limit': '物品栏负重上限',
     }
-
     res = []
-
     for k, v in valid_keys.items():
         vv = d.get(k)
         if not vv:
@@ -447,6 +462,8 @@ def render_stat_property(skill_repo: SkillRepo, d: Dict) -> List[str]:
             res.append(f'每分钟恢复{vv}HP')
         elif k == 'mp_regen_speed':
             res.append(f'每分钟恢复{vv}MP')
+        elif k == 'inventory_limit':
+            res.append(f'物品栏负重上限 {(vv / 1000):+.1f}kg')
         elif k == 'skill_level_up':
             res.extend(render_skills_text(skill_repo, v))
         elif k == 'room_list_move_speed_rate':
@@ -471,3 +488,133 @@ def render_stat_property(skill_repo: SkillRepo, d: Dict) -> List[str]:
             res.append(f'{v} {vv:+}')
 
     return res
+
+
+def render_as_html(data: Dict) -> str:
+    templ = '''
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body
+    style="background-color: rgba(0,0,0,0.9); padding: 8px; margin: 0;"
+>
+    <table width="100%"
+        cellspacing="0"
+        cellpadding="0"
+        >
+        <tr>
+            <td align="left" colspan=2>
+                <p style="color: ${rarity_color}; margin: 0;">${name}</p>
+                <p style="color: ${rarity_color}; margin: 0;">${name2}</p>            
+            </td>
+        </tr>
+        <tr>
+            <td align="right" style="color: ${rarity_color}" colspan=2>${display_rarity}</td>
+        <tr>
+        <tr>
+            <td align="left" style="color: #584d27">${weight}</td>
+            <td align="right" style="color: #584d27">${price}金币</td>
+        </tr>
+        <tr>
+            <td align="left" style="color: #c6b47d">${display_equipment_type}</td>
+            <td align="right" style="color: #584d27">${display_equipment_category}</td>
+        </tr>
+        <tr>
+            <td align="left" style="color: #584d27">耐久度 ${durability}</td>
+            <td align="right" style="color: ${attach_type_color}">${display_attach_type}</td>
+        </tr>
+        <tr>
+            <td align="left" style="color: #24921D" colspan=2>${required_level}</td>
+        </tr>
+        <tr>
+            <td align="left" style="color: #c6b47d" colspan=2>${display_usable_job}</td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+        </tr>
+        % for row in stat_property_1:
+            <tr>
+                <td align="left" style="color: #584d27" colspan=2>${row}</td>
+            </tr>
+        % endfor
+        % if len(stat_property_1) > 0: 
+            <tr>
+                <td>&nbsp;</td>
+            </tr>
+        % endif
+        % for row in stat_property_2:
+            <tr>
+                <td align="left" style="color: #c6b47d" colspan=2>${row}</td>
+            </tr>
+        % endfor
+        % if len(stat_property_2) > 0: 
+            <tr>
+                <td>&nbsp;</td>
+            </tr>
+        % endif
+        % for row in rest:
+            <tr>
+                <td align="left" style="color: #c6b47d" colspan=2>
+                <pre style="white-space: pre-wrap;">${row}</pre>
+                </td>
+            </tr>
+        % endfor
+        </tr>
+        % if len(rest) > 0: 
+            <tr>
+                <td>&nbsp;</td>
+            </tr>
+        % endif
+        % if flavor != '': 
+            <tr>
+                <td align="left" style="color: #858585" colspan=2>${flavor}</td>
+            </tr>
+        % endif
+    </table>
+</body>
+</html>
+
+    '''
+    display_rarity = data['display_rarity']
+    if display_rarity == '史诗':
+        rarity_color = '#eeab01'
+    elif display_rarity == '勇者':
+        rarity_color = '#E14850'
+    elif display_rarity in ['神器', '领主神器']:
+        rarity_color = '#e700d8'
+    elif display_rarity in ['稀有', '传承']:
+        rarity_color = '#8a49d7'
+    elif display_rarity == '高级':
+        rarity_color = '#4db0ce'
+    else:
+        rarity_color = '#fff'
+
+    display_attach_type = data['display_attach_type']
+    if display_attach_type == '无法交易':
+        attach_type_color = '#da1823'
+    else:
+        attach_type_color = '#584d27'
+
+    return Template(templ).render(
+        name=data['name'],
+        name2=data['name2'],
+        rarity_color=rarity_color,
+        display_rarity=data['display_rarity'],
+        weight=data['weight'],
+        price=data['price'],
+        display_equipment_type=data['display_equipment_type'],
+        display_equipment_category='武器',
+        durability=data['durability'],
+        attach_type_color=attach_type_color,
+        display_attach_type=display_attach_type,
+        required_level=data['required_level'],
+        display_usable_job=data['display_usable_job'],
+        stat_property_1=data['stat_property_1'],
+        stat_property_2=data['stat_property_2'],
+        rest=data['rest'],
+        flavor=data['flavor'],
+    )

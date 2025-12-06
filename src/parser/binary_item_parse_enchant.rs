@@ -230,7 +230,7 @@ impl BinaryItemParser {
                     }
                     "[elemental property]" => {
                         sp.elemental_property = self.parse_next_one().as_string().unwrap().clone();
-                        res.display_enchant_category.push("硬直".into());
+                        res.display_enchant_category.push("属性攻击".into());
                     }
                     "[skill levelup]" => {
                         sp.skill_level_up = self.parse_skill_level_up_list();

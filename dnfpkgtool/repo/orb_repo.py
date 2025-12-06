@@ -3,6 +3,7 @@ from pathlib import Path
 from typing import Dict, List
 
 import polars as pl
+from loguru import logger
 
 from dnfpkgtool.repo.base_repo import BaseRepo
 from dnfpkgtool.repo.skill_repo import SkillRepo
@@ -202,7 +203,7 @@ def build_orb_repo_parquet(
 
         monster_card_id = orb['monster_card_id']
         if not monster_card_id:
-            print(f'[monster card id] not found in {orb["name"]}')
+            logger.warning(f'monster_card_id not found in {orb["name"]}')
         card = stackable_repo.query_by_id(monster_card_id)
         rs['card_id'].append(card['id'])
         rs['card_name'].append(card['name'])

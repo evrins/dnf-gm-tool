@@ -13,5 +13,8 @@ uic:
 	pyside6-uic ui/components/quests/quests.ui -o ui/components/quests/quests_ui.py
 	pyside6-uic ui/components/character_info/character_info.ui -o ui/components/character_info/character_info_ui.py
 
+build-resource:
+	pyside6-rcc resources/resources.qrc -o resources/resources_rc.py
+
 build-python-module:
 	uv run maturin develop -r --features python

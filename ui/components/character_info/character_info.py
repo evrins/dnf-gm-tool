@@ -100,6 +100,7 @@ class CharacterInfoWidget(QWidget, Ui_character_info):
             self.enable_left_and_right_slot
         )
         self.max_expert_job_level_btn.clicked.connect(self.max_expert_job_level)
+        self.reset_fatigue_btn.clicked.connect(self.reset_fatigue)
 
         self.refresh_btn.clicked.connect(self.refresh)
 
@@ -221,6 +222,8 @@ class CharacterInfoWidget(QWidget, Ui_character_info):
     def max_expert_job_level(self):
         self.character_service.max_current_character_expert_job_level()
 
+    def reset_fatigue(self):
+        self.character_service.reset_current_character_fatigue()
 
 def to_charge_type(text: str) -> ChargeType:
     if text == '点券':

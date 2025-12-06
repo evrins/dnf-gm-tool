@@ -54,6 +54,20 @@ class CharacterStatRepo(BaseRepo):
             session.execute(stmt)
             session.commit()
 
+    # 重置疲劳
+    def reset_fatigue(self, character_no: int):
+        with Session(self.get_engine()) as session:
+            stmt = (
+                update(CharacterStat)
+                .where(CharacterStat.character_no == character_no)
+                .values(
+                    fatigue=0,
+                    used_fatigue=0,
+                )
+            )
+            session.execute(stmt)
+            session.commit()
+
 
 def get_character_stat_repo() -> CharacterStatRepo:
     return CharacterStatRepo()

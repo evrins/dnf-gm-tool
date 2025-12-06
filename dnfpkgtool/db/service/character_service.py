@@ -92,7 +92,7 @@ class CharacterService:
         return res
 
     def update_current_character_info(
-        self, character_info: CharacterInfo, has_level_changed: bool
+            self, character_info: CharacterInfo, has_level_changed: bool
     ):
         m_id = config.get_current_account_id()
         character_no = config.get_current_character_no()
@@ -242,6 +242,10 @@ class CharacterService:
         self.character_stat_repo.update_expert_level(
             CharacterStat(character_no=character_no, expert_job_exp=2054)
         )
+
+    def reset_current_character_fatigue(self):
+        character_no = config.get_current_character_no()
+        self.character_stat_repo.reset_fatigue(character_no)
 
 
 def get_character_service() -> CharacterService:

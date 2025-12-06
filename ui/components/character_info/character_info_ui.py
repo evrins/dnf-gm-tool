@@ -273,6 +273,11 @@ class Ui_character_info(object):
 
         self.verticalLayout_2.addWidget(self.max_expert_job_level_btn)
 
+        self.reset_fatigue_btn = QPushButton(self.action_button_group_box)
+        self.reset_fatigue_btn.setObjectName(u"reset_fatigue_btn")
+
+        self.verticalLayout_2.addWidget(self.reset_fatigue_btn)
+
         self.another_holder = QWidget(self.action_button_group_box)
         self.another_holder.setObjectName(u"another_holder")
 
@@ -423,6 +428,7 @@ class Ui_character_info(object):
         self.enable_all_dungeon_difficulty_btn.setText(QCoreApplication.translate("character_info", u"\u5f00\u542f\u5168\u56fe\u96be\u5ea6", None))
         self.enable_left_and_right_slot_btn.setText(QCoreApplication.translate("character_info", u"\u5f00\u542f\u5de6\u53f3\u69fd", None))
         self.max_expert_job_level_btn.setText(QCoreApplication.translate("character_info", u"\u8bbe\u7f6e\u526f\u804c\u4e1a\u6ee1\u7ea7", None))
+        self.reset_fatigue_btn.setText(QCoreApplication.translate("character_info", u"\u91cd\u7f6e\u75b2\u52b3", None))
         self.refresh_btn.setText(QCoreApplication.translate("character_info", u"\u5237\u65b0", None))
         self.charge_group_box.setTitle(QCoreApplication.translate("character_info", u"\u5145\u503c", None))
         self.charge_label.setText(QCoreApplication.translate("character_info", u"\u5145\u503c\u91cf", None))

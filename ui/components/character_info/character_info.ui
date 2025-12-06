@@ -419,6 +419,13 @@
        </widget>
       </item>
       <item>
+       <widget class="QPushButton" name="reset_fatigue_btn">
+        <property name="text">
+         <string>重置疲劳</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QWidget" name="another_holder" native="true"/>
       </item>
       <item>

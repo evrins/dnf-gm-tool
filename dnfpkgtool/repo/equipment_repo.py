@@ -207,9 +207,9 @@ class EquipmentRepo(BaseRepo):
         )
 
         if min_level is not None:
-            cond = cond & (pl.col('level') >= min_level)
+            cond = cond & (pl.col('minimum_level') >= min_level)
         if max_level is not None:
-            cond = cond & (pl.col('level') <= max_level)
+            cond = cond & (pl.col('minimum_level') <= max_level)
 
         if rarity is not None:
             cond = cond & (pl.col('display_rarity') == rarity)

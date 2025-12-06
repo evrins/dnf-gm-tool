@@ -124,9 +124,9 @@ class StackableRepo(BaseRepo):
         if item_category_list is not None:
             cond = cond & (pl.col('item_category').is_in(item_category_list))
         if min_level is not None:
-            cond = cond & (pl.col('level') >= min_level)
+            cond = cond & (pl.col('minimum_level') >= min_level)
         if max_level is not None:
-            cond = cond & (pl.col('level') <= max_level)
+            cond = cond & (pl.col('minimum_level') <= max_level)
         if display_rarity is not None:
             cond = cond & (pl.col('display_rarity') == display_rarity)
 

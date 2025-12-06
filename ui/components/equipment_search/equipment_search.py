@@ -583,7 +583,7 @@ def render_as_html(data: Dict) -> str:
     if display_rarity == '史诗':
         rarity_color = '#eeab01'
     elif display_rarity == '勇者':
-        rarity_color = '#E14850'
+        rarity_color = '#e14850'
     elif display_rarity in ['神器', '领主神器']:
         rarity_color = '#e700d8'
     elif display_rarity in ['稀有', '传承']:

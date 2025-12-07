@@ -43,9 +43,9 @@ def handle_shutdown_signal(sig, frame=None):
     shutdown_requested = True
 
 
-req_database = 1
-req_pvf = 2
-req_character_selected = 4
+req_database = 0x1
+req_pvf = 0x10
+req_character_selected = 0x100
 
 
 class TabConfig(BaseModel):

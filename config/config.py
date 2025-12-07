@@ -5,7 +5,7 @@ from typing import List
 
 import pymysql
 from loguru import logger
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from config.config_saver import get_config_saver_manager
 from dnfpkgtool.db.entity.signals import gs
@@ -57,9 +57,9 @@ class Config(BaseModel):
     history: History
     pvf_uuid: str = ''
     pvf_dir: Path = ''
-    account_id: int = 0
-    character_no: int = 0
-    character_name: str = ''
+    account_id: int = Field(exclude=True, default=0)
+    character_no: int = Field(exclude=True, default=0)
+    character_name: str = Field(exclude=True, default='')
 
     @staticmethod
     def default() -> 'Config':
@@ -217,9 +217,6 @@ def have_valid_account_id_and_character_no() -> bool:
     return _config.account_id > 0 and _config.character_no > 0
 
 
-# todo build path from config
-
-
 def build_stackable_parquet_file_path(uuid: str) -> Path:
     return base_dir / 'data' / uuid / 'stackables.parquet'
 
@@ -323,8 +320,6 @@ def set_account_id_and_character_no(
     _config.account_id = account_id
     _config.character_no = character_no
     _config.character_name = character_name
-
-    save()
 
     gs.account_id_changed.emit()
     gs.character_no_changed.emit()

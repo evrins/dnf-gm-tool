@@ -160,10 +160,10 @@ def get_log_dir() -> Path:
 
 
 def check_mysql_config(
-        host: str,
-        port: int,
-        user: str,
-        password: str,
+    host: str,
+    port: int,
+    user: str,
+    password: str,
 ) -> bool:
     conn = None
     try:
@@ -315,7 +315,7 @@ def set_pvf_uuid(uuid: str):
 
 
 def set_account_id_and_character_no(
-        account_id: int, character_no: int, character_name: str
+    account_id: int, character_no: int, character_name: str
 ):
     _config.account_id = account_id
     _config.character_no = character_no

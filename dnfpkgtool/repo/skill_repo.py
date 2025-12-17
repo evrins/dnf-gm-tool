@@ -8,9 +8,9 @@ from dnfpkgtool.repo.base_repo import BaseRepo
 
 class SkillRepo(BaseRepo):
     def query(
-            self,
-            name: str,
-            job: str | None = None,
+        self,
+        name: str,
+        job: str | None = None,
     ) -> List[dict]:
         name = name.lower()
         cond = pl.col('name').str.contains(name) | pl.col(

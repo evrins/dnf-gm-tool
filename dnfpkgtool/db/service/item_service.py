@@ -87,7 +87,7 @@ class ItemService:
 
     # 更新角色装备, 角色宠物, 角色装备 中的物品
     def update_current_character_inventory(
-            self, item: DnfItemSlot, inventory_loc: InventoryLoc
+        self, item: DnfItemSlot, inventory_loc: InventoryLoc
     ) -> None:
         character_no = config.get_current_character_no()
         inventory = self.character_inventory.query_by_character_no(character_no)

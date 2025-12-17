@@ -6,32 +6,7 @@ It includes methods for building parquet files from dungeon data and
 generating unlock strings for dungeons.
 """
 
-from pathlib import Path
-
-import polars as pl
-
-from dnfpkgtool.pvf.pvf_reader import PVFDict
-from dnfpkgtool.repo import MappingElementLocation, remapping_pvf_dict
 from dnfpkgtool.repo.base_repo import BaseRepo
-
-
-def build_dungeon_repo_parquet(pvf_dict: PVFDict, fp: str | Path):
-    mappings = [
-        ('explain', '[explain]', '', MappingElementLocation.First),
-        ('basis_level', '[basis level]', 0, MappingElementLocation.First),
-        (
-            'minimum_required_level',
-            '[minimum required level]',
-            0,
-            MappingElementLocation.First,
-        ),
-    ]
-
-    df = remapping_pvf_dict(pvf_dict, mappings)
-    df = pl.DataFrame(df)
-    df = df.drop('name2')
-
-    df.write_parquet(fp)
 
 
 class DungeonRepo(BaseRepo):

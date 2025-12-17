@@ -103,9 +103,11 @@ class MailService:
         self.postal_repo.delete_by_id(postal.postal_id)
 
     def send_mail(
-        self, sender: str, msg: str, character_no: int, mail_item: MailFormItem
+            self, sender: str, msg: str, character_no: int, mail_item: MailFormItem
     ):
-        logger.info(f'send {mail_item.item_type} with id {mail_item.item_id} to {character_no}')
+        logger.info(
+            f'send {mail_item.item_type} with id {mail_item.item_id} to {character_no}'
+        )
         if mail_item.item_type == MailItemType.Stackable:
             self.send_stackable_mail(sender, msg, character_no, mail_item)
         elif mail_item.item_type == MailItemType.Creature:
@@ -123,7 +125,7 @@ class MailService:
         return self.letter_repo.add(letter)
 
     def send_creature_mail(
-        self, sender: str, msg: str, character_no: int, mail_item: MailFormItem
+            self, sender: str, msg: str, character_no: int, mail_item: MailFormItem
     ):
         letter = self.send_letter(sender, msg, character_no)
 
@@ -148,7 +150,7 @@ class MailService:
         self.postal_repo.add(it)
 
     def send_avatar_mail(
-        self, sender: str, msg: str, character_no: int, mail_item: MailFormItem
+            self, sender: str, msg: str, character_no: int, mail_item: MailFormItem
     ):
         avatar = UserItems.default()
         avatar.character_no = character_no
@@ -169,7 +171,7 @@ class MailService:
         self.postal_repo.add(it)
 
     def send_equipment_mail(
-        self, sender: str, msg: str, character_no: int, mail_item: MailFormItem
+            self, sender: str, msg: str, character_no: int, mail_item: MailFormItem
     ):
         letter = self.send_letter(sender, msg, character_no)
         it = Postal.default()
@@ -191,7 +193,7 @@ class MailService:
 
     # 发送可堆叠物品
     def send_stackable_mail(
-        self, sender: str, msg: str, character_no: int, mail_item: MailFormItem
+            self, sender: str, msg: str, character_no: int, mail_item: MailFormItem
     ):
         # 每封邮件可以有 8 个附件, 对于超过可堆叠上限的物品, 每 8 条 postal 记录, 重新插入一条 letter 记录
         item = self.stackable_repo.query_by_id(mail_item.item_id)
@@ -223,7 +225,7 @@ class MailService:
         return self.get_all_by_character_no(character_no)
 
     def send_current_character_mail(
-        self, sender: str, msg: str, mail_item: MailFormItem
+            self, sender: str, msg: str, mail_item: MailFormItem
     ):
         character_no = config.get_current_character_no()
         self.send_mail(sender, msg, character_no, mail_item)

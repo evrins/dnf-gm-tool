@@ -1,14 +1,5 @@
 from config import config
-from dnfpkgtool.pvf.pvf_reader import PVFReader
-from dnfpkgtool.repo.skill_repo import SkillRepo, build_skill_repo_parquet
-from tests.repo.equipment_repo_test import base_dir
-
-
-def test_build_skill_repo_parquet():
-    pvf_path = '/Users/evrins/workspace/python/dnf_gm_tool/Script.璀璨.pvf'
-    reader = PVFReader(pvf_path)
-    skill_list = reader.get_skill_list()
-    build_skill_repo_parquet(skill_list, base_dir / 'data' / 'skills.parquet')
+from dnfpkgtool.repo.skill_repo import SkillRepo
 
 
 def test_query():

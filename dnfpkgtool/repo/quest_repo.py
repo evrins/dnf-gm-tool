@@ -1,46 +1,15 @@
-from pathlib import Path
 from typing import List
 
 import polars as pl
 
-from dnfpkgtool.pvf.entity.quest import Quest
 from dnfpkgtool.repo.base_repo import BaseRepo
-
-quest_type_list = [
-    '[assault count]',
-    '[get item]',
-    '[condition under clear]',
-    '[ui click]',
-    '[seeking]',
-    '[send chatting]',
-    '[get score]',
-    '[meet npc]',
-    '[custom quest]',
-    '[seek n meet npc]',
-    '[equipped item]',
-    '[check time]',
-    '[disjoint item]',
-    '[hunt enemy]',
-    '[clear quest]',
-    '[amplify item]',
-    '[use item]',
-    '[clear map]',
-    '[use fortune coin]',
-    '[hunt monster]',
-]
-
-
-def build_quest_repo_parquet(quest_list: List[Quest], fp: str | Path):
-    df = pl.DataFrame([it.model_dump() for it in quest_list])
-
-    df.write_parquet(fp)
 
 
 class QuestRepo(BaseRepo):
     def query(
-        self,
-        name: str,
-        job: str | None = None,
+            self,
+            name: str,
+            job: str | None = None,
     ) -> List[dict]:
         name = name.lower()
         cond = pl.col('name').str.contains(name)

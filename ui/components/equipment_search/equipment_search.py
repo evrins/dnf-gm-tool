@@ -1,5 +1,6 @@
 from typing import Dict, List
 
+from mako.template import Template
 from PySide6.QtCore import (
     QAbstractTableModel,
     QSortFilterProxyModel,
@@ -9,7 +10,6 @@ from PySide6.QtCore import (
 from PySide6.QtWidgets import (
     QWidget,
 )
-from mako.template import Template
 
 from dnfpkgtool.db.entity.mail_form_item import MailItemType
 from dnfpkgtool.db.entity.mail_submit_item import MailSubmitItem
@@ -290,18 +290,20 @@ class EquipmentSearch(QWidget, Ui_equipment_search):
         self.search_results.setTitle(title)
 
     def render_detail(self, equipment: Dict) -> str:
-        detail = {'name': equipment['name'],
-                  'name2': equipment['name2'],
-                  'display_rarity': equipment['display_rarity'],
-                  'weight': f'{(equipment['weight'] / 1000.0):.1f}kg',
-                  'price': equipment['value'] // 5,
-                  'display_equipment_type': equipment['display_equipment_type'],
-                  'durability': f"{equipment["durability"]}/{equipment["durability"]}",
-                  'display_attach_type': equipment['display_attach_type'],
-                  'required_level': f'Lv{equipment["minimum_level"]}以上可以使用',
-                  'display_usable_job': equipment['display_usable_job'],
-                  'stat_property_1': render_stat_property_part1(equipment),
-                  'stat_property_2': render_stat_property_part2(self.skill_repo, equipment)}
+        detail = {
+            'name': equipment['name'],
+            'name2': equipment['name2'],
+            'display_rarity': equipment['display_rarity'],
+            'weight': f'{(equipment["weight"] / 1000.0):.1f}kg',
+            'price': equipment['value'] // 5,
+            'display_equipment_type': equipment['display_equipment_type'],
+            'durability': f'{equipment["durability"]}/{equipment["durability"]}',
+            'display_attach_type': equipment['display_attach_type'],
+            'required_level': f'Lv{equipment["minimum_level"]}以上可以使用',
+            'display_usable_job': equipment['display_usable_job'],
+            'stat_property_1': render_stat_property_part1(equipment),
+            'stat_property_2': render_stat_property_part2(self.skill_repo, equipment),
+        }
 
         rest = []
         if skill_level_up_list := equipment['skill_level_up']:
@@ -360,7 +362,6 @@ def render_stat_property_part1(d: Dict) -> List[str]:
         'magical_attack': '智力',
         'magical_defense': '精神',
         'anti_evil': '抗魔值',
-
     }
 
     res = []
@@ -491,7 +492,7 @@ def render_stat_property_part2(skill_repo: SkillRepo, d: dict) -> List[str]:
 
 
 def render_as_html(data: Dict) -> str:
-    templ = '''
+    templ = """
     <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -578,7 +579,7 @@ def render_as_html(data: Dict) -> str:
 </body>
 </html>
 
-    '''
+    """
     display_rarity = data['display_rarity']
     if display_rarity == '史诗':
         rarity_color = '#eeab01'

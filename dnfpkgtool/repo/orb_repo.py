@@ -192,7 +192,7 @@ def render_display_effect(enchant: dict, skill_repo: SkillRepo) -> str:
 
 
 def build_orb_repo_parquet(
-    stackable_repo: StackableRepo, skill_repo: SkillRepo, fp: str | Path
+        stackable_repo: StackableRepo, skill_repo: SkillRepo, fp: str | Path
 ):
     orb_list = stackable_repo.query('', stackable_type_list=['[enchant waste]'])
     rs: defaultdict = defaultdict(list)
@@ -233,7 +233,7 @@ class OrbRepo(BaseRepo):
         return self.df.filter(pl.col('card_id') == card_id).limit(1).to_dicts()[0]
 
     def query_by_display_enchant_category(
-        self, display_enchant_category: str
+            self, display_enchant_category: str
     ) -> List[dict]:
         return (
             self.df.filter(
@@ -246,7 +246,7 @@ class OrbRepo(BaseRepo):
         )
 
     def query_by_display_enchant_category_and_equipment_type(
-        self, display_enchant_category: str, equipment_type: str
+            self, display_enchant_category: str, equipment_type: str
     ) -> List[dict]:
         return (
             self.df.filter(

@@ -19,7 +19,7 @@ class NewCharacterQuestRepo(BaseRepo):
             return session.scalars(stmt).first()
 
     def completed_all_quest_by_character_no(
-        self, character_no: int, updates: dict[str, int]
+            self, character_no: int, updates: dict[str, int]
     ):
         with Session(self.get_engine()) as session:
             stmt = (

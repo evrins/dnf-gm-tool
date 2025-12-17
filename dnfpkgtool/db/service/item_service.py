@@ -13,26 +13,16 @@ from dnfpkgtool.db.repo.character_inventory_expand_repo import (
     get_character_inventory_expand_repo,
 )
 from dnfpkgtool.db.repo.inventory_repo import get_inventory_repo
-from dnfpkgtool.pvf.pvf_reader import PVFReader
 from dnfpkgtool.repo.equipment_repo import (
     EquipmentIdNotFoundException,
-    build_equipment_repo_parquet,
 )
-from dnfpkgtool.repo.magic_seal_repo import (
-    build_magic_seal_parquet,
-)
-from dnfpkgtool.repo.orb_repo import build_orb_repo_parquet
-from dnfpkgtool.repo.quest_repo import build_quest_repo_parquet
 from dnfpkgtool.repo.repo_manager import (
     get_equipment_repo,
     get_magic_seal_repo,
-    get_skill_repo,
     get_stackable_repo,
 )
-from dnfpkgtool.repo.skill_repo import build_skill_repo_parquet
 from dnfpkgtool.repo.stackable_repo import (
     StackableIdNotFoundException,
-    build_stackable_repo_parquet,
 )
 
 
@@ -97,7 +87,7 @@ class ItemService:
 
     # 更新角色装备, 角色宠物, 角色装备 中的物品
     def update_current_character_inventory(
-        self, item: DnfItemSlot, inventory_loc: InventoryLoc
+            self, item: DnfItemSlot, inventory_loc: InventoryLoc
     ) -> None:
         character_no = config.get_current_character_no()
         inventory = self.character_inventory.query_by_character_no(character_no)
@@ -187,32 +177,3 @@ class ItemService:
 
 def get_item_service() -> ItemService:
     return ItemService()
-
-
-def build_repo_parquet(fp: str):
-    reader = PVFReader(fp)
-    build_equipment_repo_parquet(
-        reader.get_equipment_list(), config.get_equipment_parquet_file_path()
-    )
-    build_stackable_repo_parquet(
-        reader.get_stackable_dict(), config.get_stackable_parquet_file_path()
-    )
-    build_magic_seal_parquet(
-        reader.get_magic_seal_dict(), config.get_magic_seal_parquet_file_path()
-    )
-    build_skill_repo_parquet(
-        reader.get_skill_list(), config.get_skill_parquet_file_path()
-    )
-
-    # build orb repo should come after stackable_repo and skill_repo
-    stackable_repo = get_stackable_repo()
-    skill_repo = get_skill_repo()
-    build_orb_repo_parquet(
-        stackable_repo, skill_repo, config.get_orb_parquet_file_path()
-    )
-
-    build_quest_repo_parquet(
-        reader.get_quest_list(), config.get_quest_parquet_file_path()
-    )
-
-    reader.close()

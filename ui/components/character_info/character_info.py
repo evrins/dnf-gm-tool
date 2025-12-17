@@ -1,5 +1,3 @@
-from PySide6.QtWidgets import QWidget
-
 from config import config
 from dnfpkgtool.db.entity.account_money import AccountMoney
 from dnfpkgtool.db.entity.signals import gs
@@ -7,6 +5,8 @@ from dnfpkgtool.db.model.character_info import CharacterInfo
 from dnfpkgtool.db.model.pvp_result import PVPResult
 from dnfpkgtool.db.service.account_service import expert_jobs, jobs
 from dnfpkgtool.db.service.character_service import ChargeType, get_character_service
+from PySide6.QtWidgets import QWidget
+
 from ui.components.character_info.character_info_ui import Ui_character_info
 
 roles = [
@@ -224,6 +224,7 @@ class CharacterInfoWidget(QWidget, Ui_character_info):
 
     def reset_fatigue(self):
         self.character_service.reset_current_character_fatigue()
+
 
 def to_charge_type(text: str) -> ChargeType:
     if text == '点券':

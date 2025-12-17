@@ -165,11 +165,23 @@ class CharacterService:
             )
         elif charge_type == ChargeType.SP:
             self.skill_repo.charge(
-                Skill(charac_no=character_no, remain_sp=num, remain_sp_2nd=num, remain_sfp_1st=0, remain_sfp_2nd=0)
+                Skill(
+                    charac_no=character_no,
+                    remain_sp=num,
+                    remain_sp_2nd=num,
+                    remain_sfp_1st=0,
+                    remain_sfp_2nd=0,
+                )
             )
         elif charge_type == ChargeType.TP:
             self.skill_repo.charge(
-                Skill(charac_no=character_no, remain_sp=0, remain_sp_2nd=0, remain_sfp_1st=num, remain_sfp_2nd=num)
+                Skill(
+                    charac_no=character_no,
+                    remain_sp=0,
+                    remain_sp_2nd=0,
+                    remain_sfp_1st=num,
+                    remain_sfp_2nd=num,
+                )
             )
         elif charge_type == ChargeType.QP:
             self.character_quest_shop_repo.charge(

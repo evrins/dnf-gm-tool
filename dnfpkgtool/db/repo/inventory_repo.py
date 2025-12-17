@@ -15,7 +15,7 @@ class InventoryRepo(BaseRepo):
             return session.scalars(stmt).first()
 
     def update_equipments_by_character_no(
-        self, character_no: int, equipments: bytes
+            self, character_no: int, equipments: bytes
     ) -> None:
         with Session(self.get_engine()) as session:
             stmt = (
@@ -27,7 +27,7 @@ class InventoryRepo(BaseRepo):
             session.commit()
 
     def update_creatures_by_character_no(
-        self, character_no: int, creatures: bytes
+            self, character_no: int, creatures: bytes
     ) -> None:
         with Session(self.get_engine()) as session:
             stmt = (
@@ -39,7 +39,7 @@ class InventoryRepo(BaseRepo):
             session.commit()
 
     def update_inventory_by_character_no(
-        self, character_no: int, inventory: bytes
+            self, character_no: int, inventory: bytes
     ) -> None:
         with Session(self.get_engine()) as session:
             stmt = (

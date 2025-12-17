@@ -5,7 +5,7 @@ from traceback import print_exc
 import shortuuid
 from loguru import logger
 from pvf_parser_rs import save_parquet
-from PySide6.QtCore import QThread, Signal, QAbstractTableModel, Qt
+from PySide6.QtCore import QAbstractTableModel, Qt, QThread, Signal
 from PySide6.QtWidgets import (
     QComboBox,
     QFileDialog,
@@ -15,7 +15,7 @@ from PySide6.QtWidgets import (
 from showinfm import show_in_file_manager
 
 from config import config
-from config.config import check_mysql_config, update_pvf_by_uuid, Pvf
+from config.config import Pvf, check_mysql_config, update_pvf_by_uuid
 from dnfpkgtool.db.entity.signals import gs
 from dnfpkgtool.repo.orb_repo import build_orb_repo_parquet
 from dnfpkgtool.repo.skill_repo import SkillRepo
@@ -377,7 +377,9 @@ class Setting(QWidget, Ui_settings):
         else:
             self.uuid = shortuuid.uuid()
             encoding = self.encoding_combox.currentIndex()
-            self.builder_thread = BuilderThread(self.select_pvf_file, self.uuid, encoding + 1)
+            self.builder_thread = BuilderThread(
+                self.select_pvf_file, self.uuid, encoding + 1
+            )
             self.progress = []
 
             self.progress_bar.setValue(0)
@@ -407,11 +409,7 @@ class Setting(QWidget, Ui_settings):
         start_index = model.index(0, 0)
 
         matches = model.match(
-            start_index,
-            Qt.ItemDataRole.DisplayRole,
-            uuid,
-            1,
-            Qt.MatchFlag.MatchExactly
+            start_index, Qt.ItemDataRole.DisplayRole, uuid, 1, Qt.MatchFlag.MatchExactly
         )
 
         if matches:

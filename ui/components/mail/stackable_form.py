@@ -1,7 +1,7 @@
 from PySide6.QtWidgets import QWidget
 
 from dnf_db.entity.mail_form_item import MailFormItem
-from dnf_db.entity import MailSubmitItem
+from dnf_db.entity.mail_submit_item import MailSubmitItem
 from ui.components.mail.stackable_form_ui import Ui_stackable_form
 
 

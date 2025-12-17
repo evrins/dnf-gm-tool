@@ -2,7 +2,7 @@ from config import config
 from dnf_db.entity.account_money import AccountMoney
 from dnf_db.entity.signals import gs
 from dnf_db.model.character_info import CharacterInfo
-from dnf_db.model import PVPResult
+from dnf_db.model.pvp_result import PVPResult
 from dnf_db.service.account_service import expert_jobs, jobs
 from dnf_db.service.character_service import ChargeType, get_character_service
 from PySide6.QtWidgets import QWidget

@@ -12,10 +12,10 @@ from PySide6.QtWidgets import (
 )
 
 from dnf_db.entity.mail_form_item import MailItemType
-from dnf_db.entity import MailSubmitItem
+from dnf_db.entity.mail_submit_item import MailSubmitItem
 from dnf_db.entity.signals import gs
 from pvf.repo.equipment_repo import EquipmentRepo
-from pvf.repo import render_skills_text
+from pvf.repo.orb_repo import render_skills_text
 from pvf.repo.repo_manager import get_equipment_repo, get_skill_repo
 from pvf.repo.skill_repo import SkillRepo
 from ui.components.equipment_search.equipment_search_ui import Ui_equipment_search

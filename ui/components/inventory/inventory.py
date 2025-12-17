@@ -12,7 +12,7 @@ from PySide6.QtCore import (
 from PySide6.QtWidgets import QApplication, QWidget
 
 from dnf_db.entity.dnf_item_slot import DnfItemSlot, type_dict
-from dnf_db.service import ItemService
+from dnf_db.service.item_service import ItemService
 from ui.components.inventory.empty import Empty
 from ui.components.inventory.inventory_equipment_form import EquipmentForm
 from ui.components.inventory.inventory_stackable_form import StackableForm

@@ -3,7 +3,7 @@ from PySide6.QtWidgets import QWidget
 from config import config
 from dnf_db.entity.dnf_item_slot import reinforce_type_dict
 from dnf_db.entity.mail_form_item import MailFormItem, MailItemType
-from dnf_db.entity import MailSubmitItem
+from dnf_db.entity.mail_submit_item import MailSubmitItem
 from ui.components.mail.equipment_form_ui import Ui_equipment_form
 
 

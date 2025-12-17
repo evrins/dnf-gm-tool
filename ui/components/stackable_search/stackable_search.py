@@ -11,7 +11,7 @@ from PySide6.QtWidgets import (
 )
 
 from dnf_db.entity.mail_form_item import MailItemType
-from dnf_db.entity import MailSubmitItem
+from dnf_db.entity.mail_submit_item import MailSubmitItem
 from dnf_db.entity.signals import gs
 from pvf.repo.repo_manager import get_stackable_repo
 from pvf.repo.stackable_repo import StackableRepo

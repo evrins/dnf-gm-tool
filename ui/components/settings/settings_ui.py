@@ -164,11 +164,6 @@ class Ui_settings(object):
         self.verticalLayout = QVBoxLayout(self.pvf_groupbox)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(8, 8, 8, 8)
-        self.add_new = QPushButton(self.pvf_groupbox)
-        self.add_new.setObjectName(u"add_new")
-
-        self.verticalLayout.addWidget(self.add_new)
-
         self.widget = QWidget(self.pvf_groupbox)
         self.widget.setObjectName(u"widget")
         sizePolicy1.setHeightForWidth(self.widget.sizePolicy().hasHeightForWidth())
@@ -214,10 +209,15 @@ class Ui_settings(object):
         self.horizontalLayout_2 = QHBoxLayout(self.widget_4)
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
-        self.save_pvf_btn = QPushButton(self.widget_4)
-        self.save_pvf_btn.setObjectName(u"save_pvf_btn")
+        self.add_new_btn = QPushButton(self.widget_4)
+        self.add_new_btn.setObjectName(u"add_new_btn")
 
-        self.horizontalLayout_2.addWidget(self.save_pvf_btn)
+        self.horizontalLayout_2.addWidget(self.add_new_btn)
+
+        self.update_pfv_btn = QPushButton(self.widget_4)
+        self.update_pfv_btn.setObjectName(u"update_pfv_btn")
+
+        self.horizontalLayout_2.addWidget(self.update_pfv_btn)
 
         self.delete_pvf_btn = QPushButton(self.widget_4)
         self.delete_pvf_btn.setObjectName(u"delete_pvf_btn")
@@ -270,7 +270,6 @@ class Ui_settings(object):
         self.open_data_dir_btn.setText(QCoreApplication.translate("settings", u"\u6253\u5f00\u6570\u636e\u76ee\u5f55", None))
         self.groupBox.setTitle(QCoreApplication.translate("settings", u"PVF", None))
         self.pvf_groupbox.setTitle(QCoreApplication.translate("settings", u"\u7f16\u8f91", None))
-        self.add_new.setText(QCoreApplication.translate("settings", u"\u65b0\u589e", None))
         self.pvf_label.setText(QCoreApplication.translate("settings", u"PVF", None))
         self.select_pvf_btn.setText(QCoreApplication.translate("settings", u"\u9009\u62e9 pvf \u6587\u4ef6", None))
         self.encoding_label.setText(QCoreApplication.translate("settings", u"\u6587\u672c\u7f16\u7801", None))
@@ -278,7 +277,8 @@ class Ui_settings(object):
         self.encoding_combox.setItemText(1, QCoreApplication.translate("settings", u"\u7b80\u4f53-GBK", None))
 
         self.remark_label.setText(QCoreApplication.translate("settings", u"\u5907\u6ce8", None))
-        self.save_pvf_btn.setText(QCoreApplication.translate("settings", u"\u4fdd\u5b58", None))
+        self.add_new_btn.setText(QCoreApplication.translate("settings", u"\u65b0\u589e", None))
+        self.update_pfv_btn.setText(QCoreApplication.translate("settings", u"\u66f4\u65b0", None))
         self.delete_pvf_btn.setText(QCoreApplication.translate("settings", u"\u5220\u9664", None))
         self.progress_status.setText(QCoreApplication.translate("settings", u"\u8fdb\u5ea6", None))
     # retranslateUi

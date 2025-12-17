@@ -254,13 +254,6 @@
        <number>8</number>
       </property>
       <item>
-       <widget class="QPushButton" name="add_new">
-        <property name="text">
-         <string>新增</string>
-        </property>
-       </widget>
-      </item>
-      <item>
        <widget class="QWidget" name="widget" native="true">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
@@ -342,9 +335,16 @@
              <number>0</number>
             </property>
             <item>
-             <widget class="QPushButton" name="save_pvf_btn">
+             <widget class="QPushButton" name="add_new_btn">
               <property name="text">
-               <string>保存</string>
+               <string>新增</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="update_pfv_btn">
+              <property name="text">
+               <string>更新</string>
               </property>
              </widget>
             </item>

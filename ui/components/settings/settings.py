@@ -173,8 +173,8 @@ class Setting(QWidget, Ui_settings):
         self.update_pvf_table()
         self.select_pvf(cfg.pvf_uuid)
 
-        self.add_new.clicked.connect(self.add_new_pvf)
-        self.save_pvf_btn.clicked.connect(self.save_pvf)
+        self.add_new_btn.clicked.connect(self.add_new_pvf)
+        self.update_pfv_btn.clicked.connect(self.update_pvf)
         self.delete_pvf_btn.clicked.connect(self.delete_pvf)
 
         self.save_btn.clicked.connect(self.save_and_test)
@@ -331,9 +331,9 @@ class Setting(QWidget, Ui_settings):
         self.progress_bar.setValue(p)
 
     def builder_finished(self, success: bool):
-        self.save_pvf_btn.setEnabled(True)
+        self.add_new_btn.setEnabled(True)
+        self.update_pfv_btn.setEnabled(True)
         self.select_pvf_btn.setEnabled(True)
-        self.select_pvf_btn.setText('选择 pvf 文件')
         if not success:
             return
 
@@ -341,6 +341,7 @@ class Setting(QWidget, Ui_settings):
         encoding = self.encoding_combox.currentIndex()
         config.add_pvf(Pvf(uuid=self.uuid, remark=remark, encoding=encoding))
         self.update_pvf_table()
+        self.reset_form()
         self.select_pvf(self.uuid)
 
     def on_selection_changed(self, selected, deselected):
@@ -355,39 +356,44 @@ class Setting(QWidget, Ui_settings):
         config.set_pvf_uuid(row.uuid)
 
     def add_new_pvf(self):
-        self.uuid = ''
-        self.select_pvf_file = ''
-        self.select_pvf_btn.setText('选择 pvf 文件')
-        self.encoding_combox.setCurrentIndex(0)
-        self.remark_line_edit.setText('')
-
-    def save_pvf(self):
+        if not self.select_pvf_file:
+            return
+        self.add_new_btn.setEnabled(False)
         self.select_pvf_btn.setEnabled(False)
-        self.save_pvf_btn.setEnabled(False)
+        self.update_pfv_btn.setEnabled(False)
 
-        # update
-        if self.uuid:
-            remark = self.remark_line_edit.text()
-            update_pvf_by_uuid(self.uuid, remark)
-            self.update_pvf_table()
-            self.select_pvf(self.uuid)
-            self.select_pvf_btn.setEnabled(True)
-            self.save_pvf_btn.setEnabled(True)
-            # add new
-        else:
-            self.uuid = shortuuid.uuid()
-            encoding = self.encoding_combox.currentIndex()
-            self.builder_thread = BuilderThread(
-                self.select_pvf_file, self.uuid, encoding + 1
-            )
-            self.progress = []
+        self.uuid = shortuuid.uuid()
+        encoding = self.encoding_combox.currentIndex()
+        self.builder_thread = BuilderThread(
+            self.select_pvf_file, self.uuid, encoding + 1
+        )
+        self.progress = []
 
-            self.progress_bar.setValue(0)
-            self.builder_thread.progress_int.connect(self.update_progress_bar)
-            self.builder_thread.progress.connect(self.update_progress)
-            self.builder_thread.finished.connect(self.builder_finished)
+        self.progress_bar.setValue(0)
+        self.builder_thread.progress_int.connect(self.update_progress_bar)
+        self.builder_thread.progress.connect(self.update_progress)
+        self.builder_thread.finished.connect(self.builder_finished)
 
-            self.builder_thread.start()
+        self.builder_thread.start()
+
+    def update_pvf(self):
+        if not self.uuid:
+            return
+
+        self.add_new_btn.setEnabled(False)
+        self.select_pvf_btn.setEnabled(False)
+        self.update_pfv_btn.setEnabled(False)
+
+        remark = self.remark_line_edit.text()
+        update_pvf_by_uuid(self.uuid, remark)
+        self.update_pvf_table()
+        self.reset_form()
+
+        self.select_pvf(self.uuid)
+
+        self.add_new_btn.setEnabled(True)
+        self.select_pvf_btn.setEnabled(True)
+        self.update_pfv_btn.setEnabled(True)
 
     def delete_pvf(self):
         config.delete_pvf_by_uuid(self.uuid)
@@ -422,3 +428,10 @@ class Setting(QWidget, Ui_settings):
 
     def open_data_dir(self):
         show_in_file_manager(config.get_base_dir().__str__())
+
+    def reset_form(self):
+        self.uuid = ''
+        self.select_pvf_file = ''
+        self.select_pvf_btn.setText('选择 pvf 文件')
+        self.encoding_combox.setCurrentIndex(0)
+        self.remark_line_edit.setText('')

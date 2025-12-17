@@ -10,11 +10,11 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from dnfpkgtool.db.entity.mail_form_item import MailItemType
-from dnfpkgtool.db.entity.mail_submit_item import MailSubmitItem
-from dnfpkgtool.db.entity.signals import gs
-from dnfpkgtool.repo.repo_manager import get_stackable_repo
-from dnfpkgtool.repo.stackable_repo import StackableRepo
+from dnf_db.entity.mail_form_item import MailItemType
+from dnf_db.entity import MailSubmitItem
+from dnf_db.entity.signals import gs
+from pvf.repo.repo_manager import get_stackable_repo
+from pvf.repo.stackable_repo import StackableRepo
 from ui.components.stackable_search.stackable_search_ui import Ui_stackable_search
 from ui.components.stackable_search.vars import (
     categoryed_stackable_type_dict,

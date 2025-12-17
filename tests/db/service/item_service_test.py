@@ -1,5 +1,5 @@
-from dnfpkgtool.db.repo.account_cargo_repo import AccountCargoRepo
-from dnfpkgtool.db.service.item_service import ItemService, build_repo_parquet
+from dnf_db.repo import AccountCargoRepo
+from dnf_db.service import ItemService, build_repo_parquet
 
 
 def test_unpack_blob_items():

@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from config import config
-from dnfpkgtool.repo.equipment_repo import EquipmentRepo
+from pvf.repo.equipment_repo import EquipmentRepo
 
 base_dir = Path(__file__).parent
 

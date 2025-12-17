@@ -4,8 +4,8 @@ from PySide6.QtCore import QAbstractTableModel, QModelIndex, QSortFilterProxyMod
 from PySide6.QtWidgets import QWidget
 
 from config import config
-from dnfpkgtool.db.entity.signals import gs
-from dnfpkgtool.db.service.quest_service import (
+from dnf_db.entity.signals import gs
+from dnf_db.service.quest_service import (
     CharacterQuest,
     Quest,
     QuestService,

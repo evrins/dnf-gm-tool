@@ -4,12 +4,12 @@ from PySide6.QtCore import QAbstractTableModel, QSortFilterProxyModel, Qt
 from PySide6.QtWidgets import QWidget
 
 import config.config
-from dnfpkgtool.db.entity.mail_form_item import MailFormItem, MailItemType
-from dnfpkgtool.db.entity.mail_list_item import MailListItem
-from dnfpkgtool.db.entity.mail_submit_item import MailSubmitItem
-from dnfpkgtool.db.entity.signals import gs
-from dnfpkgtool.db.service.account_service import AccountService
-from dnfpkgtool.db.service.mail_service import MailService
+from dnf_db.entity.mail_form_item import MailFormItem, MailItemType
+from dnf_db.entity.mail_list_item import MailListItem
+from dnf_db.entity import MailSubmitItem
+from dnf_db.entity.signals import gs
+from dnf_db.service.account_service import AccountService
+from dnf_db.service import MailService
 from ui.components.mail.equipment_form import EquipmentForm
 from ui.components.mail.mail_ui import Ui_mail
 from ui.components.mail.stackable_form import StackableForm

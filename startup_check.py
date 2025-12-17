@@ -9,7 +9,7 @@ import sys
 from loguru import logger
 
 from config.config import check_mysql_config, get_config, get_db_config
-from dnfpkgtool.repo.repo_manager import (
+from pvf.repo.repo_manager import (
     get_magic_seal_repo,
     get_orb_repo,
     get_skill_repo,
@@ -43,7 +43,7 @@ def check_parquet_files() -> bool:
             return False
 
         # Test all repositories
-        from dnfpkgtool.repo.repo_manager import get_equipment_repo
+        from pvf.repo.repo_manager import get_equipment_repo
 
         repos_to_test = [
             ('Stackable', get_stackable_repo),

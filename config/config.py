@@ -8,7 +8,7 @@ from loguru import logger
 from pydantic import BaseModel, Field
 
 from config.config_saver import get_config_saver_manager
-from dnfpkgtool.db.entity.signals import gs
+from dnf_db.entity.signals import gs
 
 
 class DbConfig(BaseModel):

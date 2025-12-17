@@ -1,7 +1,7 @@
 from PySide6.QtCore import Signal
 from PySide6.QtWidgets import QWidget
 
-from dnfpkgtool.db.entity.dnf_item_slot import DnfItemSlot
+from dnf_db.entity.dnf_item_slot import DnfItemSlot
 from ui.components.inventory.inventory_stackable_form_ui import (
     Ui_inventory_stackable_form,
 )

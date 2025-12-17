@@ -16,10 +16,10 @@ from showinfm import show_in_file_manager
 
 from config import config
 from config.config import Pvf, check_mysql_config, update_pvf_by_uuid
-from dnfpkgtool.db.entity.signals import gs
-from dnfpkgtool.repo.orb_repo import build_orb_repo_parquet
-from dnfpkgtool.repo.skill_repo import SkillRepo
-from dnfpkgtool.repo.stackable_repo import StackableRepo
+from dnf_db.entity.signals import gs
+from pvf.repo import build_orb_repo_parquet
+from pvf.repo.skill_repo import SkillRepo
+from pvf.repo.stackable_repo import StackableRepo
 from ui.components.settings.settings_ui import Ui_settings
 
 

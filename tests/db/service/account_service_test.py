@@ -1,4 +1,4 @@
-from dnfpkgtool.db.service.account_service import AccountService
+from dnf_db.service.account_service import AccountService
 
 
 def test_query_all_online_character_list() -> None:

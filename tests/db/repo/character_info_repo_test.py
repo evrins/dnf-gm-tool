@@ -1,4 +1,4 @@
-from dnfpkgtool.db.repo.character_info_repo import CharacterInfoRepo
+from dnf_db.repo.character_info_repo import CharacterInfoRepo
 
 
 def test_query_all_characters():

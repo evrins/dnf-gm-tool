@@ -1,5 +1,5 @@
-from dnfpkgtool.db.entity.mail_form_item import MailFormItem, MailItemType
-from dnfpkgtool.db.service.mail_service import MailService
+from dnf_db.entity.mail_form_item import MailFormItem, MailItemType
+from dnf_db.service import MailService
 
 
 def test_send_stackable_mail_with_multi_mail():

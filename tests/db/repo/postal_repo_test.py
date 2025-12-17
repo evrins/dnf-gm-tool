@@ -1,5 +1,5 @@
-from dnfpkgtool.db.model.postal import Postal
-from dnfpkgtool.db.repo.postal_repo import get_postal_repo
+from dnf_db.model import Postal
+from dnf_db.repo.postal_repo import get_postal_repo
 
 
 def test_query_all():

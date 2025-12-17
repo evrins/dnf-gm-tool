@@ -1,7 +1,7 @@
 from datetime import datetime
 
-from dnfpkgtool.db.model.letter import Letter
-from dnfpkgtool.db.repo.letter_repo import LetterRepo
+from dnf_db.model.letter import Letter
+from dnf_db.repo.letter_repo import LetterRepo
 
 
 def test_add():

@@ -1,4 +1,4 @@
-from dnfpkgtool.db.repo.inventory_repo import InventoryRepo
+from dnf_db.repo.inventory_repo import InventoryRepo
 
 
 def test_query_by_character_no():

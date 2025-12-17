@@ -4,9 +4,9 @@ from PySide6.QtCore import QAbstractTableModel, QModelIndex, QSortFilterProxyMod
 from PySide6.QtWidgets import QWidget
 
 from config import config
-from dnfpkgtool.db.entity.character_list_item import CharacterListItem
-from dnfpkgtool.db.entity.signals import gs
-from dnfpkgtool.db.service.account_service import AccountService
+from dnf_db.entity.character_list_item import CharacterListItem
+from dnf_db.entity.signals import gs
+from dnf_db.service.account_service import AccountService
 from ui.components.characters.characters_ui import Ui_characters
 
 

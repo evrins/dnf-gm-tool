@@ -2,9 +2,9 @@ from PySide6.QtCore import QTimer, Signal
 from PySide6.QtWidgets import QWidget
 
 from config import config
-from dnfpkgtool.db.entity.dnf_item_slot import DnfItemSlot, reinforce_type_dict
-from dnfpkgtool.db.entity.magic_seal import MagicSeal
-from dnfpkgtool.repo.repo_manager import get_magic_seal_repo, get_orb_repo
+from dnf_db.entity.dnf_item_slot import DnfItemSlot, reinforce_type_dict
+from dnf_db.entity.magic_seal import MagicSeal
+from pvf.repo.repo_manager import get_magic_seal_repo, get_orb_repo
 from ui.components.inventory.inventory_equipment_form_ui import (
     Ui_inventory_equipment_form,
 )

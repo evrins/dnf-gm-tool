@@ -1,9 +1,9 @@
 from PySide6 import QtWidgets
 
 from config import config
-from dnfpkgtool.db.entity.dnf_item_slot import DnfItemSlot
-from dnfpkgtool.db.entity.signals import gs
-from dnfpkgtool.db.service.item_service import InventoryLoc, ItemService
+from dnf_db.entity.dnf_item_slot import DnfItemSlot
+from dnf_db.entity.signals import gs
+from dnf_db.service import InventoryLoc, ItemService
 from ui.components.inventory.inventory import InventoryWidget
 
 

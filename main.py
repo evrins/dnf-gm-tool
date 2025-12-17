@@ -19,8 +19,8 @@ from PySide6.QtWidgets import (
 
 import resources.resources_rc  # noqa: F401
 from config import config
-from dnfpkgtool.db.entity.mail_submit_item import MailSubmitItem
-from dnfpkgtool.db.entity.signals import gs
+from dnf_db.entity import MailSubmitItem
+from dnf_db.entity.signals import gs
 from startup_check import check_database, check_parquet_files
 from ui.components.character_info.character_info import CharacterInfoWidget
 from ui.components.characters.characters import Characters

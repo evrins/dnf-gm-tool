@@ -1,10 +1,10 @@
 from config import config
-from dnfpkgtool.db.entity.account_money import AccountMoney
-from dnfpkgtool.db.entity.signals import gs
-from dnfpkgtool.db.model.character_info import CharacterInfo
-from dnfpkgtool.db.model.pvp_result import PVPResult
-from dnfpkgtool.db.service.account_service import expert_jobs, jobs
-from dnfpkgtool.db.service.character_service import ChargeType, get_character_service
+from dnf_db.entity.account_money import AccountMoney
+from dnf_db.entity.signals import gs
+from dnf_db.model.character_info import CharacterInfo
+from dnf_db.model import PVPResult
+from dnf_db.service.account_service import expert_jobs, jobs
+from dnf_db.service.character_service import ChargeType, get_character_service
 from PySide6.QtWidgets import QWidget
 
 from ui.components.character_info.character_info_ui import Ui_character_info

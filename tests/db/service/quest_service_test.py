@@ -1,4 +1,4 @@
-from dnfpkgtool.db.service.quest_service import QuestService
+from dnf_db.service.quest_service import QuestService
 
 
 def test_get_current_character_quest():

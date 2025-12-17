@@ -1,4 +1,4 @@
-from dnfpkgtool.db.repo.character_inventory_expand_repo import (
+from dnf_db.repo import (
     CharacterInventoryExpandRepo,
 )
 

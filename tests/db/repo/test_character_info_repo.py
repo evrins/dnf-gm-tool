@@ -1,6 +1,6 @@
 from config import config
-from dnfpkgtool.db.model.character_info import CharacterInfo
-from dnfpkgtool.db.repo.character_info_repo import CharacterInfoRepo
+from dnf_db.model.character_info import CharacterInfo
+from dnf_db.repo.character_info_repo import CharacterInfoRepo
 
 
 def test_update_character_info():

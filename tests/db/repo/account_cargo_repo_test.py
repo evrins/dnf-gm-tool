@@ -1,4 +1,4 @@
-from dnfpkgtool.db.repo.account_cargo_repo import AccountCargoRepo
+from dnf_db.repo import AccountCargoRepo
 
 
 def test_query_by_m_id():

@@ -1,4 +1,4 @@
-from dnfpkgtool.db.repo.accounts_repo import AccountsRepo
+from dnf_db.repo import AccountsRepo
 
 
 def test_query_all():

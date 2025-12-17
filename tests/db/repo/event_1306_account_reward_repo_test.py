@@ -1,4 +1,4 @@
-from dnfpkgtool.db.repo.event_1306_account_reward_repo import Event1306AccountRewardRepo
+from dnf_db.repo.event_1306_account_reward_repo import Event1306AccountRewardRepo
 
 
 def test_query_character_no_by_m_id_list():

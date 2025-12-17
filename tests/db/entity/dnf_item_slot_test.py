@@ -1,4 +1,4 @@
-from dnfpkgtool.db.entity.dnf_item_slot import DnfItemSlot
+from dnf_db.entity.dnf_item_slot import DnfItemSlot
 
 
 def test_default_to_bytes():

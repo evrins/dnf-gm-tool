@@ -1,5 +1,5 @@
 from config import config
-from dnfpkgtool.repo.skill_repo import SkillRepo
+from pvf.repo.skill_repo import SkillRepo
 
 
 def test_query():

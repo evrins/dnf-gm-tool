@@ -1,5 +1,5 @@
 from config import config
-from dnfpkgtool.repo.stackable_repo import StackableRepo
+from pvf.repo.stackable_repo import StackableRepo
 
 
 def test_query():

@@ -1,4 +1,4 @@
-from dnfpkgtool.db.repo.login_account_3_repo import LoginAccount3Repo
+from dnf_db.repo.login_account_3_repo import LoginAccount3Repo
 
 
 def test_query_logged_account_m_id():

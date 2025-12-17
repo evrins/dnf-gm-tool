@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from dnfpkgtool.repo.dungeon_repo import DungeonRepo
+from pvf.repo.dungeon_repo import DungeonRepo
 
 base_dir = Path(__file__).parent
 

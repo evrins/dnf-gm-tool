@@ -2,16 +2,16 @@ from itertools import chain
 
 import polars as pl
 
-from dnfpkgtool.repo.orb_repo import (
+from pvf.repo import (
     build_orb_repo_parquet,
     enchant_key_mapping,
     orb_category_order,
 )
-from dnfpkgtool.repo.repo_manager import (
+from pvf.repo.repo_manager import (
     get_orb_repo,
 )
-from dnfpkgtool.repo.skill_repo import SkillRepo
-from dnfpkgtool.repo.stackable_repo import StackableRepo
+from pvf.repo.skill_repo import SkillRepo
+from pvf.repo.stackable_repo import StackableRepo
 
 
 def test_build_orb_repo_parquet():

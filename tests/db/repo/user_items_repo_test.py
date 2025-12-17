@@ -1,4 +1,4 @@
-from dnfpkgtool.db.repo.user_items_repo import UserItemsRepo
+from dnf_db.repo import UserItemsRepo
 
 
 def test_query_user_items_repo() -> None:

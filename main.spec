@@ -64,7 +64,7 @@ coll = COLLECT(
 )
 app = BUNDLE(
     coll,
-    name='dnf-gm-tool.app',
+    name='seria.app',
     icon=icon_path,
-    bundle_identifier='hu.evrins.dnf-gm-tool',
+    bundle_identifier='hu.evrins.seria',
 )

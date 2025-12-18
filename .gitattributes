@@ -1,3 +1,4 @@
 resources/icon.icns filter=lfs diff=lfs merge=lfs -text
 resources/icon.ico filter=lfs diff=lfs merge=lfs -text
 resources/resources_rc.py filter=lfs diff=lfs merge=lfs -text
+docs/*.png filter=lfs diff=lfs merge=lfs -text

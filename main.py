@@ -30,6 +30,7 @@ from ui.components.quests.quests import Quests
 from ui.components.settings.settings import Setting
 from ui.components.stackable_search.stackable_search import StackableSearch
 from ui.inventory_tabview import InventoryTabView
+from util.version import get_version
 
 shutdown_requested = False
 
@@ -119,7 +120,7 @@ class MainWindow(QMainWindow):
         gs.character_no_changed.connect(self.update_status_message)
 
         # Set window properties
-        self.setWindowTitle('DNF GM Tool')
+        self.setWindowTitle(f'Seria v{get_version()}')
         self.resize(1200, 820)  # Set initial size
 
         # set default tab

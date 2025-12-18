@@ -30,8 +30,9 @@ release-macos-app: build-macos-app
     cp -r "dist/seria.app" dist/dmg_temp
 
     # (Optional) Add a symlink to the Applications folder
-    ln -s /Applications dist/dmg_temp/Applications
+    ln -sf /Applications dist/dmg_temp/Applications
 
+    rm -f dist/seria.dmg
     # Run create-dmg with specific options
     create-dmg \
       --volname "Seria Installer" \
@@ -46,3 +47,6 @@ release-macos-app: build-macos-app
 
     # Clean up the temporary folder
     rm -rf dist/dmg_temp
+
+build-windows-app:
+    pyinstaller --clean --noconfirm main.spec

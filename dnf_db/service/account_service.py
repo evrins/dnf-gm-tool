@@ -42,8 +42,11 @@ class AccountService:
         online_character_set = set(online_character_no_list)
         res: List[CharacterListItem] = []
 
-        character_list = self.character_info_repo.query_by_name(name.strip())
+        character_list = self.character_info_repo.query_all_character_info_list()
         for it in character_list:
+            if name not in it.character_name:
+                continue
+
             res.append(
                 CharacterListItem(
                     account_id=it.m_id,

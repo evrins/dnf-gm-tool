@@ -7,20 +7,18 @@ use std::collections::HashMap;
 pub struct StringTable {
     encoding: PVFEncoding,
     cache: HashMap<usize, String>,
-    length: u32,
+    _length: u32,
     buf: Vec<u8>,
 }
 
 impl StringTable {
     pub fn new(buf: Vec<u8>, encoding: PVFEncoding) -> Self {
-        let mut res = StringTable::default();
-
-        res.encoding = encoding;
-
-        res.length = LittleEndian::read_u32(&buf[..4]);
-
-        res.buf = buf[4..].to_vec();
-        res
+        StringTable {
+            encoding,
+            _length: LittleEndian::read_u32(&buf[..4]),
+            buf: buf[4..].to_vec(),
+            ..Default::default()
+        }
     }
 
     pub fn get_item(&mut self, i: u32) -> String {

@@ -93,7 +93,7 @@ pub struct Equipment {
 
 impl Equipment {
     pub fn update_armor_type(&mut self) {
-        if self.item_group_name == "" {
+        if self.item_group_name.is_empty() {
             return;
         }
 
@@ -101,9 +101,7 @@ impl Equipment {
             "[coat]" | "[waist]" | "[shoulder]" | "[pants]" | "[shoes]" => {
                 self.armor_type = self.item_group_name.split(" ").next().unwrap().to_string();
             }
-            _ => {
-                return;
-            }
+            _ => {}
         }
     }
 
@@ -202,7 +200,7 @@ impl Equipment {
             3 => "神器".into(),
             4 => "史诗".into(),
             5 => "勇者".into(),
-            _ => self.rarity.to_string().into(),
+            _ => self.rarity.to_string(),
         };
     }
 

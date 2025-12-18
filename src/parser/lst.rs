@@ -3,14 +3,14 @@ use byteorder::{ByteOrder, LittleEndian};
 use std::collections::HashMap;
 
 #[derive(Debug, Default)]
-pub struct LST {
+pub struct Lst {
     pub base_dir: String,
     pub cache: HashMap<u32, String>,
 }
 
-impl LST {
-    pub fn new(buf: Vec<u8>, string_table: &mut StringTable, base_dir: String) -> LST {
-        let mut res = LST {
+impl Lst {
+    pub fn new(buf: Vec<u8>, string_table: &mut StringTable, base_dir: String) -> Lst {
+        let mut res = Lst {
             base_dir,
             cache: HashMap::new(),
         };

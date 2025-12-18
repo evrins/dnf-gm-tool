@@ -199,19 +199,20 @@ impl BinaryItemParser {
     }
 
     pub fn parse_item_aura(&mut self) -> ItemAura {
-        let mut res = ItemAura::default();
-
-        res.aura_type = self.parse_next_one().as_string().unwrap().clone();
-        res.op = self.parse_next_one().as_string().unwrap().clone();
-        res.num = *self.parse_next_one().as_int().unwrap();
-        res.distance = *self.parse_next_one().as_int().unwrap();
-
-        res
+        ItemAura {
+            aura_type: self.parse_next_one().as_string().unwrap().clone(),
+            op: self.parse_next_one().as_string().unwrap().clone(),
+            num: *self.parse_next_one().as_int().unwrap(),
+            distance: *self.parse_next_one().as_int().unwrap(),
+        }
     }
 
     pub fn parse_piece_set_ability(&mut self) -> PieceSetAbility {
-        let mut res = PieceSetAbility::default();
-        res.part_count = *self.parse_next_one().as_int().unwrap();
+        let res = PieceSetAbility {
+            part_count: *self.parse_next_one().as_int().unwrap(),
+            ..Default::default()
+        };
+
         self.idx += 1;
         while self.idx < self.total {
             let it = self.current_item();

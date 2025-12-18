@@ -8,7 +8,7 @@ use crate::entity::stackable::{Stackable, get_stackable_scheme};
 use crate::parser::binary_item::BinaryItem;
 use crate::parser::binary_item_parser::BinaryItemParser;
 use crate::parser::leaf_node::LeafNode;
-use crate::parser::lst::LST;
+use crate::parser::lst::Lst;
 use crate::parser::pvf_encoding::PVFEncoding;
 use crate::parser::pvf_header::PVFHeader;
 use crate::parser::str::Str;
@@ -28,7 +28,7 @@ pub struct PVFReader {
     encoding: PVFEncoding,
     br: BufReader<File>,
     string_table: StringTable,
-    n_string_lst: LST,
+    n_string_lst: Lst,
     str_cache: HashMap<u32, Str>,
 }
 
@@ -42,7 +42,7 @@ impl PVFReader {
             encoding,
             br: BufReader::new(File::open(filepath).unwrap()),
             string_table: StringTable::default(),
-            n_string_lst: LST::default(),
+            n_string_lst: Lst::default(),
             str_cache: HashMap::new(),
         };
 
@@ -97,7 +97,7 @@ impl PVFReader {
             let buf = self.read_file_as_list(&equ_file);
             let mut parser = BinaryItemParser::new(buf);
             let mut equ = parser.parse_equipment();
-            equ.id = *id as u32;
+            equ.id = *id;
             res.push(equ);
         }
 
@@ -188,13 +188,11 @@ impl PVFReader {
         let buf = self.read_file_as_list("character/exptable.tbl");
 
         let mut res = vec![Exp { level: 1, exp: 0 }];
-
-        let n = buf.len();
-
-        for i in 0..n {
+        
+        for (i, it) in buf.iter().enumerate() {
             res.push(Exp {
                 level: i as i32 + 2,
-                exp: *buf[i].as_int().unwrap(),
+                exp: *it.as_int().unwrap(),
             })
         }
 
@@ -258,7 +256,7 @@ impl PVFReader {
     pub fn buf_2_list(&mut self, buf: Vec<u8>) -> Vec<BinaryItem> {
         let mut res = vec![];
 
-        if buf.len() == 0 {
+        if buf.is_empty() {
             return res;
         }
 
@@ -325,20 +323,20 @@ impl PVFReader {
         self.str_cache.get(&idx).unwrap()
     }
 
-    pub fn read_n_from_lst_file(&mut self, lst_file: &LST, idx: u32) -> Str {
+    pub fn read_n_from_lst_file(&mut self, lst_file: &Lst, idx: u32) -> Str {
         let file_key = lst_file.get_item(idx);
         let buf = self.read_file(&file_key);
         println!("read_n_from_lst_file: {idx} called");
         Str::new(&buf, self.encoding)
     }
 
-    pub fn load_lst_file(&mut self, filepath: &str) -> LST {
+    pub fn load_lst_file(&mut self, filepath: &str) -> Lst {
         let buf = self.read_file(filepath);
         let mut base_dir = String::new();
         if filepath.contains("/") {
             base_dir = filepath.split('/').next().unwrap().to_string();
         }
-        LST::new(buf, &mut self.string_table, base_dir)
+        Lst::new(buf, &mut self.string_table, base_dir)
     }
 }
 
@@ -355,7 +353,7 @@ pub fn parse_leafs(buf: Vec<u8>, num_files_in_dir_tree: u32) -> HashMap<String, 
     leaf_map
 }
 
-pub fn parse_leaf(buf: &Vec<u8>, mut index: usize) -> (LeafNode, usize) {
+pub fn parse_leaf(buf: &[u8], mut index: usize) -> (LeafNode, usize) {
     let mut res = LeafNode::new();
 
     res.file_number = LittleEndian::read_u32(&buf[index..index + 4]);
@@ -400,7 +398,7 @@ pub fn decrypt_bytes(buf: Vec<u8>, crc: u32) -> Vec<u8> {
 
 pub fn extract_chinese_character(s: &str) -> String {
     s.chars()
-        .filter(|&c| c >= '\u{4e00}' && c <= '\u{9fff}')
+        .filter(|&c| ('\u{4e00}'..='\u{9fff}').contains(&c))
         .collect()
 }
 

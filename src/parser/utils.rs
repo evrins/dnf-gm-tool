@@ -3,7 +3,7 @@ use encoding_rs::{BIG5, GBK};
 use std::collections::HashMap;
 use zhconv::{Variant, zhconv};
 
-pub fn map_usable_job(usable_job: &Vec<String>) -> String {
+pub fn map_usable_job(usable_job: &[String]) -> String {
     let job_name_mapping = HashMap::from([
         ("[all]", "全部职业"),
         ("[swordman]", "鬼剑士"),

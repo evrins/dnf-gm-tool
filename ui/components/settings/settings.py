@@ -43,7 +43,7 @@ class MySQLTestThread(QThread):
             if valid:
                 self.finished.emit(True, '')
             else:
-                self.finished.emit(False, 'Connection failed')
+                self.finished.emit(False, '连接失败')
         except Exception as e:
             self.finished.emit(False, str(e))
 
@@ -66,7 +66,7 @@ class BuilderThread(QThread):
         config.create_pvf_dir(self.uuid)
 
         try:
-            self.progress.emit(f'{self.elapsed():.2f}s: Start building repo parquet')
+            self.progress.emit(f'{self.elapsed():.2f}s: 开始构建 pvf 数据缓存')
             pvf_dir = config.build_pvf_dir(self.uuid)
 
             save_parquet(self.pvf_path, self.encoding, os.fspath(pvf_dir))
@@ -75,7 +75,7 @@ class BuilderThread(QThread):
 
             # build orb repo should come after stackable_repo and skill_repo
             self.progress.emit(
-                f'{self.elapsed():.2f}s: Start building orb repo 2/{total}'
+                f'{self.elapsed():.2f}s: 开始构建宝珠数据 2/{total}'
             )
             stackable_repo = StackableRepo(
                 config.build_stackable_parquet_file_path(self.uuid)
@@ -89,13 +89,13 @@ class BuilderThread(QThread):
                 config.build_orb_parquet_file_path(self.uuid),
             )
             self.progress.emit(
-                f'{self.elapsed():.2f}s: End building orb repo 2/{total}'
+                f'{self.elapsed():.2f}s: 构建宝珠数据结束 2/{total}'
             )
             self.progress_int.emit(200 / total)
 
             config.set_pvf_uuid(self.uuid)
 
-            self.progress.emit(f'{self.elapsed():.2f}s: End building repo parquet')
+            self.progress.emit(f'{self.elapsed():.2f}s: 构建 pvf 数据缓存结束')
             self.finished.emit(True)
         except Exception as e:
             print_exc()
@@ -194,13 +194,13 @@ class Setting(QWidget, Ui_settings):
 
         # Validate input fields
         if not all([host, port_text, username, password]):
-            self._show_error_status('Missing fields')
+            self._show_error_status('缺少必须配置')
             return
 
         try:
             port = int(port_text)
         except ValueError:
-            self._show_error_status('Invalid port')
+            self._show_error_status('非法端口')
             return
 
         # Show testing status
@@ -229,18 +229,18 @@ class Setting(QWidget, Ui_settings):
     ):
         """Handle MySQL test completion."""
         if success:
-            self._show_success_status('Success')
+            self._show_success_status('成功')
             self._save_settings(host, port, username, password)
             gs.db_config_changed.emit()
         else:
-            self._show_error_status(error_msg or 'Failed')
+            self._show_error_status(error_msg or '失败')
 
         # Re-enable button after test
         self.save_btn.setEnabled(True)
 
     def _show_testing_status(self):
         """Show testing in progress status."""
-        self.status_text_label.setText('🔄 Testing connection...')
+        self.status_text_label.setText('🔄 连接测试...')
         self.status_text_label.setStyleSheet("""
             QLabel {
                 padding: 8px;
@@ -269,8 +269,8 @@ class Setting(QWidget, Ui_settings):
         # Show success message box
         QMessageBox.information(
             self,
-            'Connection Successful',
-            'MySQL connection test passed successfully!\nSettings have been saved.',
+            '测试成功',
+            'MySQL 连接测试成功\n配置已保存',
         )
 
     def _show_error_status(self, message: str):
@@ -290,8 +290,8 @@ class Setting(QWidget, Ui_settings):
         # Show error message box
         QMessageBox.critical(
             self,
-            'Connection Failed',
-            f'MySQL connection test failed:\n\n{message}\n\nPlease check your database settings and try again.',
+            '测试成功',
+            f'MySQL 测试失败:\n\n{message}\n\n请检查数据库配置后重试',
         )
 
     def _save_settings(self, host: str, port: int, username: str, password: str):

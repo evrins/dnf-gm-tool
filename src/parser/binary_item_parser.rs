@@ -191,7 +191,7 @@ impl BinaryItemParser {
 
         while self.idx < self.total {
             let it = self.current_item();
-            if let BinaryItem::Segment(segment) = it {}
+            if let BinaryItem::Segment(_) = it {}
             self.idx += 1;
         }
 

@@ -10,6 +10,7 @@ crate-type = ["cdylib", "rlib"]
 
 [dependencies]
 byteorder = "1.5.0"
+clap = { version = "4.6", features = ["derive"] }
 encoding_rs = { version = "0.8.35", features = ["fast-big5-hanzi-encode", "fast-gb-hanzi-encode"] }
 enum-as-inner = "0.6.1"
 polars = { version = "0.52.0", features = ["parquet", "json", "lazy", "timezones"] }

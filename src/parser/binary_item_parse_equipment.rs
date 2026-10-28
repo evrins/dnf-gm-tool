@@ -14,168 +14,166 @@ impl BinaryItemParser {
             if let BinaryItem::Segment(segment) = it {
                 match segment.as_str() {
                     "[physical attack]" => {
-                        sp.physical_attack = *self.parse_next_one().as_int().unwrap();
+                        sp.physical_attack = self.next_int();
                     }
                     "[physical defense]" => {
-                        sp.physical_defense = *self.parse_next_one().as_int().unwrap();
+                        sp.physical_defense = self.next_int();
                     }
                     "[magical attack]" => {
-                        sp.magical_attack = *self.parse_next_one().as_int().unwrap();
+                        sp.magical_attack = self.next_int();
                     }
                     "[magical defense]" => {
-                        sp.magical_defense = *self.parse_next_one().as_int().unwrap();
+                        sp.magical_defense = self.next_int();
                     }
                     "[separate attack]" => {
-                        sp.separate_attack = *self.parse_next_one().as_int().unwrap();
+                        sp.separate_attack = self.next_int();
                     }
                     "[HP MAX]" => {
-                        sp.hp_max = *self.parse_next_one().as_int().unwrap();
+                        sp.hp_max = self.next_int();
                     }
                     "[MP MAX]" => {
-                        sp.mp_max = *self.parse_next_one().as_int().unwrap();
+                        sp.mp_max = self.next_int();
                     }
                     "[HP MAX rate]" => {
-                        sp.hp_max_rate = *self.parse_next_one().as_float().unwrap();
+                        sp.hp_max_rate = self.next_float();
                     }
                     "[MP MAX rate]" => {
-                        sp.mp_max_rate = *self.parse_next_one().as_float().unwrap();
+                        sp.mp_max_rate = self.next_float();
                     }
                     "[HP regen speed]" => {
-                        sp.hp_regen_speed = *self.parse_next_one().as_int().unwrap();
+                        sp.hp_regen_speed = self.next_int();
                     }
                     "[MP regen speed]" => {
-                        sp.mp_regen_speed = *self.parse_next_one().as_int().unwrap();
+                        sp.mp_regen_speed = self.next_int();
                     }
                     "[move speed]" => {
-                        sp.move_speed = *self.parse_next_one().as_int().unwrap();
+                        sp.move_speed = self.next_int();
                     }
                     "[attack speed]" => {
-                        sp.attack_speed = *self.parse_next_one().as_int().unwrap();
+                        sp.attack_speed = self.next_int();
                     }
                     "[cast speed]" => {
-                        sp.cast_speed = *self.parse_next_one().as_int().unwrap();
+                        sp.cast_speed = self.next_int();
                     }
                     "[stuck resistance]" => {
-                        sp.stuck_resistance = *self.parse_next_one().as_int().unwrap();
+                        sp.stuck_resistance = self.next_int();
                     }
                     "[stuck]" => {
-                        sp.stuck = self.parse_next_as_float();
+                        sp.stuck = self.next_float();
                     }
                     "[stun resistance]" => {
-                        sp.stun_resistance = *self.parse_next_one().as_int().unwrap();
+                        sp.stun_resistance = self.next_int();
                     }
                     "[piercing resistance]" => {
-                        sp.piercing_resistance = *self.parse_next_one().as_int().unwrap();
+                        sp.piercing_resistance = self.next_int();
                     }
                     "[freeze resistance]" => {
-                        sp.freeze_resistance = *self.parse_next_one().as_int().unwrap();
+                        sp.freeze_resistance = self.next_int();
                     }
                     "[confuse resistance]" => {
-                        sp.confuse_resistance = *self.parse_next_one().as_int().unwrap();
+                        sp.confuse_resistance = self.next_int();
                     }
                     "[poison resistance]" => {
-                        sp.poison_resistance = *self.parse_next_one().as_int().unwrap();
+                        sp.poison_resistance = self.next_int();
                     }
                     "[blind resistance]" => {
-                        sp.blind_resistance = *self.parse_next_one().as_int().unwrap();
+                        sp.blind_resistance = self.next_int();
                     }
                     "[stone resistance]" => {
-                        sp.stone_resistance = *self.parse_next_one().as_int().unwrap();
+                        sp.stone_resistance = self.next_int();
                     }
                     "[curse resistance]" => {
-                        sp.curse_resistance = *self.parse_next_one().as_int().unwrap();
+                        sp.curse_resistance = self.next_int();
                     }
                     "[bleeding resistance]" => {
-                        sp.bleeding_resistance = *self.parse_next_one().as_int().unwrap();
+                        sp.bleeding_resistance = self.next_int();
                     }
                     "[lightning resistance]" => {
-                        sp.lightning_resistance = *self.parse_next_one().as_int().unwrap();
+                        sp.lightning_resistance = self.next_int();
                     }
                     "[burn resistance]" => {
-                        sp.burn_resistance = *self.parse_next_one().as_int().unwrap();
+                        sp.burn_resistance = self.next_int();
                     }
                     "[sleep resistance]" => {
-                        sp.sleep_resistance = *self.parse_next_one().as_int().unwrap();
+                        sp.sleep_resistance = self.next_int();
                     }
                     "[slow resistance]" => {
-                        sp.slow_resistance = *self.parse_next_one().as_int().unwrap();
+                        sp.slow_resistance = self.next_int();
                     }
                     "[hold resistance]" => {
-                        sp.hold_resistance = *self.parse_next_one().as_int().unwrap();
+                        sp.hold_resistance = self.next_int();
                     }
                     "[all elemental attack]" => {
-                        sp.all_elemental_attack = *self.parse_next_one().as_int().unwrap();
+                        sp.all_elemental_attack = self.next_int();
                     }
                     "[all elemental resistance]" => {
-                        sp.all_elemental_resistance = *self.parse_next_one().as_int().unwrap();
+                        sp.all_elemental_resistance = self.next_int();
                     }
                     "[all activestatus resistance]" => {
-                        sp.all_activestatus_resistance = *self.parse_next_one().as_int().unwrap();
+                        sp.all_activestatus_resistance = self.next_int();
                     }
                     "[room list move speed rate]" => {
-                        sp.room_list_move_speed_rate = *self.parse_next_one().as_float().unwrap();
+                        sp.room_list_move_speed_rate = self.next_float();
                     }
                     "[parameter basic explain]" => {
-                        sp.parameter_basic_explain =
-                            self.parse_next_one().as_string().unwrap().clone();
+                        sp.parameter_basic_explain = self.next_str();
                     }
                     "[parameter detail explain]" => {
-                        sp.parameter_detail_explain =
-                            self.parse_next_one().as_string().unwrap().clone();
+                        sp.parameter_detail_explain = self.next_str();
                     }
                     "[fullset explain]" => {
-                        sp.fullset_explain = self.parse_next_one().as_string().unwrap().clone();
+                        sp.fullset_explain = self.next_str();
                     }
                     "[jump power]" => {
-                        sp.jump_power = *self.parse_next_one().as_int().unwrap();
+                        sp.jump_power = self.next_int();
                     }
                     "[physical critical hit]" => {
-                        sp.physical_critical_hit = self.parse_next_as_float();
+                        sp.physical_critical_hit = self.next_float();
                     }
                     "[magical critical hit]" => {
-                        sp.magical_critical_hit = self.parse_next_as_float();
+                        sp.magical_critical_hit = self.next_float();
                     }
                     "[equipment physical attack]" => {
-                        sp.equipment_physical_attack = *self.parse_next_one().as_int().unwrap();
+                        sp.equipment_physical_attack = self.next_int();
                     }
                     "[equipment magical attack]" => {
-                        sp.equipment_magical_attack = *self.parse_next_one().as_int().unwrap();
+                        sp.equipment_magical_attack = self.next_int();
                     }
                     "[equipment physical defense]" => {
-                        sp.equipment_physical_defense = *self.parse_next_one().as_int().unwrap();
+                        sp.equipment_physical_defense = self.next_int();
                     }
                     "[equipment magical defense]" => {
-                        sp.equipment_magical_defense = *self.parse_next_one().as_int().unwrap();
+                        sp.equipment_magical_defense = self.next_int();
                     }
                     "[dark attack]" => {
-                        sp.dark_attack = *self.parse_next_one().as_int().unwrap();
+                        sp.dark_attack = self.next_int();
                     }
                     "[light attack]" => {
-                        sp.light_attack = *self.parse_next_one().as_int().unwrap();
+                        sp.light_attack = self.next_int();
                     }
                     "[fire attack]" => {
-                        sp.fire_attack = *self.parse_next_one().as_int().unwrap();
+                        sp.fire_attack = self.next_int();
                     }
                     "[water attack]" => {
-                        sp.water_attack = *self.parse_next_one().as_int().unwrap();
+                        sp.water_attack = self.next_int();
                     }
                     "[dark resistance]" => {
-                        sp.dark_resistance = *self.parse_next_one().as_int().unwrap();
+                        sp.dark_resistance = self.next_int();
                     }
                     "[light resistance]" => {
-                        sp.light_resistance = *self.parse_next_one().as_int().unwrap();
+                        sp.light_resistance = self.next_int();
                     }
                     "[fire resistance]" => {
-                        sp.fire_resistance = *self.parse_next_one().as_int().unwrap();
+                        sp.fire_resistance = self.next_int();
                     }
                     "[water resistance]" => {
-                        sp.water_resistance = *self.parse_next_one().as_int().unwrap();
+                        sp.water_resistance = self.next_int();
                     }
                     "[anti evil]" => {
-                        sp.anti_evil = *self.parse_next_one().as_int().unwrap();
+                        sp.anti_evil = self.next_int();
                     }
                     "[hit recovery]" => {
-                        sp.hit_recovery = *self.parse_next_one().as_int().unwrap();
+                        sp.hit_recovery = self.next_int();
                     }
                     "[skill levelup]" => {
                         sp.skill_level_up = self.parse_skill_level_up_list();
@@ -184,111 +182,108 @@ impl BinaryItemParser {
                         sp.item_aura.push(self.parse_item_aura());
                     }
                     "[basic explain]" => {
-                        sp.basic_explain = self.parse_next_one().as_string().unwrap().clone();
+                        sp.basic_explain = self.next_str();
                     }
                     "[detail explain]" => {
-                        sp.detail_explain = self.parse_next_one().as_string().unwrap().clone();
+                        sp.detail_explain = self.next_str();
                     }
                     "[flavor text]" => {
-                        sp.flavor_text = self.parse_next_one().as_string().unwrap().clone();
+                        sp.flavor_text = self.next_str();
                     }
                     "[explain]" => {
-                        sp.explain = self.parse_next_one().as_string().unwrap().clone();
+                        sp.explain = self.next_str();
                     }
                     "[fullset basic explain]" => {
-                        sp.fullset_basic_explain =
-                            self.parse_next_one().as_string().unwrap().clone();
+                        sp.fullset_basic_explain = self.next_str();
                     }
                     "[fullset detail explain]" => {
-                        sp.fullset_detail_explain =
-                            self.parse_next_one().as_string().unwrap().clone();
+                        sp.fullset_detail_explain = self.next_str();
                     }
                     "[elemental property]" => {
-                        sp.elemental_property = self.parse_next_one().as_string().unwrap().clone();
+                        sp.elemental_property = self.next_str();
                     }
                     "[MP regen speed rate]" => {
-                        sp.mp_regen_speed_rate = *self.parse_next_one().as_int().unwrap();
+                        sp.mp_regen_speed_rate = self.next_int();
                     }
                     "[HP regen speed rate]" => {
-                        sp.hp_regen_speed_rate = *self.parse_next_one().as_int().unwrap();
+                        sp.hp_regen_speed_rate = self.next_int();
                     }
                     "[creature magical attack]" => {
-                        sp.creature_magical_attack = *self.parse_next_one().as_int().unwrap();
+                        sp.creature_magical_attack = self.next_int();
                     }
                     "[creature physical attack]" => {
-                        sp.creature_physical_attack = *self.parse_next_one().as_int().unwrap();
+                        sp.creature_physical_attack = self.next_int();
                     }
                     "[creature skill charge time rate]" => {
-                        sp.creature_skill_charge_time_rate =
-                            *self.parse_next_one().as_float().unwrap();
+                        sp.creature_skill_charge_time_rate = self.next_float();
                     }
                     "[rigidity]" => {
-                        sp.rigidity = *self.parse_next_one().as_int().unwrap();
+                        sp.rigidity = self.next_int();
                     }
                     "[inventory limit]" => {
-                        sp.inventory_limit = *self.parse_next_one().as_int().unwrap();
+                        sp.inventory_limit = self.next_int();
                     }
                     "[lift up]" => {
-                        sp.lift_up = *self.parse_next_one().as_int().unwrap();
+                        sp.lift_up = self.next_int();
                     }
 
                     "[piece set ability]" => {
                         res.piece_set_ability.push(self.parse_piece_set_ability());
                     }
                     "[grade]" => {
-                        res.grade = *self.parse_next_one().as_int().unwrap();
+                        res.grade = self.next_int();
                     }
                     "[sub type]" => {
-                        res.sub_type = *self.parse_next_one().as_int().unwrap();
+                        res.sub_type = self.next_int();
                     }
                     "[int data]" => {
                         res.int_data = self.parse_until_segment_as_int_list();
                     }
                     "[name]" => {
-                        res.name = self.parse_next_one().as_string().unwrap().clone();
+                        res.name = self.next_str();
                     }
                     "[name2]" => {
-                        res.name2 = self.parse_next_one().as_string().unwrap().clone();
+                        res.name2 = self.next_str();
                     }
                     "[attach type]" => {
-                        res.attach_type = self.parse_next_one().as_string().unwrap().clone();
+                        res.attach_type = self.next_str();
                     }
                     "[rarity]" => {
-                        res.rarity = *self.parse_next_one().as_int().unwrap();
+                        res.rarity = self.next_int();
                     }
                     "[usable job]" => {
                         res.usable_job = self.parse_until_segment_as_string_list();
                         self.idx += 1;
                     }
                     "[minimum level]" => {
-                        res.minimum_level = *self.parse_next_one().as_int().unwrap();
+                        res.minimum_level = self.next_int();
                     }
                     "[maximum level]" => {
-                        res.maximum_level = *self.parse_next_one().as_int().unwrap();
+                        res.maximum_level = self.next_int();
                     }
                     "[price]" => {
-                        res.price = *self.parse_next_one().as_int().unwrap();
+                        res.price = self.next_int();
                     }
                     "[repair price]" => {
-                        res.repair_price = *self.parse_next_one().as_int().unwrap();
+                        res.repair_price = self.next_int();
                     }
                     "[value]" => {
-                        res.value = *self.parse_next_one().as_int().unwrap();
+                        res.value = self.next_int();
                     }
                     "[equipment type]" => {
-                        res.equipment_type = self.parse_next_one().as_string().unwrap().clone();
+                        res.equipment_type = self.next_str();
                     }
                     "[durability]" => {
-                        res.durability = *self.parse_next_one().as_int().unwrap();
+                        res.durability = self.next_int();
                     }
                     "[weight]" => {
-                        res.weight = *self.parse_next_one().as_int().unwrap();
+                        res.weight = self.next_int();
                     }
                     "[item group name]" => {
-                        res.item_group_name = self.parse_next_one().as_string().unwrap().clone();
+                        res.item_group_name = self.next_str();
                     }
                     "[cool time]" => {
-                        res.cool_time = *self.parse_next_one().as_int().unwrap();
+                        res.cool_time = self.next_int();
                     }
 
                     "[set item]" => {
@@ -302,72 +297,67 @@ impl BinaryItemParser {
                         res.enable_dye = self.parse_until_segment_as_int_list();
                     }
                     "[part set index]" => {
-                        res.part_set_index = *self.parse_next_one().as_int().unwrap();
+                        res.part_set_index = self.next_int();
                     }
                     "[set item master]" => {
-                        res.set_item_master = *self.parse_next_one().as_int().unwrap();
+                        res.set_item_master = self.next_int();
                     }
                     "[avatar select ability]" => {
                         res.avatar_select_ability
                             .push(self.parse_avatar_select_ability());
                     }
                     "[item category]" => {
-                        res.item_category = self.parse_next_one().as_string().unwrap().clone();
+                        res.item_category = self.next_str();
                         self.idx += 1;
                     }
                     "[all skill item]" => {
                         res.all_skill_item.push(self.parse_all_skill_item());
                     }
                     "[push aside]" => {
-                        res.push_aside = *self.parse_next_one().as_int().unwrap();
+                        res.push_aside = self.next_int();
                     }
                     "[creature species]" => {
-                        res.creature_species = *self.parse_next_one().as_int().unwrap();
+                        res.creature_species = self.next_int();
                     }
                     "[output index]" => {
-                        res.output_index = *self.parse_next_one().as_int().unwrap();
+                        res.output_index = self.next_int();
                     }
                     "[cash]" => {
-                        res.cash = *self.parse_next_one().as_int().unwrap();
+                        res.cash = self.next_int();
                     }
                     "[creature minimum level]" => {
-                        res.creature_min_level = *self.parse_next_one().as_int().unwrap();
+                        res.creature_min_level = self.next_int();
                     }
                     "[creature skill consume mp rate]" => {
-                        res.creature_skill_consume_mp_rate =
-                            *self.parse_next_one().as_float().unwrap();
+                        res.creature_skill_consume_mp_rate = self.next_float();
                     }
                     "[creature skill over charge time rate]" => {
-                        res.creature_skill_over_charge_time_rate =
-                            *self.parse_next_one().as_float().unwrap();
+                        res.creature_skill_over_charge_time_rate = self.next_float();
                     }
                     "[creature experience amount rate]" => {
-                        res.creature_experience_amount_rate =
-                            *self.parse_next_one().as_float().unwrap();
+                        res.creature_experience_amount_rate = self.next_float();
                     }
                     "[creature physical critical hit]" => {
-                        res.creature_physical_critical_hit =
-                            *self.parse_next_one().as_float().unwrap();
+                        res.creature_physical_critical_hit = self.next_float();
                     }
                     "[creature magical critical hit]" => {
-                        res.creature_magical_critical_hit =
-                            *self.parse_next_one().as_float().unwrap();
+                        res.creature_magical_critical_hit = self.next_float();
                     }
                     "[creature stuck]" => {
-                        res.creature_stuck = *self.parse_next_one().as_float().unwrap();
+                        res.creature_stuck = self.next_float();
                     }
                     "[emancipate]" => {
                         res.emancipate = self.parse_emancipate();
                     }
 
                     "[minimum rank]" => {
-                        res.minimum_rank = *self.parse_next_one().as_int().unwrap();
+                        res.minimum_rank = self.next_int();
                     }
                     "[usable world]" => {
                         res.usable_world = self.parse_until_segment_as_string_list();
                     }
                     "[prof compound rate]" => {
-                        res.prof_compound_rate = *self.parse_next_one().as_int().unwrap();
+                        res.prof_compound_rate = self.next_int();
                     }
                     "[prof additional gain exp]" => {
                         res.prof_additional_gain_exp = self.parse_until_segment_as_int_list();
@@ -383,16 +373,16 @@ impl BinaryItemParser {
                     }
 
                     "[set name]" => {
-                        res.set_name = self.parse_next_one().as_string().unwrap().clone();
+                        res.set_name = self.next_str();
                     }
                     "[aurora avatar]" => {
-                        res.aurora_avatar = *self.parse_next_one().as_int().unwrap();
+                        res.aurora_avatar = self.next_int();
                     }
                     "[clear avatar]" => {
-                        res.clear_avatar = *self.parse_next_one().as_int().unwrap();
+                        res.clear_avatar = self.next_int();
                     }
                     "[special monster drop]" => {
-                        res.special_monster_drop = *self.parse_next_one().as_int().unwrap();
+                        res.special_monster_drop = self.next_int();
                     }
                     "[difficulty for extra drop]" => {
                         res.difficulty_for_extra_drop = self.parse_until_segment_as_string_list();

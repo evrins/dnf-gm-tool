@@ -12,47 +12,53 @@ impl BinaryItemParser {
             if let BinaryItem::Segment(segment) = it {
                 match segment.as_str() {
                     "[name]" => {
-                        quest.name = self.parse_next_one().as_string().unwrap().clone();
+                        quest.name = self.next_str();
+                    }
+                    "[grade]" => {
+                        // stored as a plain string holding a bracketed value ("[epic]")
+                        quest.grade = self.next_str();
+                    }
+                    "[sub type]" => {
+                        quest.sub_type = self.next_int();
                     }
                     "[difficulty]" => {
-                        quest.difficulty = self.parse_next_one().as_string().unwrap().clone();
+                        quest.difficulty = self.next_str();
                     }
                     "[gold multiple]" => {
-                        quest.gold_multiple = *self.parse_next_one().as_int().unwrap();
+                        quest.gold_multiple = self.next_int();
                     }
                     "[npc index]" => {
-                        quest.npc_index = *self.parse_next_one().as_int().unwrap();
+                        quest.npc_index = self.next_int();
                     }
                     "[complete npc index]" => {
-                        quest.complete_npc_index = *self.parse_next_one().as_int().unwrap();
+                        quest.complete_npc_index = self.next_int();
                     }
                     "[job]" => {
-                        quest.job = self.parse_next_one().as_string().unwrap().clone();
+                        quest.job = self.next_str();
                     }
                     "[grow type]" => {
-                        quest.grow_type = *self.parse_next_one().as_int().unwrap();
+                        quest.grow_type = self.next_int();
                     }
                     "[level]" => {
                         quest.level = self.parse_until_segment_as_int_list();
                     }
                     "[type]" => {
-                        quest.quest_type = self.parse_next_one().as_string().unwrap().clone();
+                        quest.quest_type = self.next_str();
                     }
                     "[reward type]" => {
-                        quest.reward_type = self.parse_next_one().as_string().unwrap().clone();
+                        quest.reward_type = self.next_str();
                     }
                     "[depend message]" => {
-                        quest.depend_message = self.parse_next_one().as_string().unwrap().clone();
+                        quest.depend_message = self.next_str();
                     }
                     "[condition message]" => {
-                        quest.condition_message =
-                            self.parse_next_one().as_string().unwrap().clone();
+                        quest.condition_message = self.next_str();
                     }
                     "[solve message]" => {
-                        quest.solve_message = self.parse_next_one().as_string().unwrap().clone();
+                        quest.solve_message = self.next_str();
                     }
                     "[quest point]" => {
-                        quest.quest_point = *self.parse_next_one().as_int().unwrap();
+                        quest.quest_point = self.next_int();
                     }
                     "[dungeon info]" => {
                         quest.dungeon_info = self.parse_until_segment_as_int_list();

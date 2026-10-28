@@ -12,29 +12,29 @@ impl BinaryItemParser {
             if let BinaryItem::Segment(segment) = it {
                 match segment.as_str() {
                     "[name]" => {
-                        res.name = self.parse_next_one().as_string().unwrap().clone();
+                        res.name = self.next_str();
                     }
                     "[name2]" => {
-                        res.name2 = self.parse_next_one().as_string().unwrap().clone();
+                        res.name2 = self.next_str();
                     }
                     "[minimum level]" => {
-                        res.minimum_level = *self.parse_next_one().as_int().unwrap();
+                        res.minimum_level = self.next_int();
                     }
                     "[rarity]" => {
-                        res.rarity = *self.parse_next_one().as_int().unwrap();
+                        res.rarity = self.next_int();
                     }
                     "[stackable type]" => {
-                        res.stackable_type = self.parse_next_one().as_string().unwrap().clone();
-                        res.sub_stackable_type = *self.parse_next_one().as_int().unwrap();
+                        res.stackable_type = self.next_str();
+                        res.sub_stackable_type = self.next_int();
                     }
                     "[item group name]" => {
-                        res.item_group_name = self.parse_next_one().as_string().unwrap().clone();
+                        res.item_group_name = self.next_str();
                     }
                     "[item category]" => {
-                        res.item_category = self.parse_next_one().as_string().unwrap().clone();
+                        res.item_category = self.next_str();
                     }
                     "[stack limit]" => {
-                        res.stack_limit = *self.parse_next_one().as_int().unwrap();
+                        res.stack_limit = self.next_int();
                     }
                     "[usable job]" => {
                         res.usable_job = self.parse_until_segment_as_string_list();
@@ -44,14 +44,14 @@ impl BinaryItemParser {
                         res.enchant = self.parse_enchant();
                     }
                     "[stat desc]" => {
-                        res.stat_desc = self.parse_next_one().as_string().unwrap().clone();
+                        res.stat_desc = self.next_str();
                     }
                     "[string data]" => {
                         res.string_data = self.parse_until_segment_as_string_list();
                         self.idx += 1;
                     }
                     "[monster card id]" => {
-                        res.monster_card_id = *self.parse_next_one().as_int().unwrap();
+                        res.monster_card_id = self.next_int();
                     }
                     _ => {
                         debug!("skip {:?} in parse stackable", segment);
